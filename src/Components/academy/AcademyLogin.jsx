@@ -9,8 +9,8 @@ const AcademyLogin = () => {
     <div className=' lg:w-1/2 hidden lg:block h-screen' style={{ backgroundImage: `url(${trainingImg})` ,backgroundSize: 'cover', backgroundPosition: 'center' }} >
      <div className='h-3/5' >
      </div>
-     <div className='h-1/2 text-center '>
-     <Link to={'/'}>  <span className='bg-white p-3 border border-indigo-300 rounded-full text-indigo-500 hover:cursor-pointer'>  Join us as a player </span> </Link>
+     <div className='text-center '>
+     <Link to={'/'}>  <span className='bg-white p-3 border border-indigo-300 rounded-full text-indigo-500 hover:cursor-pointer  hover:text-white hover:bg-indigo-600'>  Join us as a player </span> </Link>
      </div>
     </div>
     <div className='lg:w-1/2 flex justify-center items-center'>
@@ -45,14 +45,16 @@ const AcademyLogin = () => {
             </span>
           </div>
           <div className="">
-            <Button name='Login'  />
+            <Button name='Login' role='academy' />
           </div>
         </form>
         <p className="font-light text-center">
           Don't have an account?{" "}
+          <Link to={'/academy_signup'}> 
           <span className="cursor-pointer text-sm text-cyan-400 hover:underline">
             Sign up
           </span>
+          </Link>
         </p>
         <Link to={'/'}>  <p className='text-center mt-3 text-cyan-400 hover:underline cursor-pointer  lg:hidden'> Join us as a player</p> </Link>
       </div>
