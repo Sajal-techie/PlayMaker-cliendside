@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Dropdown from '../common/Dropdown';
 
 const Academy_signup = () => {
+    const [formData,setFormData] = useState({})
     const [district,setDistrict] = useState('')
     const states = [...all_states.map((obj)=>(
        obj.state 
@@ -20,8 +21,15 @@ const Academy_signup = () => {
       })]}
     }
     const sports = ['Football', 'Cricket']
-    // console.log(district)
-    // console.log(states);
+
+    const handleChange = (e)=>{
+      setFormData({...formData,[e.target.name] : e.target.value})
+    }
+
+    const handleSubmit = ()=>{
+      e.preventDefault;
+      console.log(formData,'in submit');
+    }
     return (
       <div className='flex flex-col md:flex-row justify-center items-center font-kanit overflow-ellipsis'>
       <div className=' lg:w-1/2 hidden lg:block h-screen' style={{ backgroundImage: `url(${trainingImg})` ,backgroundSize: 'cover', backgroundPosition: 'center' }} >
@@ -34,7 +42,7 @@ const Academy_signup = () => {
       <div className='lg:w-1/2 flex justify-center items-center'>
       <div className='flex justify-center items-center '>
         <div className=' p-10 border '>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className='text-center'> 
               <span className="text-2xl  text-indigo-500 ">Welcome to Galacticos</span>
               <h1 className="text-3xl font-medium text-indigo-600">Academy Signup</h1>
@@ -47,6 +55,7 @@ const Academy_signup = () => {
                 type="name"
                 name="name"
                 placeholder="name"
+                onChange={handleChange}
               />
             </div>
             <div className="my-1">
@@ -57,6 +66,7 @@ const Academy_signup = () => {
                 type="email"
                 name="email"
                 placeholder="email"
+                onChange={handleChange}
               />
             </div>
             <div className="my-1 font-light text-slate-500 ">
@@ -67,28 +77,29 @@ const Academy_signup = () => {
                 type="date"
                 name="date"
                 placeholder="date"
+                onChange={handleChange}
               />
             </div>
             <div className="my-1 font-light text-slate-500 ">
             <Dropdown options={states} label='State' onChange={handledistrict} ></Dropdown>      
             </div>   
             <div className="my-1 font-light text-slate-500 ">
-            {district && <Dropdown options={district} label='District'></Dropdown> }     
+            {district && <Dropdown options={district} label='District' onChange={handleChange}></Dropdown> }     
             </div>  
             <div className="my-1 font-light text-slate-500 ">
-              <Dropdown options={sports} label='Offered sport'  ></Dropdown>      
+              <Dropdown options={sports} label='Offered sport' onChange={handleChange} ></Dropdown>      
             </div> 
             <div className="mt-1">
               <label className="block text-md font-extralight" htmlFor="password">
                 Password
               </label>
-              <InputField name='password' type='password' placeholder='password' />
+              <InputField name='password' type='password' placeholder='password' onChange={handleChange} />
             </div>
             <div className='w-80 my-1 font-light text-slate-500'>
               <label className="text-md font-extralight text-black" htmlFor="password">
                 License verification 
               </label>
-              <InputField type="file" name='file'/>
+              <InputField type="file" name='file' onChange={handleChange}/>
             </div>
             <div className="">
               <Button name='Signup' role='academy'/>

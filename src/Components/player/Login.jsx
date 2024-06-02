@@ -1,25 +1,40 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
 import Button from '../common/Button';
 import InputField from '../common/InputField';
 import trainingImg from '../../assets/training.jpg'
-import { Link, useLocation } from 'react-router-dom';
+import { login } from '../../redux/slices/authSlice';
+
 const Login = () => {
   const [formData, setFormData] = useState('')
+  const [error,setError] = useState('')
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const location = useLocation()
-  const info = location.state.info
+  const info = location?.state?.info
   console.log(info);
 
   const handleChange = (e)=>{
     setFormData({...formData, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault()
     console.log(formData);
-
+    try{
+      const response = await dispatch(login(formData)).unwrap()
+      console.log(response);
+      
+      navigate('/home')
+    }catch(error){
+      console.log(error,'error');
+      setError(error.message)
+    }
   }
-
+    console.log(error);
   return (
     <div className='flex flex-col md:flex-row justify-center items-center font-kanit '>
     <div className=' lg:w-1/2 hidden lg:block h-screen' style={{ backgroundImage: `url(${trainingImg})` ,backgroundSize: 'cover', backgroundPosition: 'center' }} >
@@ -62,6 +77,7 @@ const Login = () => {
               Forgot password?
             </span>
           </div>
+          {error}
           <div className="">
             <Button name='Login'  />
           </div>
