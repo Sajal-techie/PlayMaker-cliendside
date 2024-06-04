@@ -8,7 +8,11 @@ import trainingImg from '../../assets/training.jpg'
 import { login } from '../../redux/slices/authSlice';
 
 const Login = () => {
-  const [formData, setFormData] = useState('')
+  const [formData, setFormData] = useState({
+      email: '',
+      password: '',
+      is_academy:false
+    })
   const [error,setError] = useState('')
 
   const navigate = useNavigate()

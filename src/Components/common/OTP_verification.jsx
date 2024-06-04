@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Button from '../common/Button';
+import Button from './Button';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -12,6 +12,7 @@ const OTP_verification = () => {
   const {message,loading,user} = useSelector((state)=>state.auth)
   const location = useLocation();
   const email = location.state.email
+  const is_academy = location.state?.is_academy
   const navigate = useNavigate()
 
   const handleChange = (e, index) => {
@@ -21,7 +22,7 @@ const OTP_verification = () => {
     if (value.length === 1 ) {
       newOTP[index] = value
       setOtp(newOTP)
-      if ( index < 5){
+      if (index < 5){
         inputRefs.current[index + 1].focus();
       }
     }
@@ -58,7 +59,12 @@ const OTP_verification = () => {
       console.log(response);
       if(response.status===200 && response.data.status === 200){
         console.log(response.data,'success');
-        navigate('/',{state:{info: 'OTP verified, you can now login'}})
+        if (is_academy){
+          navigate('/academy_login',{state:{info: 'OTP verified, you can now login'}})
+        }
+        else{
+          navigate('/',{state:{info: 'OTP verified, you can now login'}})
+        }
       }
       else{
         console.log(response.data,'failed');

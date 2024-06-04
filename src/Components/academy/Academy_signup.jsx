@@ -3,32 +3,59 @@ import Button from '../common/Button';
 import InputField from '../common/InputField';
 import trainingImg from '../../assets/coaching2.webp'
 import all_states from '../../api/states_districts'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Dropdown from '../common/Dropdown';
+import { useDispatch, useSelector } from 'react-redux';
+import { signup } from '../../redux/slices/authSlice';
 
 const Academy_signup = () => {
-    const [formData,setFormData] = useState({})
+    const [formData,setFormData] = useState({
+      username:'',
+      email:'',
+      dob:'',
+      password:'',
+      state:'',
+      district:'',
+      sport_name:'',
+      is_academy: true,
+      license:null
+    })
     const [district,setDistrict] = useState('')
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const message = useSelector(state=>state.auth.message)
     const states = [...all_states.map((obj)=>(
        obj.state 
     ))]
     const handledistrict = (e)=>{
       const state = e.target.value
-      {[...all_states.map((obj)=>{
-        if(obj.state === state){
-          setDistrict(obj.districts)
-        }
-      })]}
+      const dist =  all_states.find((obj) => obj.state === state)?.districts || []
+      setDistrict(dist)
+      handleChange(e)
     }
     const sports = ['Football', 'Cricket']
 
     const handleChange = (e)=>{
-      setFormData({...formData,[e.target.name] : e.target.value})
+      const name = e.target.name
+      const value = e.target.value
+    if(name === 'license'){
+        setFormData({...formData,[name]:e.target.files[0]})
+      }else{
+        setFormData({...formData,[name]:value})
+      }
     }
 
-    const handleSubmit = ()=>{
-      e.preventDefault;
+    const handleSubmit = async (e)=>{
+      e.preventDefault();
       console.log(formData,'in submit');
+      try{
+        const res = await dispatch(signup(formData)).unwrap()
+        console.log(res.data,'academy signup response',message);
+        navigate('/otp_verification',{state:{email:formData.email,is_academy:true}})
+      }catch(err){
+        console.log(err, 'sigmup form error acadm');
+      }
+      
     }
     return (
       <div className='flex flex-col md:flex-row justify-center items-center font-kanit overflow-ellipsis'>
@@ -42,7 +69,7 @@ const Academy_signup = () => {
       <div className='lg:w-1/2 flex justify-center items-center'>
       <div className='flex justify-center items-center '>
         <div className=' p-10 border '>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} encType='multipart/form-data'>
             <div className='text-center'> 
               <span className="text-2xl  text-indigo-500 ">Welcome to Galacticos</span>
               <h1 className="text-3xl font-medium text-indigo-600">Academy Signup</h1>
@@ -53,7 +80,7 @@ const Academy_signup = () => {
               </label>
               <InputField
                 type="name"
-                name="name"
+                name="username"
                 placeholder="name"
                 onChange={handleChange}
               />
@@ -75,19 +102,19 @@ const Academy_signup = () => {
               </label>
               <InputField
                 type="date"
-                name="date"
+                name="dob"
                 placeholder="date"
                 onChange={handleChange}
               />
             </div>
             <div className="my-1 font-light text-slate-500 ">
-            <Dropdown options={states} label='State' onChange={handledistrict} ></Dropdown>      
+            <Dropdown options={states} label='state' onChange={handledistrict} ></Dropdown>      
             </div>   
             <div className="my-1 font-light text-slate-500 ">
-            {district && <Dropdown options={district} label='District' onChange={handleChange}></Dropdown> }     
+            {district && <Dropdown options={district} label='district' onChange={handleChange}></Dropdown> }     
             </div>  
             <div className="my-1 font-light text-slate-500 ">
-              <Dropdown options={sports} label='Offered sport' onChange={handleChange} ></Dropdown>      
+              <Dropdown options={sports} label='sport_name' onChange={handleChange} ></Dropdown>      
             </div> 
             <div className="mt-1">
               <label className="block text-md font-extralight" htmlFor="password">
@@ -99,7 +126,7 @@ const Academy_signup = () => {
               <label className="text-md font-extralight text-black" htmlFor="password">
                 License verification 
               </label>
-              <InputField type="file" name='file' onChange={handleChange}/>
+              <InputField type="file" name='license' onChange={handleChange}/>
             </div>
             <div className="">
               <Button name='Signup' role='academy'/>

@@ -16,8 +16,10 @@ const Signup = () => {
     email:'',
     dob:'',
     password:'',
-    profile:{},
-    sport:''
+    state:'',
+    district:'',
+    sport_name:'',
+    is_academy: false
   })
   const [district,setDistrict] = useState('')
 
@@ -32,14 +34,7 @@ const Signup = () => {
   const handleChange = (e)=>{
     const name = e.target.name
     const value = e.target.value
-    if (name==='sport_name'){
-      setFormData({...formData,sport:{[name]:value}})
-    }else if(name === 'district' || name === 'state' ){
-      setFormData(prevState =>({...prevState,profile:{...prevState.profile,[name]:value}}))
-    }
-    else{
       setFormData({...formData,[name]:value})
-    }
   }
   console.log(formData);
   // to get all states as a list and pass it down as options

@@ -16,9 +16,9 @@ export const login = createAsyncThunk(
             const responseToken = await userApi.post(`api/token/`,credentials)
             console.log('tojend is' ,responseToken.data);
             if (responseToken?.data?.access){
-                localStorage.setItem('playerToken',responseToken.data.access)
-                localStorage.setItem('playerRefresh',responseToken.data.refresh)
-                localStorage.setItem('role','player')
+                localStorage.setItem('access',responseToken.data.access)
+                localStorage.setItem('refresh',responseToken.data.refresh)
+                localStorage.setItem('role',response.data.role)
                 localStorage.setItem('user',response.data.user)
                 return response.data
             }
@@ -29,15 +29,19 @@ export const login = createAsyncThunk(
             return thunkAPI.rejectWithValue(error.data)
 
         }
-    }
-)
+    } 
+) 
 
 export const signup = createAsyncThunk(
     "auth/signup",
     async (credentials,thunkAPI) => {
         console.log(credentials);
         try{
-            const response = await axios.post(`${baseUrl}signup`, credentials);
+            const response = await userApi.post(`${baseUrl}signup`, credentials,{
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             console.log(response.data,'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n',response.data.status);
             if (response.data.status === 400 ){
                 console.log(response.data.message);
@@ -69,6 +73,7 @@ const authSlice = createSlice({
         // },
         logout: (state) => {
             state.user = null
+            state.role = null
             localStorage.clear()
             console.log('insidde logout');
         }
