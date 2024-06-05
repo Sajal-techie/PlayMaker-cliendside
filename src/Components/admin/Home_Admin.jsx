@@ -1,11 +1,26 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { logout } from '../../redux/slices/authSlice'
 
 const Home_Admin = () => {
-    
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const handleLogout = async ()=>{
+        try{
+        const response = await dispatch(logout()).unwrap
+        console.log(response,'admin logout');
+        navigate('/admin_login')
+      }catch(error){
+        console.log(error);
+      }
+    }
   return (
-    <div>
-      home admin <br />
-      <button  >click</button>
+    <div> 
+      <Link to={'/admin_academyview'} > view academies </Link> <br /><br />
+      home admin <br /> <br />
+      <button onClick={handleLogout}  >logout</button>
     </div>
   )
 }

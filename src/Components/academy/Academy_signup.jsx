@@ -16,7 +16,7 @@ const Academy_signup = () => {
       password:'',
       state:'',
       district:'',
-      sport_name:'',
+      sport:'',
       is_academy: true,
       license:null
     })
@@ -59,8 +59,8 @@ const Academy_signup = () => {
     }
     return (
       <div className='flex flex-col md:flex-row justify-center items-center font-kanit overflow-ellipsis'>
-      <div className=' lg:w-1/2 hidden lg:block h-screen' style={{ backgroundImage: `url(${trainingImg})` ,backgroundSize: 'cover', backgroundPosition: 'center' }} >
-       <div className='h-4/6' >
+      <div className='lg:w-1/2 hidden lg:block h-screen' style={{ backgroundImage: `url(${trainingImg})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
+       <div className='h-4/6'>
        </div>
        <div className='text-center '>
         <Link to={'/signup'}>   <span className='bg-white p-3 border border-indigo-300 rounded-full text-indigo-600 hover:cursor-pointer hover:text-white hover:bg-indigo-600'> Join us as a player </span> </Link>
@@ -68,7 +68,7 @@ const Academy_signup = () => {
       </div>
       <div className='lg:w-1/2 flex justify-center items-center'>
       <div className='flex justify-center items-center '>
-        <div className=' p-10 border '>
+        <div className=' py-1 px-10 border '>
           <form onSubmit={handleSubmit} encType='multipart/form-data'>
             <div className='text-center'> 
               <span className="text-2xl  text-indigo-500 ">Welcome to Galacticos</span>
@@ -114,7 +114,7 @@ const Academy_signup = () => {
             {district && <Dropdown options={district} label='district' onChange={handleChange}></Dropdown> }     
             </div>  
             <div className="my-1 font-light text-slate-500 ">
-              <Dropdown options={sports} label='sport_name' onChange={handleChange} ></Dropdown>      
+              <Dropdown options={sports} label='sport' onChange={handleChange} ></Dropdown>      
             </div> 
             <div className="mt-1">
               <label className="block text-md font-extralight" htmlFor="password">

@@ -18,7 +18,7 @@ const Signup = () => {
     password:'',
     state:'',
     district:'',
-    sport_name:'',
+    sport:'',
     is_academy: false
   })
   const [district,setDistrict] = useState('')
@@ -120,7 +120,7 @@ const Signup = () => {
           {district &&  <Dropdown options={district} label='district' onChange={handleChange} ></Dropdown> }     
           </div>  
           <div className="my-1 font-light text-slate-500 ">
-          <Dropdown options={sports} label='sport_name'  onChange={handleChange} ></Dropdown>      
+          <Dropdown options={sports} label='sport'  onChange={handleChange} ></Dropdown>      
           </div> 
           <div className="mt-1">
             <label className="block text-md font-extralight" htmlFor="password">

@@ -9,7 +9,6 @@ const PlayerRouteProtection = ({component:Component,...rest}) => {
 return (  
   user && role === 'player' ? (<Component {...rest}/> ): <Navigate to={'/'}/>
 )
-}
-
+} 
 
 export default PlayerRouteProtection

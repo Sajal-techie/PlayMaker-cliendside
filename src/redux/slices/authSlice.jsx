@@ -25,7 +25,10 @@ export const login = createAsyncThunk(
             const res = {'message':'Authentication error'}
             return res
         } catch (error){
-            console.log(error,'555555555555555' ,thunkAPI.rejectWithValue(error.data));
+            console.log(error,'555555555555555' ,thunkAPI.rejectWithValue(error));
+            if (error?.code==='ERR_NETWORK'){
+                return thunkAPI.rejectWithValue(error)
+            }
             return thunkAPI.rejectWithValue(error.data)
 
         }

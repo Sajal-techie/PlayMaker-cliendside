@@ -17,7 +17,7 @@ const HomeAcademy = () => {
       <Link to={'/academy_profile'} >profile</Link> 
       <br />
       <button onClick={handlelogout} >logout</button> <br />
-      dfasssssssssssssssssadfffffffffffffffffffffffff
+      
     </div>
   )
 }
