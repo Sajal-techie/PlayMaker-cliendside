@@ -44,7 +44,7 @@ async function refreshToken(){
 userApi.interceptors.response.use(
     
     (response) =>{
-        console.log('inside response interceptors ',response.data);
+        console.log('inside response interceptors ',response);
         return response 
     },
     

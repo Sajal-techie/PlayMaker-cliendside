@@ -13,6 +13,10 @@ export const login = createAsyncThunk(
                 console.log(response.data.message);
                 return thunkAPI.rejectWithValue(response.data)
             }
+            if (response.data.status === 403){
+                console.log(response.data.message);
+                return thunkAPI.rejectWithValue(response.data)
+            }
             const responseToken = await userApi.post(`api/token/`,credentials)
             console.log('tojend is' ,responseToken.data);
             if (responseToken?.data?.access){
@@ -40,7 +44,7 @@ export const signup = createAsyncThunk(
     async (credentials,thunkAPI) => {
         console.log(credentials);
         try{
-            const response = await userApi.post(`${baseUrl}signup`, credentials,{
+            const response = await userApi.post(`signup`, credentials,{
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

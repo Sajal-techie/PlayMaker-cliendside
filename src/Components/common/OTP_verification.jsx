@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { baseUrl } from '../../api/api';
+import userApi from '../../api/axiosconfig';
 
 const OTP_verification = () => {
   const [otp,setOtp] = useState(new Array(6).fill(''))
@@ -55,7 +56,7 @@ const OTP_verification = () => {
     const newOtp = otp.join('')
     console.log(newOtp);
     if(newOtp.length === 6){
-      const response = await axios.put(`${baseUrl}otp_verification`,{email,otp:newOtp})
+      const response = await userApi.put(`otp_verification`,{email,otp:newOtp})
       console.log(response);
       if(response.status===200 && response.data.status === 200){
         console.log(response.data,'success');

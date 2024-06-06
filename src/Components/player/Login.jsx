@@ -34,6 +34,9 @@ const Login = () => {
       
       navigate('/home')
     }catch(error){
+      if (error.status === 403){
+        navigate('/otp_verification', {state : {email : formData.email}})
+        }
       console.log(error,'error');
       setError(error.message)
     }

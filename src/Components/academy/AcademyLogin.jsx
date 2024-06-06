@@ -29,6 +29,9 @@ const AcademyLogin = () => {
       console.log(res,'res im academy login');
       navigate('/academy_home')
     }catch(err){
+      if (err.status === 403){
+      navigate('/otp_verification', {state : {email : formData.email,is_academy:true}})
+      }
       console.log(err,'error in academy login');
     }
   }
