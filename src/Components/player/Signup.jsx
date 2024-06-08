@@ -69,7 +69,7 @@ const Signup = () => {
      <div className='h-4/6' >
      </div>
      <div className='text-center '>
-      <Link to={'/academy_signup'}>   <span className='bg-white p-3 border border-gblue-300 rounded-full text-gblue-300 hover:cursor-pointer  hover:text-white hover:bg-gblue-600'> Join us as an academy </span> </Link>
+      <Link to={'/academy/signup'}>   <span className='bg-white p-3 border border-gblue-300 rounded-full text-gblue-300 hover:cursor-pointer  hover:text-white hover:bg-gblue-600'> Join us as an academy </span> </Link>
      </div>
     </div>
     <div className='lg:w-1/2 flex justify-center items-center '>
@@ -140,7 +140,7 @@ const Signup = () => {
           </span>
           </Link> 
         </p>
-        <Link to={'/academy_signup'}>  <p className='text-center mt-3 text-orange-400 hover:underline cursor-pointer  lg:hidden'> Join us as an academy</p> </Link> 
+        <Link to={'/academy/signup'}>  <p className='text-center mt-3 text-orange-400 hover:underline cursor-pointer  lg:hidden'> Join us as an academy</p> </Link> 
       </div>
     </div>
     </div>

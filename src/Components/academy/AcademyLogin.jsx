@@ -27,7 +27,7 @@ const AcademyLogin = () => {
     try{
       const res = await  dispatch(login(formData)).unwrap()
       console.log(res,'res im academy login');
-      navigate('/academy_home')
+      navigate('/academy/home')
     }catch(err){
       if (err.status === 403){
       navigate('/otp_verification', {state : {email : formData.email,is_academy:true}})
@@ -83,7 +83,7 @@ const AcademyLogin = () => {
         </form>
         <p className="font-light text-center">
           Don't have an account?{" "}
-          <Link to={'/academy_signup'}> 
+          <Link to={'/academy/signup'}> 
           <span className="cursor-pointer text-sm text-cyan-400 hover:underline">
             Sign up
           </span>

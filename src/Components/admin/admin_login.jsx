@@ -27,7 +27,7 @@ const Admin_login = () => {
     try{
       const response =  await dispatch(login(formData)).unwrap()
       console.log(response);
-      navigate('/admin_home')
+      navigate('/admin/home')
     }catch(error){
       console.log(error);
     }

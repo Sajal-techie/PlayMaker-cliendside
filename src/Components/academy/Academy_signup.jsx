@@ -134,7 +134,7 @@ const Academy_signup = () => {
           </form>
           <p className="font-light text-center">
             Already have an account?{" "}
-           <Link to={'/academy_login'}> 
+           <Link to={'/academy/login'}> 
               <span className="cursor-pointer text-sm text-cyan-400 hover:underline">
                 Login
               </span>

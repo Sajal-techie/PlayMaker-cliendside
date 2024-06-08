@@ -24,7 +24,7 @@ const ProfileAcademy = () => {
         }catch(err){
           console.log(err,'errore profiule page');
           dispatch(logout())
-          navigate('/')
+          navigate('/academy/login')
         }
       }
   return (

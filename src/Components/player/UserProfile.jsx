@@ -9,7 +9,7 @@ import PostProfile from '../common/profile sections/PostProfile'
 import ExperienceSection from '../common/profile sections/ExperienceSection'
 import Achievementsection from '../common/profile sections/Achievementsection'
 
-const Profile = () => {
+const UserProfile = () => {
   const {user,token,loading,message,error, role} = useSelector(state=>state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -55,4 +55,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default UserProfile

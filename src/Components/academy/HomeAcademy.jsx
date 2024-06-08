@@ -8,13 +8,13 @@ const HomeAcademy = () => {
     const navigate = useNavigate()
     const handlelogout = ()=>{
         dispatch(logout())
-        navigate('/academy_login')
+        navigate('/academy/login')
     }
   return (
     <div>
       academy home <br />
       <br />
-      <Link to={'/academy_profile'} >profile</Link> 
+      <Link to={'/academy/profile'} >profile</Link> 
       <br />
       <button onClick={handlelogout} >logout</button> <br />
       

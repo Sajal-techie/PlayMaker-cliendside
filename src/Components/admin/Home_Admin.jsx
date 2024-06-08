@@ -11,14 +11,14 @@ const Home_Admin = () => {
         try{
         const response = await dispatch(logout()).unwrap
         console.log(response,'admin logout');
-        navigate('/admin_login')
+        navigate('/admin/login')
       }catch(error){
         console.log(error);
       }
     }
   return (
     <div> 
-      <Link to={'/admin_academyview'} > view academies </Link> <br /><br />
+      <Link to={'/admin/academyview'} > view academies </Link> <br /><br />
       home admin <br /> <br />
       <button onClick={handleLogout}  >logout</button>
     </div>
