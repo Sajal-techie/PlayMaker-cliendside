@@ -9,7 +9,7 @@ const Home_Admin = () => {
 
     const handleLogout = async ()=>{
         try{
-        const response = await dispatch(logout()).unwrap
+        const response = await dispatch(logout()).unwrap()
         console.log(response,'admin logout');
         navigate('/admin/login')
       }catch(error){

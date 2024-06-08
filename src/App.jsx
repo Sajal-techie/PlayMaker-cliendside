@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css'
 import PlayerRoutes from './Routes/PlayerRoutes';
 import AcademyRoutes from './Routes/AcademyRoutes';
-import ErrorPage404 from './Components/common/ErrorPage404';
 import AdminRoutes from './Routes/AdminRoutes';
+import Error401 from './Pages/Error401';
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
         <Route path='/admin/*' element={<AdminRoutes/>}/>
 
 
-        <Route path='/unauthenticated' element={<ErrorPage404/>} /> 
+        <Route path='/unauthenticated' element={<Error401/>} /> 
       </Routes>
     </Router>
   )

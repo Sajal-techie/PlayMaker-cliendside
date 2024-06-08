@@ -7,6 +7,7 @@ import Signup from '../Components/player/Signup'
 import OTP_verification from '../Components/common/OTP_verification'
 import RedirectIfAuthenticated from './protected/RedirectIfAuthenticated'
 import ProtectedRoute from './protected/ProtectedRoute'
+import ErrorPage404 from '../Components/common/ErrorPage404'
 
 
 
@@ -19,6 +20,8 @@ const PlayerRoutes = () => {
         <Route path='/otp_verification' element={<RedirectIfAuthenticated element={<OTP_verification/>} redirectTo={'/home'} />  } />
         <Route path='/home' element={<ProtectedRoute element={<Home/>} role={"player"} />}/>
         <Route path='/profile' element={<ProtectedRoute element={<UserProfile/>} role={"player"} /> }/>
+        <Route path='*' element={<ErrorPage404/>}/>
+
     </Routes>
   )
 }

@@ -6,10 +6,10 @@ import userApi from '../../api/axiosconfig'
 const Home = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const handleLogout = ()=>{
+  const handleLogout = async ()=>{
     try{
 
-      const res = dispatch(logout()).unwrap()
+      const res = await dispatch(logout()).unwrap()
       console.log(res,'in home');
       navigate('/')
     }catch(error){

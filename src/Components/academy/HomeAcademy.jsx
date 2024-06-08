@@ -6,8 +6,9 @@ import { logout } from '../../redux/slices/authSlice'
 const HomeAcademy = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const handlelogout = ()=>{
-        dispatch(logout())
+    const handlelogout = async ()=>{
+        const res = await dispatch(logout()).unwrap()
+        console.log(res,'in acdemy home before redirecting to login');
         navigate('/academy/login')
     }
   return (
