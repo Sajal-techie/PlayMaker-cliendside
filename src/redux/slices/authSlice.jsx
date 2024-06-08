@@ -7,6 +7,7 @@ export const login = createAsyncThunk(
     "auth/login",
     async (credentials,thunkAPI) => {
         try{
+        console.log(!!userApi.defaults.headers.common['Authorization']);
             const response = await userApi.post(`login`, credentials);
             console.log(response.data);
             if (response.data.status === 400){
@@ -54,16 +55,34 @@ export const signup = createAsyncThunk(
                 console.log(response.data.message);
                 return thunkAPI.rejectWithValue(response.data)
             }
-
             return response.data
         } catch (error){
-
             console.log(error,'555555555555555' ,thunkAPI.rejectWithValue(error));
             return thunkAPI.rejectWithValue(error.data)
         }
     }
 )
-
+    export const logout = createAsyncThunk (
+        "auth/logout", 
+        async () => {
+            try{
+                const refresh = localStorage.getItem('refresh')
+                console.log(refresh,'refresh in logout');
+                const response = await userApi.post('logout',{refresh})
+                console.log(response);
+                console.log(userApi.defaults.headers.common['Authorization'],'\nheader');
+                delete userApi.defaults.headers.common['Authorization'];
+                console.log(userApi.defaults.headers.common['Authorization'],'\nheader after');
+                localStorage.clear()
+                return response.data
+            } catch(error){
+                console.log(error);
+                delete userApi.defaults.headers.common['Authorization'];
+                localStorage.clear()
+                return error
+            }
+        }
+    )
 const authSlice = createSlice({
     name: "auth",
     initialState: {
@@ -78,12 +97,12 @@ const authSlice = createSlice({
         // login: (state, action) => {
         //     state.user = action.payload
         // },
-        logout: (state) => {
-            state.user = null
-            state.role = null
-            localStorage.clear()
-            console.log('insidde logout');
-        }
+        // logout: (state) => {
+        //     state.user = null
+        //     state.role = null
+        //     localStorage.clear()
+        //     console.log('insidde logout');
+        // }
     },
     extraReducers:(builder)=> {
         builder
@@ -121,8 +140,25 @@ const authSlice = createSlice({
             state.message = action.payload.message
             console.log(action.payload,'in rejected, ', state.loading,state.message);
         })
+        .addCase(logout.pending ,(state)=>{
+            state.loading = true
+            console.log('inpending lgout');
+        })
+        .addCase(logout.fulfilled, (state,action)=>{
+            console.log(action, 'infulflled logut');
+            state.user = null
+            state.loading = false
+            state.token = null
+            state.role = null
+        })
+        .addCase(logout.rejected, (state,action)=>{
+            console.log(action.payload,'logout rejected');
+            state.user = null 
+            state.loading= false
+            state.role= null
+        })
     }
 })
 
-export const {logout} = authSlice.actions
+// export const {logout} = authSlice.actions
 export default authSlice.reducer

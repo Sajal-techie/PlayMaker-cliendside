@@ -2,12 +2,19 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../redux/slices/authSlice'
 import { Link, useNavigate } from 'react-router-dom'
+import userApi from '../../api/axiosconfig'
 const Home = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleLogout = ()=>{
-    dispatch(logout())
-    navigate('/')
+    try{
+
+      const res = dispatch(logout()).unwrap()
+      console.log(res,'in home');
+      navigate('/')
+    }catch(error){
+      console.log(error,'error in home');
+    }
   }
   return (
     <>
