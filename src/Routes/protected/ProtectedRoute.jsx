@@ -6,7 +6,9 @@ const ProtectedRoute = ({element, role}) => {
     const currentRole = useSelector(state=>state.auth.role)
     const location = useLocation()
     console.log(location,'location in protected');
-    if (!currentRole || currentRole!== role) {
+    if (!currentRole ) {
+      return <Navigate to='/'/>
+    }else if (currentRole!== role){
         return <Navigate to="/unauthenticated" replace />;
       }
       return element;

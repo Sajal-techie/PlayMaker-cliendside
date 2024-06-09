@@ -43,7 +43,7 @@ const Login = () => {
   }
     console.log(error);
   return (
-    <div className='flex flex-col md:flex-row justify-center items-center font-kanit '>
+    <div className='bg-white flex flex-col md:flex-row justify-center items-center font-kanit '>
     <div className=' lg:w-1/2 hidden lg:block h-screen' style={{ backgroundImage: `url(${trainingImg})` ,backgroundSize: 'cover', backgroundPosition: 'center' }} >
      <div className='h-4/6' >
      </div>

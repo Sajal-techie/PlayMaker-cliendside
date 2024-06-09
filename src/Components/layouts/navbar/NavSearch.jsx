@@ -12,7 +12,7 @@ const NavSearch = () => {
             </div>
             <input 
             type="search" name="search" id="search" 
-            className="bg-gray-200 block sm:w-32 md:w-auto  border-0 py-1.5 pl-10 text-black placeholder:text-black placeholder focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+            className="bg-gray-200 block w-36 sm:w-32 md:w-auto  border-0 py-1.5 pl-10 text-black placeholder:text-black placeholder focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
             placeholder="Search"/>
         </div>
     </div>

@@ -10,7 +10,7 @@ import Achievementsection from '../layouts/profile layouts/Achievementsection'
 import Navbar from '../layouts/navbar/Navbar'
 import BottomNavbar from '../layouts/navbar/BottomNavbar'
 
-const UserProfile = () => {
+const PlayerProfile = () => {
   const {user,token,loading,message,error, role} = useSelector(state=>state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -45,7 +45,7 @@ const UserProfile = () => {
 
 
         <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
-            <div className="flex flex-col w-full 2xl:w-2/3">
+            <div className="flex flex-col w-full ">
                 <AboutSection data={userData?.profile?.about} />
                 <PostProfile data={userData?.profile?.about}  />
                 <ExperienceSection data={userData?.profile?.about} />
@@ -58,4 +58,4 @@ const UserProfile = () => {
   )
 }
 
-export default UserProfile
+export default PlayerProfile

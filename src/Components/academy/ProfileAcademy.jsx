@@ -3,6 +3,8 @@ import userApi from '../../api/axiosconfig'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { logout } from '../../redux/slices/authSlice'
+import Navbar from '../layouts/navbar/Navbar'
+import BottomNavbar from '../layouts/navbar/BottomNavbar'
 
 const ProfileAcademy = () => {
     const {user,token,loading,message,error, role} = useSelector(state=>state.auth)
@@ -28,10 +30,12 @@ const ProfileAcademy = () => {
         }
       }
   return (
-    <div>
+    <>
+    <Navbar academy={true} />
       thsi si academy profile  <br />
       <button onClick={fetchapi}> click </button> {state}
-    </div>
+      <BottomNavbar academy={true} />
+    </>
   )
 }
 
