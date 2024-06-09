@@ -1,6 +1,9 @@
 import React from 'react'
 
-const AboutSection = ({data}) => {
+const AboutSection = ({data,academy}) => {
+  const bgColor = academy ? "bg-indigo-400":"bg-gblue-400" 
+  const textColor = academy ? "text-indigo-500": "text-gblue-500" 
+  const borderColor = academy ? "border-indigo-500" : "border-gblue-400"
   return (
     <div className="flex-1  bg-white rounded-lg shadow-xl p-8"> 
         <div className='flex justify-between items-center w-full  '>
@@ -10,7 +13,7 @@ const AboutSection = ({data}) => {
                 </svg>
         </div>
         <p className="mt-2 text-gray-700 text-center ">
-            { data ?  data : <button className='border border-gblue-400 px-2 py-1 rounded-full mt-4' > add about </button>  }
+            { data ?  data : <button className={`${borderColor} border px-2 py-1 rounded-full mt-4`} > add about </button>  }
         </p>
     </div>
   )

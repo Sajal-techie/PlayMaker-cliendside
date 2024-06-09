@@ -34,7 +34,11 @@ const Navbar = ({academy}) => {
     
           const res = await dispatch(logout()).unwrap()
           console.log(res,'in home');
-          navigate('/')
+          if (academy){
+            navigate('/academy/login')
+          } else {
+              navigate('/')
+            }
         }catch(error){
           console.log(error,'error in home');
         }

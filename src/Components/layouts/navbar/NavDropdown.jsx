@@ -5,7 +5,7 @@ const NavDropdown = ({handleLogout,academy}) => {
     const customColor = academy ? "text-indigo-500 ":""
     const profileLink = academy ? '/academy/profile': "/profile"
   return (
-    <div className= {`${customColor} drop-down  w-48 overflow-hidden bg-gray-50 border border-gray-400 rounded-md  shadow-lg absolute top-12 right-2`} >
+    <div className= {`${customColor} z-10 drop-down  w-48 overflow-hidden bg-gray-50 border border-gray-400 rounded-md  shadow-lg absolute top-12 right-2`} >
                 <ul>
                 {/* <li className="px-3 py-3 text-sm font-medium flex items-center space-x-2 hover:bg-slate-300">
                     <span>

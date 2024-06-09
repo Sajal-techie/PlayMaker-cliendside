@@ -3,7 +3,7 @@ import userApi from '../../api/axiosconfig'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import AboutSection from '../layouts/profile layouts/AboutSection'
-import ProfileSection from '../layouts/profile layouts/MainSection'
+import MainSection from '../layouts/profile layouts/MainSection'
 import PostProfile from '../layouts/profile layouts/PostProfile'
 import ExperienceSection from '../layouts/profile layouts/ExperienceSection'
 import Achievementsection from '../layouts/profile layouts/Achievementsection'
@@ -40,7 +40,7 @@ const PlayerProfile = () => {
     <Navbar/>
     <div className="h-full bg-gray-200 md:p-16 xl:px-40 sm:p-12"> 
         {/* first section  */}
-        <ProfileSection username={userData?.user?.username} bio={userData?.profile?.bio} state={userData?.profile?.state} district={userData?.profile?.district}  />
+        <MainSection username={userData?.user?.username} bio={userData?.profile?.bio} state={userData?.profile?.state} district={userData?.profile?.district}  />
         {/* first section end */}
 
 
