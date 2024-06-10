@@ -55,9 +55,16 @@ export const signup = createAsyncThunk(
                 console.log(response.data.message);
                 return thunkAPI.rejectWithValue(response.data)
             }
+            if (response.data.status >= 500){
+                console.log(response.data, ' server error');
+                return thunkAPI.rejectWithValue(response.data)
+            }
             return response.data
         } catch (error){
-            console.log(error,'555555555555555' ,thunkAPI.rejectWithValue(error));
+            console.log(error,'555555555555555');
+            if (error==="Internal Server Error"){
+                return thunkAPI.rejectWithValue(error)
+            }
             return thunkAPI.rejectWithValue(error.data)
         }
     }
@@ -87,22 +94,16 @@ const authSlice = createSlice({
     name: "auth",
     initialState: {
         user: localStorage.getItem('user'),
-        token: null,
         loading: false,
         error: null,
         role: localStorage.getItem('role'),
-        message: null
+        message: null,
+        is_access: false,
     },
     reducers: {
-        // login: (state, action) => {
-        //     state.user = action.payload
-        // },
-        // logout: (state) => {
-        //     state.user = null
-        //     state.role = null
-        //     localStorage.clear()
-        //     console.log('insidde logout');
-        // }
+        toggleOtpAcess: (state,action) => {
+            state.is_access = action.payload
+        }
     },
     extraReducers:(builder)=> {
         builder
@@ -118,9 +119,9 @@ const authSlice = createSlice({
         })
         .addCase(signup.rejected, (state,action)=>{
             state.loading = false
-            state.message = action.payload.message
+            state.message = action.payload.message ? action.payload.message : action.payload
             console.log(action.payload,'in reected', action,', message = ',state.message,state.loading);
-            alert(state.message)
+            // alert(state.message)
         })
         .addCase(login.pending, (state)=>{
             state.loading = true
@@ -129,7 +130,6 @@ const authSlice = createSlice({
         .addCase(login.fulfilled, (state,action)=>{
             state.loading = false
             state.user = action.payload.user
-            state.token = action.payload.token
             state.role = action.payload.role
             state.message = action.payload.message
             console.log(action.payload,'in fulfilled','message = ',state.message,state.loading);
@@ -148,7 +148,6 @@ const authSlice = createSlice({
             console.log(action, 'infulflled logut');
             state.user = null
             state.loading = false
-            state.token = null
             state.role = null
         })
         .addCase(logout.rejected, (state,action)=>{
@@ -160,5 +159,5 @@ const authSlice = createSlice({
     }
 })
 
-// export const {logout} = authSlice.actions
+export const {toggleOtpAcess} = authSlice.actions
 export default authSlice.reducer

@@ -4,8 +4,11 @@ import Button from '../common/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../redux/slices/authSlice'
+import Swal from 'sweetalert2'
+import { LineWave } from 'react-loader-spinner'
 
 const Admin_login = () => {
+  const [error,setError] = useState('')
   const [formData,setFormData] = useState({
     email:'',
     password:'',
@@ -14,7 +17,8 @@ const Admin_login = () => {
   })
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const message = useSelector(state=>state.auth.message)
+  const loading = useSelector(state=>state.auth.loading)
+
   const handleChange = (e)=>{
     setFormData({
      ...formData,
@@ -23,6 +27,15 @@ const Admin_login = () => {
   }
   const handleSubmit = async (e)=>{
     e.preventDefault()
+    setError('')
+    if (!formData.email){
+      setError('Email is required')
+      return
+    }
+    if (!formData.password){
+      setError("Password is required")
+      return
+    }
     console.log(formData);
     try{
       const response =  await dispatch(login(formData)).unwrap()
@@ -30,11 +43,11 @@ const Admin_login = () => {
       navigate('/admin/home')
     }catch(error){
       console.log(error);
-    }
-    try{
-
-    }catch{
-
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops',
+        text: error.message
+      })
     }
   }
   return (
@@ -72,10 +85,18 @@ const Admin_login = () => {
                 Forgot password?
               </span> */}
             </div>
-            {message}
-            <div className="">
-              <Button name='Login'  />
+            <div className='text-red-500 text-center'>
+              {error}
             </div>
+            { loading ? 
+                <div className='flex justify-center -mt-14'>
+                  <LineWave color='#00BFFF' height={120} width={120} /> 
+                </div>
+                :
+                <div className="">
+                  <Button name='Login'  />
+                </div>
+              }
           </form>
           {/* <Link to={'/academy_login'}>  <p className='text-center mt-3 text-orange-400 hover:underline cursor-pointer  lg:hidden'> Join us as an academy</p> </Link>  */}
         </div>

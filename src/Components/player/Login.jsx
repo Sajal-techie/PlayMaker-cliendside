@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Button from '../common/Button';
 import InputField from '../common/InputField';
 import trainingImg from '../../assets/training.jpg'
-import { login } from '../../redux/slices/authSlice';
+import { login, toggleOtpAcess } from '../../redux/slices/authSlice';
+import Swal from 'sweetalert2';
+import { LineWave } from 'react-loader-spinner';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -18,8 +20,7 @@ const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
-  const info = location?.state?.info
-  console.log(info);
+  const loading = useSelector(state=>state.auth.loading)
 
   const handleChange = (e)=>{
     setFormData({...formData, [e.target.name]: e.target.value })
@@ -27,6 +28,15 @@ const Login = () => {
 
   const handleSubmit = async(e) => {
     e.preventDefault()
+    setError('')
+    if (!formData.email ) {
+      setError('Email is required')
+      return
+    }
+    else if(!formData.password){
+      setError('Password is required')
+      return
+    }
     console.log(formData);
     try{
       const response = await dispatch(login(formData)).unwrap()
@@ -35,10 +45,22 @@ const Login = () => {
       navigate('/home')
     }catch(error){
       if (error.status === 403){
+        dispatch(toggleOtpAcess(true))
+        await Swal.fire({
+          icon : 'info',
+          title: 'Verification Incomplete',
+          text: "Check your email for verification"
+        })
         navigate('/otp_verification', {state : {email : formData.email}})
         }
+
+      await Swal.fire({
+        icon: 'error',
+        title: 'Oops',
+        text: error.message
+      })
       console.log(error,'error');
-      setError(error.message)
+      // setError(error.message)
     }
   }
     console.log(error);
@@ -53,7 +75,7 @@ const Login = () => {
     </div>
     <div className='lg:w-1/2 flex justify-center items-center'>
     <div className='flex justify-center items-center h-screen'>
-      <div className=' p-10 border '>
+      <div className=' p-10 border bg-gray-100'>
         <form onSubmit={handleSubmit}>
           <div className='text-center'> 
             <span className="text-2xl  text-gblue-500 ">Welcome back to Galacticos</span>
@@ -84,10 +106,18 @@ const Login = () => {
               Forgot password?
             </span>
           </div>
-          {error}
-          <div className="">
-            <Button name='Login'  />
-          </div>
+            <div className='text-red-500 text-center'>
+              {error}
+            </div>
+          {loading ?
+            <div className='flex justify-center -mt-14'>
+              <LineWave color='#00BFFF' height={120} width={120} /> 
+            </div>
+            :
+            <div className="">
+              <Button name='Login'  />
+            </div>
+           }
         </form>
         <p className="font-light text-center">
           Don't have an account?{" "}

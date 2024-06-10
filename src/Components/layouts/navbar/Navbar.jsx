@@ -5,6 +5,7 @@ import { logout } from '../../../redux/slices/authSlice'
 import NavDropdown from './NavDropdown'
 import NavbarMenu from './NavbarMenu'
 import NavSearch from './NavSearch'
+import Swal from 'sweetalert2'
 
 const Navbar = ({academy}) => {
     const [dropdown,setDropdown] = useState(false)
@@ -34,6 +35,10 @@ const Navbar = ({academy}) => {
     
           const res = await dispatch(logout()).unwrap()
           console.log(res,'in home');
+          Swal.fire({
+            icon: 'success',
+            title: 'Logout Successfull',
+          })
           if (academy){
             navigate('/academy/login')
           } else {

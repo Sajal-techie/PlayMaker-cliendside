@@ -57,7 +57,7 @@ const MainSection = ({username,bio,state,district, academy}) => {
         </div>
         {/* cover pic end  */}
 
-        <div className={`${imgDivClass} flex flex-col -mt-20 font-kanit capitalize mr-36 `}>
+        <div className={`${imgDivClass} flex flex-col -mt-20 font-kanit capitalize  `}>
             {/* <div className="  "> */}
                 <img src="https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg" className="w-40 border-4 border-white rounded-full" />
                 <div className="flex  w-full">

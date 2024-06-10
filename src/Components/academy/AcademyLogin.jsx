@@ -4,35 +4,60 @@ import InputField from '../common/InputField';
 import trainingImg from '../../assets/coaching.jpg'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../redux/slices/authSlice';
+import { login, toggleOtpAcess } from '../../redux/slices/authSlice';
+import Swal from 'sweetalert2';
+import { LineWave } from 'react-loader-spinner';
+
 const AcademyLogin = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     is_academy:true
   })
+  const [error, setError] = useState('')
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-  const info = location?.state?.info
-  console.log(info,'info');
-  const message = useSelector(state=>state.auth.message)
+  const loading = useSelector(state=>state.auth.loading)
+
   const handleChange = (e) => {
     setFormData({...formData, [e.target.name]: e.target.value })
   }
+
   const handleSubmit = async(e) => {
     e.preventDefault()
+    setError('')
     console.log(formData)
-    console.log(message);
+    if (!formData.email ) {
+      setError('Email is required')
+      return
+    }
+    else if(!formData.password){
+      setError('Password is required')
+      return
+    }
     try{
       const res = await  dispatch(login(formData)).unwrap()
       console.log(res,'res im academy login');
       navigate('/academy/home')
     }catch(err){
       if (err.status === 403){
+        dispatch(toggleOtpAcess(true))
+        await Swal.fire({
+          icon : 'info',
+          title: 'Verification Incomplete',
+          text: "Check your email for verification"
+        })
       navigate('/otp_verification', {state : {email : formData.email,is_academy:true}})
       }
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops',
+        text: err.message
+      })
       console.log(err,'error in academy login');
+      setError(err.message)
     }
   }
   return (
@@ -76,10 +101,16 @@ const AcademyLogin = () => {
               Forgot password?
             </span>
           </div>
-          {message}
-          <div className="">
-            <Button name='Login' role='academy' />
-          </div>
+          {
+            loading ? 
+              <div className='flex justify-center -mt-14 ml-8'>
+                <LineWave color='indigo' height={120} width={120} /> 
+              </div>
+              :
+            <div className="">
+              <Button name='Login' role='academy' />
+            </div>
+          }
         </form>
         <p className="font-light text-center">
           Don't have an account?{" "}

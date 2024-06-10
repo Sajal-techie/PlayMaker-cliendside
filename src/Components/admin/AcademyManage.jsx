@@ -34,6 +34,7 @@ const AcademyManage = () => {
         console.log(data,id,'hey');
         try{
             const response = await userApi.post(`update_certified/${id}`,{value:data})
+            fetchAcademies()
             console.log(response);
         }catch(error){
             console.log(error);
@@ -43,7 +44,7 @@ const AcademyManage = () => {
   return ( 
     <>
 
-     <section className="container mx-auto p-6 font-mono">
+     <section className="container mx-auto p-6 font-kanit">
         <div className="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
             <div className="w-full overflow-x-auto">
             <table className="w-full">
@@ -88,12 +89,12 @@ const AcademyManage = () => {
                  <div className="flex items-center text-sm">
                      <div className="relative w-14  h-10 mr-3 md:block">
                      <img className="object-cover w-full h-full rounded-md cursor-pointer "   onClick={()=>viewLicense(obj.academy_data.license, obj.username)}
-                        src={`${baseUrl}${obj.academy_data.license}`} alt="license" loading="lazy" />
+                        src={`${baseUrl}${obj.academy_data.license}`} alt="license" loading="lazy" title='view license' />
                      {/* <div className="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div> */}
                      </div>
                      <div>
-                     <p className="font-semibold text-green-500"onClick={()=>handleCertication('approve',obj.id)} >Approve</p>
-                     <p className="font-semibold text-red-500" onClick={()=>handleCertication('deny',obj.id)} >Deny</p>
+                     <p className="font-semibold text-green-500"onClick={()=>handleCertication('approve',obj.id)} > {obj.academy_data.is_certified  ? <span>Approved</span>  :<span>Approve</span> }  </p>
+                     <p className="font-semibold text-red-500" onClick={()=>handleCertication('deny',obj.id)} >  {!obj.academy_data.is_certified ?<span>Denied</span>  :<span>Deny</span> } </p>
                      </div>
                  </div>
                  </td>
