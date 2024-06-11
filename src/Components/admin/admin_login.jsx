@@ -54,16 +54,16 @@ const Admin_login = () => {
     <div className='flex flex-col md:flex-row justify-center items-center font-kanit '>
       <div className='lg:w-1/2 flex justify-center items-center'>
       <div className='flex justify-center items-center h-screen'>
-        <div className=' p-10 border '>
+        <div className=' p-10 border  bg-white'>
           <form onSubmit={handleSubmit}>
             <div className='text-center'> 
-              <span className="text-2xl  text-gblue-500 ">Welcome back to Galaticos</span>
-              <h1 className="text-3xl font-medium text-gblue-600">Admin Login</h1>
+              <span className="text-2xl  text-amber-900   ">Welcome back to PlayMaker</span>
+              <h1 className="text-3xl font-medium text-amber-900">Admin Login</h1>
             </div>
-            <div className="my-3">
+            <div className="my-3 ">
               <label className="text-md font-extralight" htmlFor="email">
                 Email
-              </label>
+              </label> <br />
               <InputField
                 type="email"
                 name="email"
@@ -72,7 +72,7 @@ const Admin_login = () => {
               />
             </div>
             <div className="mt-5">
-              <label className="block text-md mb-2 font-extralight" htmlFor="password">
+              <label className="block text-md  font-extralight" htmlFor="password">
                 Password
               </label>
               <InputField name='password' type='password' placeholder='password' onChange={handleChange} />
@@ -94,7 +94,7 @@ const Admin_login = () => {
                 </div>
                 :
                 <div className="">
-                  <Button name='Login'  />
+                  <button name='Login' className='bg-amber-900 mt-4 mb-3 w-full text-white py-2 rounded-md transition duration-100'   > Login </button>
                 </div>
               }
           </form>

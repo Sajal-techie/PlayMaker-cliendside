@@ -113,25 +113,29 @@ const Signup = () => {
   }
   return (
     <div className='bg-white flex flex-col md:flex-row justify-center items-center font-kanit '>
-    <div className=' lg:w-1/2 hidden lg:block h-screen bg-cover bg-center' style={{ backgroundImage: `url(${trainingImg})`}} >
-     <div className='h-4/6' >
-     </div>
-     <div className='text-center '>
-      <Link to={'/academy/signup'}>   <span className='bg-white p-3 border border-gblue-300 rounded-full text-gblue-300 hover:cursor-pointer  hover:text-white hover:bg-gblue-600'> Join us as an academy </span> </Link>
-     </div>
-    </div>
+      <div className='lg:w-1/2 hidden lg:flex justify-center items-center h-screen'>
+        <div className='w-3/4 h-3/4 bg-gradient-to-r from-indigo-500 to-purple-500 flex flex-col justify-center items-center rounded-lg'>
+          <div className='text-center text-white p-5'>
+            <h2 className='text-2xl font-bold'>Join PlayMaker Academy</h2>
+            <p className='mt-4'>Empowering athletes to achieve greatness. Join us and elevate your academy to the next level!</p>
+            <Link to={'/academy/signup'} className='mt-4 text-lg text-white underline hover:text-gray-200'>
+              Sign up as Academy
+            </Link>
+          </div>
+        </div>
+      </div>
     <div className='lg:w-1/2 flex justify-center items-center '>
     <div className='flex justify-center items-center ' >
       <div className=' p-10 border bg-gray-100'>
         <form onSubmit={handleSubmit}>
           <div className='text-center'> 
-            <span className="text-2xl  text-gblue-500 ">Welcome to Galacticos</span>
+            <span className="text-2xl  text-gblue-500 ">Welcome to PlayMaker</span>
             <h1 className="text-3xl font-medium text-gblue-600">Signup</h1>
           </div>
           <div className="my-1  font-light">
             <label className="text-md font-extralight" htmlFor="name">
               Name
-            </label>
+            </label> <br />
             <InputField
               type="name"
               name="username"
@@ -143,7 +147,7 @@ const Signup = () => {
           <div className="my-1  font-light">
             <label className="text-md font-extralight" htmlFor="email">
               Email
-            </label>
+            </label><br />
             <InputField
               type="email"
               name="email"
@@ -155,7 +159,7 @@ const Signup = () => {
           <div className="my-1 font-light text-slate-500 ">
             <label className="text-md font-extralight text-black" htmlFor="email">
               Date of birth
-            </label>
+            </label> <br />
             <InputField
               type="date"
               name="dob"

@@ -98,6 +98,14 @@ const OTP_verification = () => {
     }
     setLoading(false)
   }
+  const resendOtp =async ()=>{
+    try{
+        const res = await userApi.post('resend_otp',{email:email})
+        console.log(res);
+    }catch (error){
+      console.log(error,'eror');
+    }
+  }
   console.log(message,'message in otp page',otp.join(''),error);
   return is_access ?(
       <div className="h-screen  py-24 px-3">
@@ -125,13 +133,11 @@ const OTP_verification = () => {
                 ))}
               </div>
               
-              <div className="flex justify-center text-center">
-                {/* <a className="flex items-center text-orange-400 hover:text-orange-700 cursor-pointer">
-                  <span className="font-bold">Resend OTP</span>
-                  <i className='bx bx-caret-right ml-1'></i>
-                </a> */}
-              </div>
               {error  && <p className='text-red-500 ext-sm'>{error}</p>   }
+              <div className="flex justify-center text-center text-orange-400 hover:text-orange-700 cursor-pointer">
+                  <span className="font-bold"onClick={resendOtp}>Resend OTP</span>
+                  <i className='bx bx-caret-right ml-1'></i>
+              </div>
               
               {
                 loading ?
@@ -140,7 +146,7 @@ const OTP_verification = () => {
                     </div> 
                      :
                     <div className="font-kanit text-white ">
-                      <button className=' hover:bg-blue-600 mt-7 mb-3 w-full bg-blue-500 py-2 text-xl  transition duration-100' onClick={handleClick} > Verify</button>
+                      <button className=' hover:bg-blue-600 mt-5 mb-3 w-full bg-blue-500 py-2 text-xl  transition duration-100' onClick={handleClick} > Verify</button>
                     </div>
               }
             </div>

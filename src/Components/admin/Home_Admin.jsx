@@ -20,6 +20,7 @@ const Home_Admin = () => {
     <div> 
       <Link to={'/admin/academyview'} > view academies </Link> <br /><br />
       home admin <br /> <br />
+      <Link to={'/admin/playerview'} > view players </Link> <br /> <br />
       <button onClick={handleLogout}  >logout</button>
     </div>
   )

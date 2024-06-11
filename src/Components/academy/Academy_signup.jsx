@@ -114,101 +114,109 @@ const Academy_signup = () => {
 
     }
     return (
-      <div className='flex flex-col md:flex-row justify-center items-center font-kanit overflow-ellipsis'>
-      <div className='lg:w-1/2 hidden lg:block h-screen' style={{ backgroundImage: `url(${trainingImg})`, backgroundSize: 'cover', backgroundPosition: 'center' }} >
-       <div className='h-4/6'>
-       </div>
-       <div className='text-center '>
-        <Link to={'/signup'}>   <span className='bg-white p-3 border border-indigo-300 rounded-full text-indigo-600 hover:cursor-pointer hover:text-white hover:bg-indigo-600'> Join us as a player </span> </Link>
-       </div>
-      </div>
-      <div className='lg:w-1/2 flex justify-center items-center'>
-      <div className='flex justify-center items-center '>
-        <div className=' py-1 px-10 border '>
-          <form onSubmit={handleSubmit} encType='multipart/form-data'>
-            <div className='text-center'> 
-              <span className="text-2xl  text-indigo-500 ">Welcome to Galacticos</span>
-              <h1 className="text-3xl font-medium text-indigo-600">Academy Signup</h1>
-            </div>
-            <div className="my-1">
-              <label className="text-md font-extralight" htmlFor="name">
+      <div className="flex justify-center items-center font-kanit bg-slate-300 min-h-screen">
+      <div className="w-full  max-w-4xl p-5 border bg-white text-center md:text-left ">
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <div className="text-center mb-2">
+            <span className="text-2xl text-indigo-500">Welcome to PlayMaker</span>
+            <h1 className="text-3xl font-medium text-indigo-600">Academy Signup</h1>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:ml-12 ">
+            <div >
+              <label className="text-md font-extralight " htmlFor="name">
                 Name
-              </label>
+              </label> <br />
               <InputField
-                type="name"
+                type="text"
                 name="username"
-                placeholder="name"
+                placeholder="Name"
                 onChange={handleChange}
               />
-            {error.username && <p className='text-red-500 text-center text-sm'> {error.username} </p>}
+              {error.username && <p className="text-red-500 text-center text-sm md:mr-14">{error.username}</p>}
             </div>
-            <div className="my-1">
+            <div>
               <label className="text-md font-extralight" htmlFor="email">
                 Email
-              </label>
+              </label><br />
               <InputField
                 type="email"
                 name="email"
-                placeholder="email"
+                placeholder="Email"
                 onChange={handleChange}
               />
-            {error.email && <p className='text-red-500 text-center font-light'> {error.email} </p>}
+              {error.email && <p className="text-red-500  text-center text-sm md:mr-14">{error.email}</p>}
             </div>
-            <div className="my-1 font-light text-slate-500 ">
-              <label className="text-md font-extralight text-black" htmlFor="email">
+            <div>
+              <label className="text-md font-extralight text-black" htmlFor="dob">
                 Established date
-              </label>
+              </label> <br />
               <InputField
                 type="date"
                 name="dob"
-                placeholder="date"
+                placeholder="Date"
                 onChange={handleChange}
               />
-            {error.dob && <p className='text-red-500 text-center text-sm'> {error.dob} </p>}
+              {error.dob && <p className="text-red-500 text-center text-sm md:mr-14">{error.dob}</p>}
             </div>
-            <div className="my-1 font-light text-slate-500 ">
-            <Dropdown options={states} label='state' onChange={handledistrict} ></Dropdown>      
-            {error.state && <p className='text-red-500 text-center text-sm'> {error.state} </p>}
-            </div>   
-            {district && 
-              <div className="my-1 font-light text-slate-500 ">
-              <Dropdown options={district} label='district' onChange={handleChange}></Dropdown>    
-              {error.district && <p className='text-red-500 text-center text-sm'> {error.district} </p>}
-              </div> 
-             }  
-            <div className="my-1 font-light text-slate-500 ">
-              <Dropdown options={sports} label='sport' onChange={handleChange} ></Dropdown>      
-              {error.sport && <p className='text-red-500 text-center text-sm'> {error.sport} </p>}
-            </div> 
-            <div className="mt-1">
+            <div>
+              <Dropdown options={states} label="state" onChange={handledistrict} />
+              {error.state && <p className="text-red-500 text-center text-sm md:mr-14">{error.state}</p>}
+            </div>
+            {district && (
+              <div>
+                <Dropdown options={district} label="district" onChange={handleChange} />
+                {error.district && <p className="text-red-500 text-center text-sm md:mr-14">{error.district}</p>}
+              </div>
+            )}
+            <div>
+              <Dropdown options={sports} role="academy" label="sport" onChange={handleChange} />
+              {error.sport && <p className="text-red-500 text-center text-sm md:mr-14">{error.sport}</p>}
+            </div>
+            <div>
               <label className="block text-md font-extralight" htmlFor="password">
                 Password
               </label>
-              <InputField name='password' type='password' placeholder='password' onChange={handleChange} />
-              {error.password && <p className='text-red-500 text-center text-xs'> {error.password} </p>}
-              </div>
-            <div className='w-80 my-1 font-light text-slate-500'>
-              <label className="text-md font-extralight text-black" htmlFor="password">
-                License verification 
+              <InputField
+                name="password"
+                type="password"
+                placeholder="Password"
+                onChange={handleChange}
+              />
+              {error.password && <p className="text-red-500 text-center text-xs md:mr-14">{error.password}</p>}
+            </div>
+            <div className="w-full">
+              <label className="text-md font-extralight text-black" htmlFor="license">
+                License verification
               </label>
-              <InputField type="file" name='license' onChange={handleChange}/>
-              {error.license && <p className='text-red-500 text-center text-sm'> {error.license} </p>}
+              <InputField
+                type="file"
+                name="license"
+                onChange={handleChange}
+              />
+              {error.license && <p className="text-red-500 text-center text-sm md:mr-14">{error.license}</p>}
             </div>
-            <div className="">
-              <Button name='Signup' role='academy' />
-            </div>
-          </form>
-          <p className="font-light text-center">
-            Already have an account?{" "}
-           <Link to={'/academy/login'}> 
-              <span className="cursor-pointer text-sm text-cyan-400 hover:underline">
-                Login
-              </span>
-            </Link> 
+          </div>
+          <div className="mt-4 flex justify-center">
+            {loading ? (
+              <LineWave color="#00BFFF" height={120} width={120} />
+            ) : (
+              <button name="Signup" role="academy" className='bg-indigo-600 hover:bg-indigo-800 text-white px-14 py-3 rounded transition duration-100 ' >Signup</button>
+            )}
+          </div>
+        </form>
+        <p className="font-light text-center mt-3">
+          Already have an account?{" "}
+          <Link to="/academy/login">
+            <span className="cursor-pointer text-sm text-cyan-400 hover:underline">
+              Login
+            </span>
+          </Link>
+        </p>
+        <Link to="/signup">
+          <p className="text-center mt-1 text-cyan-400 hover:underline cursor-pointer">
+            Join us as a player
           </p>
-          <Link to={'/signup'}> <p className='text-center mt-3 text-cyan-400 hover:underline cursor-pointer  lg:hidden'> Join us as a player</p> </Link> 
-        </div>
-      </div>
+        </Link>
       </div>
     </div>
     )

@@ -69,18 +69,19 @@ const AcademyLogin = () => {
      <Link to={'/'}>  <span className='bg-white p-3 border border-indigo-300 rounded-full text-indigo-500 hover:cursor-pointer  hover:text-white hover:bg-indigo-600'>  Join us as a player </span> </Link>
      </div>
     </div>
+    
     <div className='lg:w-1/2 flex justify-center items-center'>
     <div className='flex justify-center items-center h-screen'>
-      <div className=' p-10 border '>
+      <div className=' p-10 border bg-white'>
         <form onSubmit={handleSubmit}>
           <div className='text-center'> 
-            <span className="text-2xl  text-indigo-500 ">Welcome back to Galacticos</span>
+            <span className="text-2xl  text-indigo-500 ">Welcome back to PlayMaker</span>
             <h1 className="text-3xl font-medium text-indigo-600">Academy Login</h1>
           </div>
           <div className="my-3">
             <label className="text-md font-extralight" htmlFor="email">
               Email
-            </label>
+            </label> <br />
             <InputField
               type="email"
               name="email"
@@ -89,7 +90,7 @@ const AcademyLogin = () => {
             />
           </div>
           <div className="mt-5">
-            <label className="block text-md mb-2 font-extralight" htmlFor="password">
+            <label className="block text-md  font-extralight" htmlFor="password">
               Password
             </label>
             <InputField name='password' type='password' placeholder='password' onChange={handleChange} />
