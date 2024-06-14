@@ -10,6 +10,7 @@ const AcademyManage = () => {
         fetchAcademies()
     },[]) 
 
+    // to fetch all the academies from backend
     const fetchAcademies = async ()=>{
         try{
             const response = await userApi.get('list_academy')
@@ -25,11 +26,13 @@ const AcademyManage = () => {
         }
     }
 
+    // to display the image of license as modal
     const viewLicense = (image,name)=>{
         document.getElementById('my_modal_3').showModal(), 
         setLicense([`${baseUrl}${image}`,name]) 
-        
     }
+
+    //  to chagne certification status
     const handleCertication = async(data,id)=>{
         console.log(data,id,'hey');
         try{
@@ -43,7 +46,6 @@ const AcademyManage = () => {
     console.log(academy);
   return ( 
     <>
-
      <section className="container mx-auto p-6 font-kanit">
         <div className="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
             <div className="w-full overflow-x-auto">

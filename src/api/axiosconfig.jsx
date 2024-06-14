@@ -60,7 +60,6 @@ userApi.interceptors.response.use(
                 try {
                     const accessToken = await refreshToken()
                     console.log('3');
-                    // console.log(localStorage.getItem('refresh'),'refresh token after aupdating');
                     userApi.defaults.headers.common.Authorization = `Bearer ${accessToken}`
                     previosRequest.headers['Authorization'] = `Bearer ${accessToken}`
                     
@@ -72,21 +71,14 @@ userApi.interceptors.response.use(
                     console.log(err,'refrseh token error');
                     return Promise.reject(err)
                 }
-                // }
-                // 
-                // }
             }else if (error.response && error.response.status >= 500){
                 console.log('server eror', error.response);
                 // localStorage.clear()
-                // const navigate = useNavigate()
-            // navigate('/')
             return Promise.reject(error.response?error.response.statusText:error);
         }
             else {
                 console.log(error, 'else');
-                localStorage.clear()
-                // const navigate = useNavigate()
-                // navigate('/')
+                // localStorage.clear()
                 return Promise.reject(error.response?error.response:error);
             }
         }  catch (err){

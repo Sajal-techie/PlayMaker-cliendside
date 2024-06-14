@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react';
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
-const Text = () => {
+const Test = () => {
+  
   return (
-    <>
-
-    </>
+    <div>
+      hai
+    </div>
   )
 }
 
-export default Text
+export default Test
 

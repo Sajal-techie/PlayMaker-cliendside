@@ -40,7 +40,7 @@ const PlayerProfile = () => {
     <Navbar/>
     <div className="h-full bg-gray-200 md:p-16 xl:px-40 sm:p-12"> 
         {/* first section  */}
-        <MainSection username={userData?.user?.username} bio={userData?.profile?.bio} state={userData?.profile?.state} district={userData?.profile?.district}  />
+        <MainSection username={userData?.user?.username} bio={userData?.profile?.bio} state={userData?.profile?.state} district={userData?.profile?.district} id={userData?.user?.id} profile_pic={userData?.profile?.profile_photo} fetchapi={fetchapi}  />
         {/* first section end */}
 
 
