@@ -4,7 +4,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Button from '../common/Button';
 import InputField from '../common/InputField';
-import trainingImg from '../../assets/training.jpg'
 import { login, toggleOtpAcess } from '../../redux/slices/authSlice';
 import Swal from 'sweetalert2';
 import { LineWave } from 'react-loader-spinner';
