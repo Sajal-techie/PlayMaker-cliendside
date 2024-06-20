@@ -1,41 +1,67 @@
 import React, { useState } from 'react'
-import userApi from '../../../api/axiosconfig'
 import Modal from 'react-modal'
-const ImgModal = ({state,is_pic,id,fetchapi}) => {
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import userApi from '../../../../api/axiosconfig'
+
+const ImgModal = ({state,is_pic,id,fetchapi,bgColor,textColor}) => {
     const [image,setImage] = useState(null)
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
+    // to send profile photo to server
     const updatePhoto = async (id)=>{
         const formData = new FormData()
         formData.append('profile_photo',image)
         try{
             const res = await userApi.post('update_photo/'+id, formData)
             console.log(res);
+            showToastMessage(res.data)  // to show succes or error message to user as toast
+            console.log(res.data?.message);
         }catch (error){
             console.log(error,'errror in update profile');
+            showToastMessage({status:500,message:error?.code==='ERR_NETWORK'?"Internal Server Error":"Bad Gateway"})
         }
         fetchapi()
         closeModal()
         document.getElementById('my_modal_3').close()
     }
+    //  to close the modal and clear states 
     const closeModal = ()=>{
         setModalIsOpen(false)
         setImage('')
     }
+    // to open the upload modal
     const uploadProfilePhoto = ()=>{
         setModalIsOpen(true)
     }
+    // to delete the profile photo from server
     const deletePhoto = async ()=>{
         try{
             const res = await userApi.delete('delete_photo/'+id, { data: {'type':'profile'}})
+            showToastMessage(res.data)  // to show succes or error message to user as toast
             console.log(res,'response delete');
         }catch(error){
             console.log(error, 'error delete');
+            showToastMessage({status:500,message:error?.code==='ERR_NETWORK'?"Internal Server Error":"Bad Gateway"})
         }
         fetchapi()
         closeModal()
         document.getElementById('my_modal_3').close()
     }
+    //  to show succes to error message to user
+    const showToastMessage = ({ status, message }) => {
+        console.log(status, message);
+        const options = {
+            position: 'bottom-right',
+            draggable: true,
+        }
+        if (status===200){
+            toast.success(message, options);
+        }
+        else{
+            toast.error(message,options)
+        }
+      };
     console.log(image, 'haisdha');
   return (
     <>
@@ -56,14 +82,14 @@ const ImgModal = ({state,is_pic,id,fetchapi}) => {
             </div>
         </div>
             <div className="mt-2 flex justify-between">
-                <button className="bg-gblue-500 hover:bg-gblue-800 w-full py-1 text-white" onClick={()=>uploadProfilePhoto(id)} >  
-                    update photo  
-                </button>
                 {   state &&
-                    <button className='bg-red-500 w-full py-1 text-white' onClick={deletePhoto}>  
-                        delete photo
+                    <button className='border border-red-500 hover:border-red-900 w-full py-1 hover:bg-red-300 text-red-500 hover:text-red-900' onClick={deletePhoto}>  
+                        Delete photo
                     </button>
                 }
+                <button className={`${bgColor} w-full py-1 text-white`} onClick={()=>uploadProfilePhoto(id)} >  
+                    update photo  
+                </button>
             </div>
         </dialog>
 
@@ -84,7 +110,8 @@ const ImgModal = ({state,is_pic,id,fetchapi}) => {
                   transform: 'translate(-50%, -50%)',
                   maxWidth: '90%',
                   maxHeight: '90vh', 
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  overflow:'auto'
                 //   width: 'auto', 
                 //   height: 'auto', 
                 },
@@ -112,12 +139,12 @@ const ImgModal = ({state,is_pic,id,fetchapi}) => {
                     </div>
                     <div className="mt-2 mb-2 ">
                     { image ?  
-                        <button className="bg-gblue-500 hover:bg-gblue-800 w-full py-1 mb-2 text-white" onClick={() => updatePhoto(id)}>
+                        <button className={`${bgColor} w-full py-1 mb-2 text-white`} onClick={() => updatePhoto(id)}>
                             save
                         </button> 
                         :  
-                        <label className='bg-blue-700 border border-blue-500 hover:bg-white w-full py-1 px-4  text-white hover:text-blue-500 cursor-pointer' htmlFor="pic">
-                            upload photo
+                        <label className='bg-blue-700 border border-blue-500 hover:bg-white w-full py-1 px-5  text-white hover:text-blue-500 cursor-pointer' htmlFor="pic">
+                            upload 
                         </label>
                     }
                     </div>

@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import userApi from '../../api/axiosconfig'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { logout } from '../../redux/slices/authSlice'
 import Navbar from '../layouts/navbar/Navbar'
 import BottomNavbar from '../layouts/navbar/BottomNavbar'
-import MainSection from '../layouts/profile layouts/MainSection'
-import AboutSection from '../layouts/profile layouts/AboutSection'
+import MainSection from '../layouts/profile layouts/Main Section/MainSection'
+import AboutSection from '../layouts/profile layouts/About Section/AboutSection'
 import PostProfile from '../layouts/profile layouts/PostProfile'
 import Achievementsection from '../layouts/profile layouts/Achievementsection'
 import TrialSection from '../layouts/profile layouts/TrialSection'
@@ -16,36 +15,43 @@ const ProfileAcademy = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [academyData,setAcademyData] = useState({})
-    console.log(user,token,loading,message,error, role);
-  
+      
+    useEffect (()=>{
+          fetchapi()
+      },[])
+
     async function fetchapi(){
         try{
-  
-          console.log(!!userApi.defaults.headers.common['Authorization']);
-          console.log(!!localStorage.getItem('access'));
-          const res = await  userApi.get('profile')
+          const res = await userApi.get('profile')
             console.log(res.data,'hai data'); 
             setAcademyData(res.data.user_details)
-          // console.log(res.data);
         }catch(err){
-          console.log(err,'errore profiule page');
+          console.log(err,'errore academy profile page');
           // dispatch(logout())
           // navigate('/academy/login')
         }
       }
-      useEffect (()=>{
-          fetchapi()
-      },[])
-
       console.log(academyData);
   return (
     <> 
     <Navbar academy={true} />
     <div className="h-full bg-gray-200 md:p-16 xl:px-40 sm:p-12"> 
-      <MainSection academy={true} username={academyData?.user?.username} state={academyData?.profile?.state} district={academyData?.profile?.district} bio={academyData?.profile?.bio} /> 
+      <MainSection  academy={true} 
+                    id={academyData?.user?.id}
+                    username={academyData?.user?.username} 
+                    state={academyData?.profile?.state} 
+                    district={academyData?.profile?.district} 
+                    bio={academyData?.profile?.bio} 
+                    profile_pic={academyData?.profile?.profile_photo}
+                    cover_pic={academyData?.profile?.cover_photo}
+                    fetchapi={fetchapi}
+                    /> 
         <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
             <div className="flex flex-col w-full ">
-            <AboutSection academy={true}/>
+            <AboutSection academy={true}
+                          fetchapi={fetchapi}
+                          about={academyData?.profile?.about}
+                          />
             <PostProfile academy={true}/>
             <TrialSection  academy={true}/>
             <Achievementsection  academy={true}/>

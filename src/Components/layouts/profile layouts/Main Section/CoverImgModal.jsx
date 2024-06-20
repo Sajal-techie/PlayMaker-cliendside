@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import ReactModal from 'react-modal';
 import Cropper from 'react-easy-crop';
-import userApi from '../../../api/axiosconfig';
+import {toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import userApi from '../../../../api/axiosconfig';
 import getCroppedImg from './cropImage';
 
 const CoverImgModal = ({ isOpen, changeModalStatus, state, id,fetchapi }) => {
@@ -36,8 +38,10 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id,fetchapi }) => {
     try {
       const res = await userApi.post('update_photo/' + id, formData);
       console.log(res);
+      showToastMessage(res.data)
     } catch (error) {
       console.log(error, 'error in updating profile');
+      showToastMessage({status:500,message:error?.code==='ERR_NETWORK'?"Internal Server Error":"Bad Gateway"})
     }
     fetchapi();
     closeCoverModal()
@@ -73,17 +77,32 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id,fetchapi }) => {
     try{
       const res = await userApi.delete('delete_photo/'+id, { data: {'type':'cover'}})
       console.log(res,'response data');
+      showToastMessage(res.data)
     }catch(error){
       console.log(error, 'error in delete');
+      showToastMessage({status:500,message:error?.code==='ERR_NETWORK'?"Internal Server Error":"Bad Gateway"})
     }
     fetchapi();
     closeCoverModal();
   }
-
+    //  to show succes to error message to user
+    const showToastMessage = ({status,message}) => {
+      console.log(status,message);
+      const options = {
+              position: 'bottom-right',
+              draggable: true,
+          }
+      if (status===200){
+          toast.success(message, options);
+      }
+      else{
+          toast.error(message,options)
+      }
+    };
 
   console.log(crop,image,state,zoom,croppedAreaPixels);
   return (
-    <div className="w-full">
+    <>
       <ReactModal
         isOpen={isOpen}
         ariaHideApp={false}
@@ -95,7 +114,7 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id,fetchapi }) => {
             width: '90%',
             inset: 'auto',
             borderRadius: '8px',
-            // overflow: 'hidden',
+            overflow: 'auto',
             padding: '20px',
             border: 'none',
             // top: '50%',
@@ -107,10 +126,11 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id,fetchapi }) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            overflow:'auto'
           },
         }}
       >
-        <div className="flex justify-center">
+        <div className="flex justify-center font-kanit">
           <div className="flex flex-col justify-between items-center  w-full">
             <button
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 hover:text-lg" title='close'
@@ -158,7 +178,7 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id,fetchapi }) => {
                 className="bg-gblue-500 hover:bg-gblue-800 w-full py-2 px-4 text-white cursor-pointer"
                 htmlFor="pic"
               >
-                Upload Photo
+                Upload New Image
               </label>
               
               </div>
@@ -175,7 +195,7 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id,fetchapi }) => {
           </div>
         </div>
       </ReactModal>
-    </div>
+    </>
   );
 };
 

@@ -2,29 +2,27 @@ import React, { useEffect, useState } from 'react'
 import userApi from '../../api/axiosconfig'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import AboutSection from '../layouts/profile layouts/AboutSection'
-import MainSection from '../layouts/profile layouts/MainSection'
+import AboutSection from '../layouts/profile layouts/About Section/AboutSection'
+import MainSection from '../layouts/profile layouts/Main Section/MainSection'
 import PostProfile from '../layouts/profile layouts/PostProfile'
 import ExperienceSection from '../layouts/profile layouts/ExperienceSection'
 import Achievementsection from '../layouts/profile layouts/Achievementsection'
 import Navbar from '../layouts/navbar/Navbar'
 import BottomNavbar from '../layouts/navbar/BottomNavbar'
+import { ToastContainer } from 'react-toastify'
 
 const PlayerProfile = () => {
   const {user,token,loading,message,error, role} = useSelector(state=>state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [userData,setUserData] = useState({})
-  console.log(user,token,loading,message,error, role);
 
     useEffect (()=>{
         fetchapi()
     },[])
     async function fetchapi(){
       try{
-        console.log(!!userApi.defaults.headers.common['Authorization']);
-        console.log(!!localStorage.getItem('access'));
-        const res = await  userApi.get('profile')
+        const res = await userApi.get('profile')
           console.log(res.data,'hai data'); 
           setUserData(res.data.user_details)
         
@@ -51,11 +49,14 @@ const PlayerProfile = () => {
                       />
 
         {/* first section end */}
+        <ToastContainer />
 
 
         <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
             <div className="flex flex-col w-full ">
-                <AboutSection data={userData?.profile?.about} />
+                <AboutSection about={userData?.profile?.about}
+                              fetchapi={fetchapi}
+                              />
                 <PostProfile data={userData?.profile?.about}  />
                 <ExperienceSection data={userData?.profile?.about} />
                 <Achievementsection data={userData?.profile?.about} />

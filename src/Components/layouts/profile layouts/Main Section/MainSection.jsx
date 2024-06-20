@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import { baseUrl } from '../../../api/api'
+import { baseUrl } from '../../../../api/api'
 import ImgModal from './ImgModal'
 import CoverImgModal from './CoverImgModal'
-import coverImage from './../../../assets/cover.png'
+import coverImage from '../../../../assets/cover.png'
 
 const MainSection = ({id,username,bio,state,district,academy,profile_pic,cover_pic,fetchapi}) => {
     const [profile,setProfile] = useState()
     const [coverModalOpen,setCoverModalOpen] = useState(false)
     const [cover,setCover] = useState()
 
-    const bgColor = academy ? "bg-indigo-400":"bg-gblue-400" 
+    const bgColor = academy ? "bg-indigo-500 hover:bg-indigo-800 ":"bg-gblue-400 hover:bg-gblue-700" 
     const textColor = academy ? "text-indigo-500": "text-gblue-500" 
     const imgDivClass = academy ? "items-center mr-0 m-1 ":"mr-36 m-12"
     const textDivClass = academy? "flex flex-col items-center":""
@@ -84,8 +84,15 @@ const MainSection = ({id,username,bio,state,district,academy,profile_pic,cover_p
                 </div>
             </div>
         </div>
-        <ImgModal state={profile} is_pic={profile_pic} id={id} fetchapi={fetchapi} />
-        <CoverImgModal id={id} isOpen={coverModalOpen} changeModalStatus={ChangeCovelModalOpen}  state={cover} fetchapi={fetchapi}/>
+        <ImgModal state={profile} is_pic={profile_pic} 
+                  id={id} fetchapi={fetchapi} 
+                  bgColor={bgColor} textColor={textColor} 
+                  />
+        <CoverImgModal  id={id} isOpen={coverModalOpen} 
+                        changeModalStatus={ChangeCovelModalOpen}  
+                        state={cover} fetchapi={fetchapi}  
+                        bgColor={bgColor} textColor={textColor}
+                        />
     </>
   )
 }
