@@ -102,6 +102,9 @@ const AcademyLogin = () => {
               Forgot password?
             </span>
           </div>
+          <div className='text-red-500 '>
+              {error}
+            </div>
           {
             loading ? 
               <div className='flex justify-center -mt-14 ml-8'>

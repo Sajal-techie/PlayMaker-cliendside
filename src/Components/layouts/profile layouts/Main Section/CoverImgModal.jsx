@@ -100,7 +100,6 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id,fetchapi }) => {
       }
     };
 
-  console.log(crop,image,state,zoom,croppedAreaPixels);
   return (
     <>
       <ReactModal

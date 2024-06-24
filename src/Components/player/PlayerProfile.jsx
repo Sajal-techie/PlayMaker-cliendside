@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import AboutSection from '../layouts/profile layouts/About Section/AboutSection'
 import MainSection from '../layouts/profile layouts/Main Section/MainSection'
 import PostProfile from '../layouts/profile layouts/PostProfile'
-import ExperienceSection from '../layouts/profile layouts/ExperienceSection'
+import ExperienceSection from '../layouts/profile layouts/Experience Section/ExperienceSection'
 import Achievementsection from '../layouts/profile layouts/Achievementsection'
 import Navbar from '../layouts/navbar/Navbar'
 import BottomNavbar from '../layouts/navbar/BottomNavbar'
@@ -58,7 +58,7 @@ const PlayerProfile = () => {
                               fetchapi={fetchapi}
                               />
                 <PostProfile data={userData?.profile?.about}  />
-                <ExperienceSection data={userData?.profile?.about} />
+                <ExperienceSection dob={userData?.user?.dob}  />
                 <Achievementsection data={userData?.profile?.about} />
             </div>
         </div>

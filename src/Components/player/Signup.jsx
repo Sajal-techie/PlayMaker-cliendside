@@ -3,12 +3,11 @@ import {useDispatch, useSelector} from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import {LineWave} from 'react-loader-spinner'
-// import withReactContent from 'sweetalert2-react-content';
 
 import Button from '../common/Button';
 import InputField from '../common/InputField';
 import trainingImg from '../../assets/training2.png'
-import all_states from '../../api/states_districts'
+import all_states from '../../api/json data/states_districts'
 import Dropdown from '../common/Dropdown';
 import { signup, toggleOtpAcess } from '../../redux/slices/authSlice';
 
@@ -142,7 +141,7 @@ const Signup = () => {
               placeholder="name"
               onChange={handleChange}
             />
-            {error.username && <p className='text-red-500 text-center text-sm'> {error.username} </p>}
+            {error.username && <p className='text-red-500  text-sm'> {error.username} </p>}
           </div>
           <div className="my-1  font-light">
             <label className="text-md font-extralight" htmlFor="email">
@@ -154,7 +153,7 @@ const Signup = () => {
               placeholder="email"
               onChange={handleChange}
             />
-            {error.email && <p className='text-red-500 text-center'> {error.email} </p>}
+            {error.email && <p className='text-red-500 text-sm'> {error.email} </p>}
           </div>
           <div className="my-1 font-light text-slate-500 ">
             <label className="text-md font-extralight text-black" htmlFor="email">
@@ -166,28 +165,28 @@ const Signup = () => {
               placeholder="date"
               onChange={handleChange}
             />
-            {error.dob && <p className='text-red-500 text-center text-sm'> {error.dob} </p>}
+            {error.dob && <p className='text-red-500  text-sm'> {error.dob} </p>}
           </div>
           <div className="my-1 font-light text-slate-500 ">
           <Dropdown options={states} label='state' onChange={handledistrict} ></Dropdown> 
-            {error.state && <p className='text-red-500 text-center text-sm'> {error.state} </p>}
+            {error.state && <p className='text-red-500  text-sm'> {error.state} </p>}
           </div>   
           {district &&  
             <div className="my-1 font-light text-slate-500 ">
               <Dropdown options={district} label='district' onChange={handleChange} ></Dropdown>   
-              {error.district && <p className='text-red-500 text-center text-sm'> {error.district} </p>}
+              {error.district && <p className='text-red-500  text-sm'> {error.district} </p>}
             </div>  
           }
           <div className="my-1 font-light text-slate-500 ">
           <Dropdown options={sports} label='sport'  onChange={handleChange} ></Dropdown>      
-          {error.sport && <p className='text-red-500 text-center text-sm'> {error.sport} </p>}
+          {error.sport && <p className='text-red-500  text-sm'> {error.sport} </p>}
           </div> 
           <div className="mt-1 font-light ">
             <label className="block text-md font-extralight" htmlFor="password">
               Password
             </label>
             <InputField name='password' type='password' placeholder='password'  onChange={handleChange} />
-            {error.password && <p className='text-red-500 text-center text-xs'> {error.password} </p>}
+            {error.password && <p className='text-red-500  text-xs'> {error.password} </p>}
           </div>
           
            {loading ?

@@ -2,12 +2,13 @@ import React,{useState} from 'react'
 import Button from '../common/Button';
 import InputField from '../common/InputField';
 import trainingImg from '../../assets/coaching2.webp'
-import all_states from '../../api/states_districts'
+import all_states from '../../api/json data/states_districts'
 import { Link, useNavigate } from 'react-router-dom';
 import Dropdown from '../common/Dropdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { signup, toggleOtpAcess } from '../../redux/slices/authSlice';
 import Swal from 'sweetalert2';
+import { LineWave } from 'react-loader-spinner';
 
 const Academy_signup = () => {
     const sports = ['Football', 'Cricket']
@@ -80,7 +81,7 @@ const Academy_signup = () => {
       // }
       console.log(formData.license);
       if (!formData.license){
-        errors.license = "Need to add license for verification"
+        errors.license = "Required license for verification"
       }
       setError(errors)
       console.log(errors,'error in validate');
@@ -132,7 +133,7 @@ const Academy_signup = () => {
                 placeholder="Name"
                 onChange={handleChange}
               />
-              {error.username && <p className="text-red-500 text-center text-sm md:mr-14">{error.username}</p>}
+              {error.username && <p className="text-red-500 text-sm md:mr-14">{error.username}</p>}
             </div>
             <div>
               <label className="text-md font-extralight" htmlFor="email">
@@ -144,7 +145,7 @@ const Academy_signup = () => {
                 placeholder="Email"
                 onChange={handleChange}
               />
-              {error.email && <p className="text-red-500  text-center text-sm md:mr-14">{error.email}</p>}
+              {error.email && <p className="text-red-500 text-sm md:mr-14">{error.email}</p>}
             </div>
             <div>
               <label className="text-md font-extralight text-black" htmlFor="dob">
@@ -156,21 +157,21 @@ const Academy_signup = () => {
                 placeholder="Date"
                 onChange={handleChange}
               />
-              {error.dob && <p className="text-red-500 text-center text-sm md:mr-14">{error.dob}</p>}
+              {error.dob && <p className="text-red-500 text-sm md:mr-14">{error.dob}</p>}
             </div>
             <div>
               <Dropdown options={states} label="state" onChange={handledistrict} />
-              {error.state && <p className="text-red-500 text-center text-sm md:mr-14">{error.state}</p>}
+              {error.state && <p className="text-red-500 text-sm md:mr-14">{error.state}</p>}
             </div>
             {district && (
               <div>
                 <Dropdown options={district} label="district" onChange={handleChange} />
-                {error.district && <p className="text-red-500 text-center text-sm md:mr-14">{error.district}</p>}
+                {error.district && <p className="text-red-500 text-sm md:mr-14">{error.district}</p>}
               </div>
             )}
             <div>
               <Dropdown options={sports} role="academy" label="sport" onChange={handleChange} />
-              {error.sport && <p className="text-red-500 text-center text-sm md:mr-14">{error.sport}</p>}
+              {error.sport && <p className="text-red-500 text-sm md:mr-14">{error.sport}</p>}
             </div>
             <div>
               <label className="block text-md font-extralight" htmlFor="password">
@@ -182,7 +183,7 @@ const Academy_signup = () => {
                 placeholder="Password"
                 onChange={handleChange}
               />
-              {error.password && <p className="text-red-500 text-center text-xs md:mr-14">{error.password}</p>}
+              {error.password && <p className="text-red-500 text-xs md:mr-14">{error.password}</p>}
             </div>
             <div className="w-full">
               <label className="text-md font-extralight text-black" htmlFor="license">
@@ -193,7 +194,7 @@ const Academy_signup = () => {
                 name="license"
                 onChange={handleChange}
               />
-              {error.license && <p className="text-red-500 text-center text-sm md:mr-14">{error.license}</p>}
+              {error.license && <p className="text-red-500 text-sm md:mr-14">{error.license}</p>}
             </div>
           </div>
           <div className="mt-4 flex justify-center">

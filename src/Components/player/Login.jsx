@@ -63,7 +63,6 @@ const Login = () => {
       // setError(error.message)
     }
   }
-    console.log(error);
   return (
     <div className='bg-white flex flex-col md:flex-row justify-center items-center font-kanit '>
       <div className='lg:w-1/2 hidden lg:flex justify-center items-center h-screen'>
@@ -110,7 +109,7 @@ const Login = () => {
               Forgot password?
             </span>
           </div>
-            <div className='text-red-500 text-center'>
+            <div className='text-red-500 '>
               {error}
             </div>
           {loading ?

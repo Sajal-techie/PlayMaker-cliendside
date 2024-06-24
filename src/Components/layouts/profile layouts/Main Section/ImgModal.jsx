@@ -16,7 +16,6 @@ const ImgModal = ({state,is_pic,id,fetchapi,bgColor,textColor}) => {
             const res = await userApi.post('update_photo/'+id, formData)
             console.log(res);
             showToastMessage(res.data)  // to show succes or error message to user as toast
-            console.log(res.data?.message);
         }catch (error){
             console.log(error,'errror in update profile');
             showToastMessage({status:500,message:error?.code==='ERR_NETWORK'?"Internal Server Error":"Bad Gateway"})
@@ -62,7 +61,6 @@ const ImgModal = ({state,is_pic,id,fetchapi,bgColor,textColor}) => {
             toast.error(message,options)
         }
       };
-    console.log(image, 'haisdha');
   return (
     <>
     {/*  modal to show the existing image*/}

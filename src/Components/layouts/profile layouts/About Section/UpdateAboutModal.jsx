@@ -11,7 +11,7 @@ const UpdateAboutModal = ({isOpen,closeUpdateModal,about,fetchapi}) => {
     e.preventDefault()
     console.log(data);
     try{
-      const res = await userApi.put('update_about/',{about:data})
+      const res = await userApi.put('update_about',{about:data})
       console.log(res);
       showToastMessage(res.status,"  About updated success")
     } catch (err){

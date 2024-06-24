@@ -12,7 +12,6 @@ userApi.interceptors.request.use(
     (config) =>{
         console.log('inside request intercepters');
         const token = localStorage.getItem('access')
-        console.log(!!token,'token in request');
         if (token){
             config.headers.Authorization = `Bearer ${token}`
         }
@@ -31,7 +30,6 @@ async function refreshToken(){
         const response = await userApi.post('api/token/refresh/',{refresh:refresh_token})
         console.log(response);
         const {access,refresh} = response.data
-        console.log(access,refresh,'new tokens ');
         localStorage.setItem('access',access)
         // localStorage.setItem('refresh',refresh)
         return access
@@ -44,31 +42,28 @@ async function refreshToken(){
 userApi.interceptors.response.use(
     
     (response) =>{
-        console.log('inside response interceptors ',response);
         return response 
     },
     
     async (error) =>{
         try{
-
             console.log('inside reposcne error',error.config);
             const previosRequest = error.config
-        if (error.response && error.response.status === 401 && !previosRequest._retry){
+        if (error.response && error.response.status === 401 && !previosRequest._retry && error.response?.data?.code!="token_not_valid"){
             previosRequest._retry = true
 
 
                 try {
                     const accessToken = await refreshToken()
-                    console.log('3');
                     userApi.defaults.headers.common.Authorization = `Bearer ${accessToken}`
-                    previosRequest.headers['Authorization'] = `Bearer ${accessToken}`
-                    
+                    previosRequest.headers['Authorization'] = `Bearer ${accessToken}`                    
                     return await userApi(previosRequest)
                 } catch (err){
-                    // localStorage.clear()
+                    localStorage.clear()
                     // const navigate = useNavigate() 
                     // navigate('/')
                     console.log(err,'refrseh token error');
+                    window.location.href = '/'
                     return Promise.reject(err)
                 }
             }else if (error.response && error.response.status >= 500){
@@ -79,6 +74,7 @@ userApi.interceptors.response.use(
             else {
                 console.log(error, 'else');
                 // localStorage.clear()
+                // window.location.href = '/'
                 return Promise.reject(error.response?error.response:error);
             }
         }  catch (err){
