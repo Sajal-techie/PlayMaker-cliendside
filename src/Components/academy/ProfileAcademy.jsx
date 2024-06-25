@@ -7,7 +7,7 @@ import BottomNavbar from '../layouts/navbar/BottomNavbar'
 import MainSection from '../layouts/profile layouts/Main Section/MainSection'
 import AboutSection from '../layouts/profile layouts/About Section/AboutSection'
 import PostProfile from '../layouts/profile layouts/PostProfile'
-import Achievementsection from '../layouts/profile layouts/Achievementsection'
+import Achievementsection from '../layouts/profile layouts/Achievement Section/Achievementsection'
 import TrialSection from '../layouts/profile layouts/TrialSection'
 
 const ProfileAcademy = () => {

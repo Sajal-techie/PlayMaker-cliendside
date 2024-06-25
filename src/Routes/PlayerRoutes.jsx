@@ -9,6 +9,7 @@ import ProtectedRoute from './protected/ProtectedRoute'
 import ErrorPage404 from '../Components/common/ErrorPage404'
 import PlayerProfile from '../Components/player/PlayerProfile'
 import ViewExperience from '../Components/layouts/profile layouts/Experience Section/ViewExperience'
+import ViewAchievement from '../Components/layouts/profile layouts/Achievement Section/ViewAchievement'
 
 
 
@@ -22,6 +23,7 @@ const PlayerRoutes = () => {
         <Route path='/home' element={<ProtectedRoute element={<Home/>} role={"player"} />}/>
         <Route path='/profile' element={<ProtectedRoute element={<PlayerProfile/>} role={"player"} /> }/>
         <Route path='/view_experience' element={<ProtectedRoute element={<ViewExperience/>} role={"player"} /> }/>
+        <Route path='/view_achievements' element={<ProtectedRoute element={<ViewAchievement/>} role={"both"} /> }/>
         <Route path='*' element={<ErrorPage404/>}/>
 
     </Routes>

@@ -6,7 +6,7 @@ import AboutSection from '../layouts/profile layouts/About Section/AboutSection'
 import MainSection from '../layouts/profile layouts/Main Section/MainSection'
 import PostProfile from '../layouts/profile layouts/PostProfile'
 import ExperienceSection from '../layouts/profile layouts/Experience Section/ExperienceSection'
-import Achievementsection from '../layouts/profile layouts/Achievementsection'
+import Achievementsection from '../layouts/profile layouts/Achievement Section/Achievementsection'
 import Navbar from '../layouts/navbar/Navbar'
 import BottomNavbar from '../layouts/navbar/BottomNavbar'
 import { ToastContainer } from 'react-toastify'
@@ -59,7 +59,7 @@ const PlayerProfile = () => {
                               />
                 <PostProfile data={userData?.profile?.about}  />
                 <ExperienceSection dob={userData?.user?.dob}  />
-                <Achievementsection data={userData?.profile?.about} />
+                <Achievementsection />
             </div>
         </div>
     </div>

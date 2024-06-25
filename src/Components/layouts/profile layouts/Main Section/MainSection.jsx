@@ -67,12 +67,12 @@ const MainSection = ({id,username,bio,state,district,academy,profile_pic,cover_p
                             </div>
                             
                             {/* current academy section only for players */}
-                                { !academy &&  
+                                {/* { !academy &&  
                                     <div className='sm:flex items-center ml-6 hidden -mt-6 '>
                                         <img className='w-12 h-12' src="https://cdn.pixabay.com/photo/2016/11/21/15/00/academic-1845844_640.jpg" alt="academy image" />
                                         <p className="text-lgml-1 ">Academy name</p>
                                     </div>
-                                }
+                                } */}
                         </div>
                     </div>        
                 <div className="absolute  right-0  sm:right-14 md:right-20 xl:right-44  mt-24 rounded mr-">
