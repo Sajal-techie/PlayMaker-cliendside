@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import AcademyManage from '../Components/admin/AcademyManage'
+import AcademyManage from '../Components/admin/Academy management/AcademyManage'
 import Home_Admin from '../Components/admin/Home_Admin'
 import Admin_login from '../Components/admin/Admin_login'
 import RedirectIfAuthenticated from './protected/RedirectIfAuthenticated'

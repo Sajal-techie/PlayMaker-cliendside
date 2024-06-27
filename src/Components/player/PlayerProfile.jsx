@@ -40,12 +40,14 @@ const PlayerProfile = () => {
         {/* first section  */}
         <MainSection  id={userData?.user?.id}
                       username={userData?.user?.username}
+                      phone={userData?.user?.phone}
                       bio={userData?.profile?.bio}
                       state={userData?.profile?.state}
                       district={userData?.profile?.district}
                       profile_pic={userData?.profile?.profile_photo}
                       cover_pic={userData?.profile?.cover_photo}
                       fetchapi={fetchapi}  
+                      userData={userData}
                       />
 
         {/* first section end */}
@@ -58,8 +60,8 @@ const PlayerProfile = () => {
                               fetchapi={fetchapi}
                               />
                 <PostProfile data={userData?.profile?.about}  />
-                <ExperienceSection dob={userData?.user?.dob}  />
-                <Achievementsection />
+                <ExperienceSection   dob={userData?.user?.dob}/>
+                <Achievementsection  dob={userData?.user?.dob}/>
             </div>
         </div>
     </div>

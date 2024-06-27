@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import userApi from '../../api/axiosconfig'
-import { baseUrl } from '../../api/api'
+import React, { Suspense, useEffect, useState } from 'react'
+import userApi from '../../../api/axiosconfig'
+import { baseUrl } from '../../../api/api'
 import ReactModal from 'react-modal';
 
 const AcademyManage = () => {
+    const ChangeStatusModal = React.lazy(()=>import ('./ChangeStatusModal'))
+
     const [academy, setAcademy] = useState([]);
     const [filteredAcademy, setFilteredAcademy] = useState([]);
     const [license, setLicense] = useState([]);
@@ -51,28 +53,27 @@ const AcademyManage = () => {
         }
     }
 
+    const getFileType = (url) =>{
+        const extension = url.split('.').pop().toLowerCase()
+        if (['jpg','jpeg','png','webp','svg'].includes(extension)){
+            return 'image'
+        }else if (['pdf']){
+            return 'pdf'
+        }else{
+            return 'other'
+        }
+    }
     //  to view the licence image 
-    const viewLicense = (image, name) => {
+    const viewLicense = (file, name) => {
+        const fileType = getFileType(file)
+        setLicense([`${baseUrl}${file}`, name,fileType]);
         document.getElementById('my_modal_3').showModal();
-        setLicense([`${baseUrl}${image}`, name]);
     }
 
     // to open modal and add curent object
     const changeStatusModalOpen = (obj)=>{
         setCurrent(obj)
         setIsOpen(true)
-    }
-
-    //  to handle certification status
-    const handleCertication = async (data, id) => {
-        try {
-            const response = await userApi.post(`update_certified/${id}`, { value: data });
-            console.log(response);
-        } catch (error) {
-            console.log(error);
-        }
-        fetchAcademies();
-        closeModal();
     }
 
     // to handle search input
@@ -86,7 +87,7 @@ const AcademyManage = () => {
     const currentAcademies = filteredAcademy.slice(indexOfFirstAcademy, indexOfLastAcademy);
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
-    console.log(filteredAcademy);
+    console.log(filteredAcademy,license);
     return (
         <>
             <section className="container mx-auto p-6 font-kanit">
@@ -152,7 +153,21 @@ const AcademyManage = () => {
                     </form>
                     <h3 className="font-bold text-lg text-center capitalize">{license[1]} license</h3>
                     <div className="flex text-center justify-center">
-                        <img className="max-w-[500px]" src={license[0]} alt="License" />
+                        {
+                            license[2] === 'image' ?(
+                                <img className="max-w-[500px]" src={license[0]} alt="License" />
+                            ):(
+                                <div className="text-center">
+                                <p>This file is not an image download to view</p>
+                                <a 
+                                  href={license[0]} 
+                                  download 
+                                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 inline-block"
+                                >
+                                  Download
+                                </a>
+                              </div>
+                            )}
                     </div>
                 </div>
                 <form method="dialog" className="modal-backdrop text-center mt-2">
@@ -163,53 +178,9 @@ const AcademyManage = () => {
             </dialog>
 
             {/*  modal to change certificaton status */}
-            <ReactModal isOpen={isOpen}
-            ariaHideApp={false}
-            style={{
-              content: {
-                position: 'relative',
-                margin: 'auto',
-                maxWidth: '500px',
-                width: '90%',
-                inset: 'auto',
-                //  borderRadius: '8px',
-                overflow: 'auto',
-                padding: '20px',
-                border: 'none',
-                // top: '50%',
-                // transform: 'translateY(-50%)',
-                backgroundColor: '#fff',
-              },
-              overlay: {
-                backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                overflow:'auto'
-              },
-            }}
-            >
-            <button
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 hover:text-lg" title='close'
-              onClick={closeModal}
-            >
-              ✕
-            </button>
-                <div className='text-center font-extrabold text-2xl'>
-                    Change Status
-                </div>
-                <div className='text-center mt-4 '>Academy Name : <span className='font-semibold'>{current?.username}</span> </div>
-                <div className='text-center mb-1'>current status : <b> {current?.academy_data?.is_certified ?<>Approved</>:<>Denied</>}</b></div>
-                <div className='text-center w-full'>
-                    {
-                        current?.academy_data?.is_certified ?
-                        <button className='bg-red-500 py-2 w-1/3 text-white hover:bg-red-800' onClick={() => handleCertication('deny', current?.id)}>Deny</button>
-                        :
-                        <button className='bg-green-500 py-2 w-1/3 hover:bg-green-700 text-white' onClick={() => handleCertication('approve', current?.id)}>Approve</button>
-                    }
-                </div>
-                
-            </ReactModal>
+            <Suspense fallback={<>loading</>}>
+              { isOpen &&   <ChangeStatusModal isOpen={isOpen} closeModal={closeModal}  current={current} fetchAcademies={fetchAcademies}/>}
+            </Suspense>
         </>
     );
 }

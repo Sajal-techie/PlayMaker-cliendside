@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import ReactModal from 'react-modal'
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import all_positions from '../../../../api/json data/positions'
 import months from '../../../../api/json data/months'
 import userApi from '../../../../api/axiosconfig'
+import { useSelector } from 'react-redux';
 
-const ExperienceModal = ({isOpen, closeUpdateModal,dob,getUserAcademies,initialState}) => {
+const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState}) => {
   const [positions,setPositions] = useState([])
   const [academies,setAcademies] = useState([])
   const [filteredAcademies,setFilteredAcademies] = useState([])
@@ -21,6 +24,7 @@ const ExperienceModal = ({isOpen, closeUpdateModal,dob,getUserAcademies,initialS
     'academy_name':  initialState?.academy_details?.username ?  initialState?.academy_details?.username : '',
     'is_current': initialState?.is_current ? initialState?.is_current : false
   })
+  const dob = useSelector(state=>state.auth.dob)
   useEffect(()=>{
     getAcademies()
   },[])
@@ -57,9 +61,6 @@ const ExperienceModal = ({isOpen, closeUpdateModal,dob,getUserAcademies,initialS
     const name = e.target.name
     let value = e.target.type === 'checkbox'? e.target.checked : e.target.value;
     setFormData({...formData,[name]:value})
-    // if (formData.is_current){
-    //   setFormData({...formData,[end_month]:'',[end_year]:''})
-    // }
   }
   console.log(formData,id);
 
@@ -111,6 +112,11 @@ const ExperienceModal = ({isOpen, closeUpdateModal,dob,getUserAcademies,initialS
       }else{
         res = await userApi.post(`user_academy`,formData)
       }
+      if (res.status===200){
+        showToastMessage({status:200,message:'updated succesfully'})
+      }else if(res.status===201){
+        showToastMessage({status:200,message:"Created successfully"})
+      }
       console.log(res,'after submititing');
       
     }catch(error){
@@ -124,12 +130,31 @@ const ExperienceModal = ({isOpen, closeUpdateModal,dob,getUserAcademies,initialS
     try{
       const res = await userApi.delete(`user_academy/${id}`)
       console.log(res, 'delete response');
+      if (res.status===204){
+        showToastMessage({status:200,message:'deleted successfully'})
+      } 
     }catch(error){
       console.log(error,'delete error');
     }
-    getUserAcademies()
+    getUserAcademies() 
     closeUpdateModal()
   }
+
+  const showToastMessage = ({ status, message }) => {
+    console.log(status, message);
+    const options = {
+        position: 'bottom-right',
+        draggable: true,
+    }
+    if (status===200){
+        toast.success(message, options);
+        console.log('success');
+    }
+    else{
+        toast.error(message,options)
+        console.log('toast error');
+    }
+    };
 
   const birthYear = dob? new Date(dob).getFullYear(): 1990 
   const currentYear = new Date().getFullYear()

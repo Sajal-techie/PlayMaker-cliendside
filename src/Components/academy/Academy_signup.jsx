@@ -1,7 +1,6 @@
 import React,{useState} from 'react'
 import Button from '../common/Button';
 import InputField from '../common/InputField';
-import trainingImg from '../../assets/coaching2.webp'
 import all_states from '../../api/json data/states_districts'
 import { Link, useNavigate } from 'react-router-dom';
 import Dropdown from '../common/Dropdown';
@@ -66,7 +65,7 @@ const Academy_signup = () => {
           errors.email = "Email is Invalid"
       }
       if (!formData.dob){
-        errors.dob = "Date of birth is required"
+        errors.dob = "Established date is required"
       }else if (new Date(today)< new Date(formData.dob)){
           errors.dob = `Invalid Date`
       } 
@@ -100,7 +99,7 @@ const Academy_signup = () => {
         await Swal.fire({
           icon: 'success',
           title: 'Registration successfull',
-          text: "Chec email for verification"
+          text: "Check email for verification"
         })
         dispatch(toggleOtpAcess(true))
         navigate('/otp_verification',{state:{email:formData.email,is_academy:true}})
@@ -188,7 +187,7 @@ const Academy_signup = () => {
             <div className="w-full">
               <label className="text-md font-extralight text-black" htmlFor="license">
                 License verification
-              </label>
+              </label> <br />
               <InputField
                 type="file"
                 name="license"

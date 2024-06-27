@@ -1,10 +1,9 @@
 import React, { Suspense, useEffect, useState } from 'react'
 import userApi from '../../../../api/axiosconfig'
-import AchievementModal from './AchievementModal'
 import { Link } from 'react-router-dom'
 
-const Achievementsection = ({academy}) => {
-    const AchievementModal = React.lazy(()=>import('./AchievementModal'))
+const Achievementsection = ({academy,dob}) => {
+    const AchievementModal = React.lazy(()=>import('./AchievementModal')) 
 
     const [achievements,setAchievements] = useState([])
     const [isOpen,setIsOpen] = useState(false)
@@ -93,7 +92,7 @@ const Achievementsection = ({academy}) => {
         </div>
 
             <Suspense fallback={<div>loading</div>}>
-                {isOpen &&  <AchievementModal isOpen={isOpen} closeAchievementModal={closeAchievementModal} getAchievements={getAchievements}/>}
+                {isOpen &&  <AchievementModal isOpen={isOpen} closeAchievementModal={closeAchievementModal} getAchievements={getAchievements} dob={dob}/>}
             </Suspense>
     </div>
   )

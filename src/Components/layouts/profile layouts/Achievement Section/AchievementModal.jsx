@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import ReactModal from 'react-modal'
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import months from '../../../../api/json data/months'
 import userApi from '../../../../api/axiosconfig'
-const AchievementModal = ({isOpen,closeAchievementModal,dob,getAchievements,initialState}) => {
+import { useSelector } from 'react-redux';
+
+const AchievementModal = ({isOpen,closeAchievementModal,getAchievements,initialState}) => {
     const [id,setId] = useState(initialState?.id ? initialState?.id : null)
     const [image,setImage] = useState(initialState?.image ? initialState?.image : '')
+    const [errors,setErrors] = useState({})
     const [formData,setFormData] = useState({
         'title': initialState?.title ? initialState?.title : '',
         'image': '',
@@ -13,6 +18,7 @@ const AchievementModal = ({isOpen,closeAchievementModal,dob,getAchievements,init
         'issued_month': initialState?.issued_month ? initialState?.issued_month : '',
         'issued_year': initialState?.issued_year ? initialState?.issued_year : '',
     })
+    const dob = useSelector(state=>state.auth.dob)
     useEffect (()=>{
             if (initialState?.image){
                 fetchImageAsBlob(initialState.image)
@@ -47,10 +53,24 @@ const AchievementModal = ({isOpen,closeAchievementModal,dob,getAchievements,init
             setFormData({...formData,[name]:value})
         }
     }
-
+    const validateForm = ()=>{
+      let formErrors = {}
+      if (!formData.title) formErrors.title = "Title is Required"
+      if (!formData.issued_by) formErrors.issued_by = "Organization is Required"
+      if (!formData.issued_month) formErrors.issued_month = "Issued month is Required"
+      if (!formData.issued_year) formErrors.issued_year = "Issued year is Required"
+      const allowedTypes = ['image/jpeg','image/png','image/webp']
+      if (!allowedTypes.includes(formData.image.type)){
+        formErrors.image = "Invalid file type select JPEG or PNG image"
+      }
+      setErrors(formErrors)
+      return Object.keys(formErrors).length === 0
+    }
     //  to submit form data
     const handleSubmit = async (e)=>{
+      console.log('submit');
         e.preventDefault()
+        if (!validateForm()) return
         const formd = new FormData()
         formd.append('image',formData.image)
         formd.append('title',formData.title)
@@ -66,12 +86,15 @@ const AchievementModal = ({isOpen,closeAchievementModal,dob,getAchievements,init
                 res = await userApi.post('user_achievement',formd)
             }
             console.log(res, 'submit response achievement');
-            if (res.status ===200){
-                
+            if (res.status === 200){
+                showToastMessage({status:res.status,message:"Updated successfully"})
+            }else if(res.status===201){
+                showToastMessage({status:200,message:'created successfully'})
             }
         }catch(error){
             console.log(error,'achievement submit error');
         }
+        setFormData(null)
         getAchievements()
         closeAchievementModal()
     }
@@ -80,8 +103,8 @@ const AchievementModal = ({isOpen,closeAchievementModal,dob,getAchievements,init
         try{
             const res = await userApi.delete('user_achievement/'+id)
             console.log(res, 'delete success');
-            if (res.status === 200){
-
+            if (res.status === 204){
+                showToastMessage({status:200,message:"Deleted successfully"})
             }
         }catch(err){
             console.log(err,'error in deleting academy');
@@ -90,7 +113,22 @@ const AchievementModal = ({isOpen,closeAchievementModal,dob,getAchievements,init
         closeAchievementModal()
     }
     console.log(formData,'achievement form data',id,image);
- 
+    
+    const showToastMessage = ({ status, message }) => {
+      console.log(status, message);
+      const options = {
+          position: 'bottom-right',
+          draggable: true,
+      }
+      if (status===200){
+          toast.success(message, options);
+          console.log('success');
+      }
+      else{
+          toast.error(message,options)
+          console.log('toast error');
+      }
+      };
     const birthYear = dob? new Date(dob).getFullYear(): 1990 
     const currentYear = new Date().getFullYear()
     const years = Array.from({ length: currentYear-birthYear-2 }, (_, i) => new Date().getFullYear() - i);
@@ -134,12 +172,12 @@ const AchievementModal = ({isOpen,closeAchievementModal,dob,getAchievements,init
               <div className='flex flex-col items-start mb-4'>
                 <label htmlFor="title" className='mb-2'>Title:</label>
                 <input  name='title' id='title' type="text" placeholder='title' value={formData.title} className='w-full border-2 pl-2 py-1' onChange={handleChange}/>
-                {/* {errors.academy_name && <div className="text-red-500 text-sm">{errors.academy_name}</div>} */}
+                {errors.title && <div className="text-red-500 text-sm">{errors.title}</div>}
               </div>
               <div className='flex flex-col items-start mb-4'>
                 <label htmlFor="issued_by" className='mb-2'>Issuing Organization:</label>
                 <input  name='issued_by' id='issued_by' type="text" placeholder='issuing organization' value={formData.issued_by} className='w-full border-2 pl-2 py-1' onChange={handleChange}/>
-                {/* {errors.academy_name && <div className="text-red-500 text-sm">{errors.academy_name}</div>} */}
+                {errors.issued_by && <div className="text-red-500 text-sm">{errors.issued_by}</div>}
               </div>
               <div className='flex flex-col items-start mb-4'>
                 <label htmlFor="startMonth" className='mb-2'>Issued Date:</label>
@@ -153,7 +191,7 @@ const AchievementModal = ({isOpen,closeAchievementModal,dob,getAchievements,init
                         ))
                       }
                     </select>
-                      {/* {errors.start_month && <div className="text-red-500 text-sm">{errors.start_month}</div>}  */}
+                      {errors.issued_month && <div className="text-red-500 text-sm">{errors.issued_month}</div>} 
                   </div>
                   <div className='w-1/2'>
                     <select value={formData.issued_year} name="issued_year" id="issued_year" className='w-full border-2 pl-2 py-1 text-slate-400 capitalize' onChange={handleChange}>
@@ -164,14 +202,14 @@ const AchievementModal = ({isOpen,closeAchievementModal,dob,getAchievements,init
                         ))
                       }
                     </select>
-                    {/* {errors.start_year && <div className="text-red-500 text-sm">{errors.start_year}</div>} */}
+                    {errors.issued_year && <div className="text-red-500 text-sm">{errors.issued_year}</div>}
                   </div>
                 </div>
-                    <div className='flex flex-col items-start mb-4'>
+                    <div className='flex flex-col items-start'>
                         <label htmlFor="image" className='mb-2'>Issuing Organization:</label>
                         <input accept='image/*'  name='image' id='image' type="file"  className='w-full border-2 pl-2 py-1' onChange={handleChange}/>
-                        {/* {errors.academy_name && <div className="text-red-500 text-sm">{errors.academy_name}</div>} */}
                     </div>
+                    {errors.image && <div className="text-red-500 text-sm">{errors.image}</div>}
               </div>
               <div className=''>
                 {id && <span className='border-2 px-4 py-1 rounded-full border-red-500 mr-5 text-red-500 cursor-pointer hover:text-red-900 hover:border-red-900' onClick={deleteAchievement}> Delete </span>}

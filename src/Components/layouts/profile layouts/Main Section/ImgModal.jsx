@@ -37,8 +37,8 @@ const ImgModal = ({state,is_pic,id,fetchapi,bgColor,textColor}) => {
     const deletePhoto = async ()=>{
         try{
             const res = await userApi.delete('delete_photo/'+id, { data: {'type':'profile'}})
-            showToastMessage(res.data)  // to show succes or error message to user as toast
             console.log(res,'response delete');
+            showToastMessage(res.data)  // to show succes or error message to user as toast
         }catch(error){
             console.log(error, 'error delete');
             showToastMessage({status:500,message:error?.code==='ERR_NETWORK'?"Internal Server Error":"Bad Gateway"})

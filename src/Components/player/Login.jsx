@@ -55,8 +55,8 @@ const Login = () => {
         else{
           await Swal.fire({
             icon: 'error',
-            title: 'Oops',
-            text: error.message
+            title: 'Error',
+            text: error?.message ? error.message : "server error try again later"
         })
       }
       console.log(error,'error');

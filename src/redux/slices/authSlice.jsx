@@ -97,6 +97,7 @@ const authSlice = createSlice({
         loading: false,
         error: null,
         role: localStorage.getItem('role'),
+        dob:null,
         message: null,
         is_access: false,
     },
@@ -113,14 +114,14 @@ const authSlice = createSlice({
         })
         .addCase(signup.fulfilled, (state,action)=>{
             state.loading = false
-            state.message = action.payload.message
-            console.log(action.payload,'in fulfilled','message = ',state.message,state.loading);
+            state.message = action?.payload?.message
+            console.log(action?.payload,'in fulfilled','message = ',state?.message,state?.loading);
 
         })
         .addCase(signup.rejected, (state,action)=>{
             state.loading = false
-            state.message = action.payload.message ? action.payload.message : action.payload
-            console.log(action.payload,'in reected', action,', message = ',state.message,state.loading);
+            state.message = action?.payload?.message ? action?.payload?.message : action?.payload
+            console.log(action?.payload,'in reected', action,', message = ',state?.message,state?.loading);
             // alert(state.message)
         })
         .addCase(login.pending, (state)=>{
@@ -129,16 +130,17 @@ const authSlice = createSlice({
         })
         .addCase(login.fulfilled, (state,action)=>{
             state.loading = false
-            state.user = action.payload.user
-            state.role = action.payload.role
-            state.message = action.payload.message
+            state.user = action?.payload?.user
+            state.role = action?.payload?.role
+            state.message = action?.payload?.message
+            state.dob = action.payload.dob
             console.log(action.payload,'in fulfilled','message = ',state.message,state.loading);
 
         })
         .addCase(login.rejected, (state,action)=>{
             state.loading = false
-            state.message = action.payload.message
-            console.log(action.payload,'in rejected, ', state.loading,state.message);
+            state.message = action?.payload?.message
+            console.log(action?.payload,'in rejected, ', state?.loading,state.message);
         })
         .addCase(logout.pending ,(state)=>{
             state.loading = true

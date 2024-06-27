@@ -105,7 +105,7 @@ const Signup = () => {
       Swal.fire({
         icon:'error',
         title:'Oops...',
-        text: err.message || "something went wrong",
+        text: err?.message ? err.message : "something went wrong",
       })
       console.log(err,'err in submit');
     }

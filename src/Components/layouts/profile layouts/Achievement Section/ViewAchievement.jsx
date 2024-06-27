@@ -15,6 +15,7 @@ const ViewAchievement = () => {
     const role = useSelector(state=>state.auth.role)
     const backpath = role === 'player' ? '/profile' : '/academy/profile'
     const closeAchievementModal = ()=>{
+        setCurAchievement(null)
         setIsOpen(false)
     }
     const showAchievementModal = ()=>{

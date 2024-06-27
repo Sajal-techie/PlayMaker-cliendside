@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-
-import UpdateAboutModal from './UpdateAboutModal'
+import React, { Suspense, useState } from 'react'
 
 const AboutSection = ({academy,about,fetchapi}) => {
+  const UpdateAboutModal = React.lazy(()=> import ('./UpdateAboutModal')) 
+
   const [isOpen,setIsOpen] = useState(false)
 
   const bgColor = academy ? "bg-indigo-400 hover:bg-indigo-700 ":"bg-gblue-400 hover:bg-gblue-700" 
@@ -31,7 +31,9 @@ const AboutSection = ({academy,about,fetchapi}) => {
             { about ? <p>{about}</p> : <div className=' text-center'> <button onClick={showUpdateModal} className={`${CustomStyle} border px-2 py-1 rounded-full mt-4`} > add about </button> </div> }
         </div>
     </div>
-    <UpdateAboutModal isOpen={isOpen} closeUpdateModal={closeUpdateModal} about={about} fetchapi={fetchapi}/>
+    <Suspense fallback={<>loading</>}>
+     {isOpen &&  <UpdateAboutModal isOpen={isOpen} closeUpdateModal={closeUpdateModal} about={about} fetchapi={fetchapi}/>}
+    </Suspense>
    </>
   )
 }

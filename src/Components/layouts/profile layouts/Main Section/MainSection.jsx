@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { baseUrl } from '../../../../api/api'
-import ImgModal from './ImgModal'
-import CoverImgModal from './CoverImgModal'
 import coverImage from '../../../../assets/cover.png'
 
-const MainSection = ({id,username,bio,state,district,academy,profile_pic,cover_pic,fetchapi}) => {
+const MainSection = ({id,username,bio,state,district,phone,academy,profile_pic,cover_pic,fetchapi,userData}) => {
+    const UpdateDetailsModal = React.lazy(()=>import ('./UpdateDetailsModal'))
+    const ViewDetailsModal =  React.lazy(()=>import ('./ViewDetailsModal'))
+    const CoverImgModal = React.lazy(()=>import ('./CoverImgModal'))
+    const ImgModal = React.lazy(()=>import ('./ImgModal'))
+
     const [profile,setProfile] = useState()
     const [coverModalOpen,setCoverModalOpen] = useState(false)
     const [cover,setCover] = useState()
+    const [updateModalOpen,setUpdateModalOpen] = useState(false)
+    const [viewDetailModalOpen,setViewDetailsModalOpen] = useState(false)
 
     const bgColor = academy ? "bg-indigo-500 hover:bg-indigo-800 ":"bg-gblue-400 hover:bg-gblue-700" 
     const textColor = academy ? "text-indigo-500": "text-gblue-500" 
@@ -22,9 +27,22 @@ const MainSection = ({id,username,bio,state,district,academy,profile_pic,cover_p
         document.getElementById('my_modal_3').showModal() 
         setProfile(image) 
     }
+    //  to view/change cover photo
     const ChangeCovelModalOpen = (image)=>{
         setCoverModalOpen(prev=>!prev)
         setCover(image)
+    }
+    const openUpdateDetailsModal = ()=>{
+        setUpdateModalOpen(true)
+    }
+    const closeUpdateModal = ()=>{
+        setUpdateModalOpen(false)
+    }
+    const changeDetailsModalOpen = ()=>{
+        setViewDetailsModalOpen(true)
+    }
+    const closeDetailsModal = ()=>{
+        setViewDetailsModalOpen(false)
     }
     return (
     <>
@@ -60,10 +78,12 @@ const MainSection = ({id,username,bio,state,district,academy,profile_pic,cover_p
                                     </svg>
                                     </span>
                                 </div>
-                                <p className="text-gray-700">{bio} currently temporary bio</p>
+                                <p className="text-gray-700">{bio}</p>
                                 <p className="text-sm text-gray-500">{state}, {district}</p>
                                 <p className={`${textColor} normal-case font-semibold`}> 258 freinds </p>
-                                <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`}> view detials </button>
+                                <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={changeDetailsModalOpen}> 
+                                    view detials 
+                                </button>
                             </div>
                             
                             {/* current academy section only for players */}
@@ -76,23 +96,49 @@ const MainSection = ({id,username,bio,state,district,academy,profile_pic,cover_p
                         </div>
                     </div>        
                 <div className="absolute  right-0  sm:right-14 md:right-20 xl:right-44  mt-24 rounded mr-">
-                    <button  className=" p-2 rounded text-black hover:text-gray-300  bg-opacity-10 hover:bg-opacity-20" title="edit">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="md:size-6 size-5  text-black">
+                    <button  className=" p-2 rounded text-black hover:text-gray-300  bg-opacity-10 hover:bg-opacity-20" title="edit" onClick={openUpdateDetailsModal}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="md:size-6 size-5  text-black hover:text-gray-500">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                     </svg>
                     </button>
                 </div>
             </div>
         </div>
-        <ImgModal state={profile} is_pic={profile_pic} 
-                  id={id} fetchapi={fetchapi} 
-                  bgColor={bgColor} textColor={textColor} 
-                  />
-        <CoverImgModal  id={id} isOpen={coverModalOpen} 
-                        changeModalStatus={ChangeCovelModalOpen}  
-                        state={cover} fetchapi={fetchapi}  
-                        bgColor={bgColor} textColor={textColor}
-                        />
+        <Suspense fallback={<>loading</>}>
+
+            <ImgModal state={profile} is_pic={profile_pic} 
+                    id={id} fetchapi={fetchapi} 
+                    bgColor={bgColor} textColor={textColor} 
+                    />
+        </Suspense>
+        <Suspense fallback={<>loading</>}>
+            {coverModalOpen &&   
+                    <CoverImgModal  id={id} isOpen={coverModalOpen} 
+                                    changeModalStatus={ChangeCovelModalOpen}  
+                                    state={cover} fetchapi={fetchapi}  
+                                    bgColor={bgColor} textColor={textColor}
+                                    />
+                }
+        </Suspense>
+        { updateModalOpen && 
+            <Suspense fallback={<>loading</>}>
+                <UpdateDetailsModal isOpen={updateModalOpen} 
+                                    closeModal={closeUpdateModal} 
+                                    username={username} 
+                                    phone={phone}
+                                    bio={bio}
+                                    state={state} 
+                                    district={district}
+                                    fetchapi={fetchapi}
+                                    />
+        </Suspense>}
+        <Suspense fallback={<>loading</>}>
+            { viewDetailModalOpen &&   <ViewDetailsModal isOpen={viewDetailModalOpen} 
+                            userData={userData} 
+                            closeModal={closeDetailsModal}
+                            />
+                            }
+        </Suspense>
     </>
   )
 }
