@@ -15,7 +15,7 @@ export const login = createAsyncThunk(
                 return thunkAPI.rejectWithValue(response.data)
             }
             if (response.data.status === 403){
-                console.log(response.data.message);
+                console.log(response.data);
                 return thunkAPI.rejectWithValue(response.data)
             }
             const responseToken = await userApi.post(`api/token/`,credentials)

@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import userApi from '../../../../api/axiosconfig'
 
 const UpdateAboutModal = ({isOpen,closeUpdateModal,about,fetchapi}) => {
-  const [data,setData] = useState(null)
+  const [data,setData] = useState(about?about:null)
   
   const updateAbout = async (e)=>{
     e.preventDefault()

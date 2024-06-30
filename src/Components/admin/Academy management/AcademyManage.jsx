@@ -112,16 +112,16 @@ const AcademyManage = () => {
                                     </div>
                                     <div>
                                         <p className="font-semibold text-black">{obj.username}</p>
-                                        <p className="text-xs text-gray-600">{obj.sport.sport_name} Academy</p>
                                     </div>
                                 </div>
                                 <div className="text-sm mb-1">
+                                    {/* <div className='border'>{obj.sport.map((obj,index)=> <span className=''> {obj.sport_name} </span>)}</div>  */}
                                     <p><strong>Email:</strong> {obj.email}</p>
                                     <p><strong>Established:</strong> {obj.dob}</p>
                                     <p><strong>State:</strong> {obj.profile.state}</p>
                                     <p><strong>District:</strong> {obj.profile.district}</p>
                                     <p><strong>Certification:</strong> {obj.academy_data.is_certified === true ? <span>Approved</span> : <span>Denied</span>}</p>
-
+                                    <p><strong>Available Sports:</strong> {obj.sport.map((obj,index)=> <span className=''> {obj.sport_name}, </span>)}</p>
                                 </div>
                                 <div className="text-center">
                                     <span className='text-cyan-500 hover:text-cyan-700 cursor-pointer' onClick={() => viewLicense(obj.academy_data.license, obj.username)}>View Certificate</span>  

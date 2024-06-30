@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import all_positions from '../../../../api/json data/positions'
 import months from '../../../../api/json data/months'
+import sports from '../../../../api/json data/sports';
 import userApi from '../../../../api/axiosconfig'
 import { useSelector } from 'react-redux';
 
@@ -14,7 +15,7 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
   const [id,setId] = useState(initialState?.id ? initialState?.id : null)
   const [errors,setErrors] = useState({})
   const [formData,setFormData] = useState({
-    'sport': initialState?.sport ? initialState.sport :'',
+    'sport': !initialState?.sport ? '' : sports.includes(initialState.sport) ? initialState.sport :'other',
     'position': initialState?.position ? initialState.position : '',
     'academy': initialState?.academy_details?.id ? initialState?.academy_details?.id : '',
     'start_month': initialState?.start_month ? initialState?.start_month: '',
@@ -22,7 +23,8 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
     'end_month': initialState?.end_month ? initialState?.end_month : '',
     'end_year': initialState?.end_year ? initialState?.end_year : '',
     'academy_name':  initialState?.academy_details?.username ?  initialState?.academy_details?.username : '',
-    'is_current': initialState?.is_current ? initialState?.is_current : false
+    'is_current': initialState?.is_current ? initialState?.is_current : false,
+    'customSport': sports.includes(initialState.sport) ? '':initialState.sport
   })
   const dob = useSelector(state=>state.auth.dob)
   useEffect(()=>{
@@ -48,11 +50,15 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
   // to get all positons from selected sport
   const handleSport = (e)=>{
     handleChange(e)
-    const value = e.target.value
+    const value = (e.target.value).toLowerCase()
     console.log(value);
-    const currPositons = all_positions.find((obj)=>(obj.name===value))
-    console.log(currPositons.positions);
-    setPositions(currPositons.positions)
+    if (value==='football' || value ==='cricket'){  
+      const currPositons = all_positions.find((obj)=>(obj.name===value))
+      console.log(currPositons.positions);
+      setPositions(currPositons.positions)
+    }else{
+        setPositions([])
+    }
   }
 
   //  to handle changes in teh input field
@@ -93,7 +99,7 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
     let formErrors = {}
     if (!formData.sport) formErrors.sport = "Sport is Required"
     if (!formData.position) formErrors.position = "Postition is Required"
-    // if (!formData.academy) formErrors.academy_name = "Select valid academy"
+    if (!formData.academy) formErrors.academy_name = "Select valid academy"
     if (!formData.start_month) formErrors.start_month = "Start Month is Required"
     if (!formData.start_year) formErrors.start_year = "Start year is required"
     if (!formData.is_current && !formData.end_month) formErrors.end_month = "End month is required if not currently playing"
@@ -105,10 +111,16 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
   const handleSubmit = async (e)=>{
     e.preventDefault();
     if (!validateForm()) return
+    const submissionData = { ...formData };
+    if (submissionData.sport === 'other') {
+      submissionData.sport = submissionData.customSport;
+    }
+    console.log(submissionData);
+    delete submissionData.customSport;
     try{
       let res
       if (id){
-        res = await userApi.put(`user_academy/${id}`,formData)
+        res = await userApi.put(`user_academy/${id}`,submissionData)
       }else{
         res = await userApi.post(`user_academy`,formData)
       }
@@ -201,27 +213,41 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
                 <label htmlFor="sport" className=''>Sport:</label>
                 <select value={formData.sport} name="sport" id="sport" className='w-full border-2 pl-2 py-1 text-slate-400' onChange={handleSport}>
                   <option value="" disabled >select a sport</option>
-                  <option value="football">Football</option>
-                  <option value="cricket">Cricket</option>
-                  {/* <option value="other">Others</option> */}
-                </select>
-                {errors.sport && <div className="text-red-500 text-sm">{errors.sport}</div>}
-              </div>
-              {
-               ( positions.length > 0 || errors.position) && 
-                <div className='flex flex-col items-start mb-4'>
-                  <label htmlFor="position" className='mb-2'>Position:</label>
-                  <select value={formData.position} name="position" id="position" className='w-full border-2 pl-2 py-1 text-slate-400' onChange={handleChange}>
-                    <option value="" disabled >select a position</option>
-                    {
-                      positions.map((pos,index)=>(
-                        <option key={index} value={pos}>{pos}</option>
+                  {
+                      sports.map((pos,index)=>(
+                      <option key={index} value={pos}>{pos}</option>
                       ))
                     }
                 </select>
-                  {errors.position && <div className="text-red-500 text-sm">{errors.position}</div>}
+                {errors.sport && <div className="text-red-500 text-sm">{errors.sport}</div>}
+              </div>
+              {formData.sport === 'other' || !sports.includes( formData.sport)  && (
+              <div className="flex flex-col items-start mb-4">
+                <label className="text-md " htmlFor="customSport">Specify Sport</label>
+                <input type="text" name="customSport" placeholder="Enter sport name" value={formData.customSport} onChange={handleChange} className='w-full border-2 pl-2 py-1 text-slate-400' />
+                {/* {errors.customSport && <p className='text-red-500 text-sm'>{error.customSport}</p>} */}
+              </div>
+            )}
+              <div className='flex flex-col items-start mb-4'>
+                <label htmlFor="position" className='mb-2'>Position / Style:</label>
+                {
+                   positions.length > 0  ?
+                  <>
+                      <select value={formData.position} name="position" id="position" className='w-full border-2 pl-2 py-1 text-slate-400' onChange={handleChange}>
+                        <option value="" disabled >select a position</option>
+                        {
+                          positions.map((pos,index)=>(
+                            <option key={index} value={pos}>{pos}</option>
+                          ))
+                        }
+                      </select>
+                    </>
+                    : <>
+                        <input type="text" placeholder='enter position  or playing style' value={formData.position} name='position'  className='w-full border-2 pl-2 py-1 text-slate-400' onChange={handleChange} />
+                      </>
+                }
+                {errors.position && <div className="text-red-500 text-sm">{errors.position}</div>}
                 </div>
-              }
               <div className='flex flex-col items-start mb-4'>
                 <label htmlFor="name" className='mb-2'>Name:</label>
                 <input  name='academy_name' id='name' type="text" placeholder='name of academy' value={formData.academy_name} className='w-full border-2 pl-2 py-1' onChange={handleAcademyChange}/>

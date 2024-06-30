@@ -45,6 +45,7 @@ const ProfileAcademy = () => {
                     profile_pic={academyData?.profile?.profile_photo}
                     cover_pic={academyData?.profile?.cover_photo}
                     fetchapi={fetchapi}
+                    userData={academyData}
                     /> 
         <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
             <div className="flex flex-col w-full ">
@@ -54,7 +55,7 @@ const ProfileAcademy = () => {
                           />
             <PostProfile academy={true}/>
             <TrialSection  academy={true}/>
-            <Achievementsection  academy={true}/>
+            <Achievementsection  academy={true} dob={academyData?.user?.dob} />
           </div>
         </div> 
       </div>

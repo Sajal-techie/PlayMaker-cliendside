@@ -51,11 +51,13 @@ const AcademyLogin = () => {
         })
       navigate('/otp_verification', {state : {email : formData.email,is_academy:true}})
       }
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops',
-        text: err.message
-      })
+      else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: err.message
+        })
+      }
       console.log(err,'error in academy login');
       setError(err.message)
     }
