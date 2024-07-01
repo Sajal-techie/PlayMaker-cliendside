@@ -130,6 +130,8 @@ const MainSection = ({id,username,bio,state,district,phone,academy,profile_pic,c
                                     state={state} 
                                     district={district}
                                     fetchapi={fetchapi}
+                                    academy={academy}
+                                    sport={userData.sport}
                                     />
         </Suspense>}
         <Suspense fallback={<>loading</>}>

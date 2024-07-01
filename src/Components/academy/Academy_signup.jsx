@@ -35,6 +35,11 @@ const Academy_signup = () => {
     const states = [...all_states.map((obj) => obj.state)]
     const sportOptions = sports.map(sport => ({ value: sport, label: sport }))
 
+    const today = new Date();
+    const maxDate = new Date(today);
+    maxDate.setFullYear(maxDate.getFullYear() - 7);
+    const maxDateString = `${maxDate.getFullYear()}-${String(maxDate.getMonth() + 1).padStart(2, '0')}-${String(maxDate.getDate()).padStart(2, '0')}`;
+
     const handleChange = (e) => {
         const { name, value, files } = e.target
         if (name === 'license') {
@@ -161,7 +166,7 @@ const Academy_signup = () => {
                             </div>
                             <div>
                                 <label className="text-md font-extralight text-black" htmlFor="dob">Established date</label><br />
-                                <InputField type="date" name="dob" placeholder="Date" onChange={handleChange} value={formData.dob} />
+                                <InputField type="date" name="dob" placeholder="Date" onChange={handleChange} value={formData.dob} max={maxDateString} />
                                 {error.dob && <p className="text-red-500 text-sm md:mr-14">{error.dob}</p>}
                             </div>
                             <div>

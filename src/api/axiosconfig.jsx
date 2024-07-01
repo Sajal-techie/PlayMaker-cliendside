@@ -47,9 +47,9 @@ userApi.interceptors.response.use(
     
     async (error) =>{
         try{
-            console.log('inside reposcne error',error.config);
+            console.log(error.config.url,'inside reposcne error',error.config);
             const previosRequest = error.config
-        if (error.response && error.response.status === 401 && !previosRequest._retry && error.response?.data?.code!="token_not_valid"){
+        if (error.response && error.response.status === 401 && !previosRequest._retry && error.response?.data?.code!="token_not_valid",previosRequest.url!='google'){
             previosRequest._retry = true
 
 
@@ -60,18 +60,16 @@ userApi.interceptors.response.use(
                     return await userApi(previosRequest)
                 } catch (err){
                     localStorage.clear()
-                    // const navigate = useNavigate() 
-                    // navigate('/')
                     console.log(err,'refrseh token error');
                     window.location.href = '/'
                     return Promise.reject(err)
                 }
-            }else if (error.response && error.response.status >= 500){
+        }else if (error.response && error.response.status >= 500){
                 console.log('server eror', error.response);
                 // localStorage.clear()
             return Promise.reject(error.response?error.response.statusText:error);
         }
-            else {
+        else {
                 console.log(error, 'else');
                 // localStorage.clear()
                 // window.location.href = '/'

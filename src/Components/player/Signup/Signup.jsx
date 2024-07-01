@@ -9,7 +9,8 @@ import InputField from '../../common/InputField';
 import Dropdown from '../../common/Dropdown';
 import all_states from '../../../api/json data/states_districts';
 import sports from '../../../api/json data/sports';
-import { signup, toggleOtpAcess } from '../../../redux/slices/authSlice';
+import { googleSignin, signup, toggleOtpAcess } from '../../../redux/slices/authSlice';
+import userApi from '../../../api/axiosconfig';
 
 const Signup = () => {
   const [step, setStep] = useState(1);
@@ -31,6 +32,73 @@ const Signup = () => {
   const loading = useSelector(state => state.auth.loading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  const today = new Date();
+  const maxDate = new Date(today);
+  maxDate.setFullYear(maxDate.getFullYear() - 7);
+  const maxDateString = `${maxDate.getFullYear()}-${String(maxDate.getMonth() + 1).padStart(2, '0')}-${String(maxDate.getDate()).padStart(2, '0')}`;
+
+  //  handing google authentication
+  const handleSignInWithGoogle = async (response)=>{
+    console.log(response);
+    const payload = response.credential
+    try{
+      const response = await userApi.post('google',{"access_token":payload})
+      console.log(response);
+      if (response.status === 200) {
+        localStorage.setItem('access',response.data.access)
+        localStorage.setItem('refresh',response.data.refresh)
+        localStorage.setItem('role','player')
+        localStorage.setItem('user',response.data.username)
+        await Swal.fire({
+          icon : 'success',
+          title: 'Signup successfull, welcome '+response.data.username,
+          // text: error.data.detail
+        })
+        const payload = {
+          username:response.data.username,
+          role:'player',
+          dob:response.data.dob
+        }
+          dispatch(googleSignin(payload))
+          if (!response.data.dob){
+            navigate('/welcome')
+          } else {
+            navigate('/home')
+          }
+      }else{
+        await Swal.fire({
+          icon : 'error',
+          // title: 'email already exists',
+          text: 'server error please try again later'
+        })
+      }
+
+    }catch(error){
+      console.log(error);
+      if (error.data.detail){
+        await Swal.fire({
+          icon : 'info',
+          title: 'email already exists',
+          text: error.data.detail
+        })
+      }
+    }
+
+  }
+
+  //  initializing google auth and setting up google signuip button
+  useEffect(() => {
+    google.accounts.id.initialize({
+      client_id:import.meta.env.VITE_GOOGLE_CLIENT_ID,
+      callback:handleSignInWithGoogle
+    })
+    google.accounts.id.renderButton(
+      document.getElementById('signInDiv'),
+      {theme:"filled_blu",size:'large',text:'signup_with',shape:'square',width:'280'}
+    )
+  }, [])
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -150,7 +218,7 @@ const Signup = () => {
             <div className="my-1 font-light text-slate-500">
               <label className="text-md font-extralight text-black" htmlFor="dob">Date of birth</label>
               <br />
-              <InputField type="date" name="dob" value={formData.dob} onChange={handleChange} />
+              <InputField type="date" name="dob" value={formData.dob} onChange={handleChange} max={maxDateString} />
               {error.dob && <p className='text-red-500 text-sm'>{error.dob}</p>}
             </div>
             <div className="mt-1 font-light ">
@@ -239,6 +307,11 @@ const Signup = () => {
                 Join us as an academy
               </p>
             </Link>
+              {/* google singup button */}
+              <div className='flex justify-center mt-2'>
+                <div className='googleDiv' id='signInDiv'>
+                </div>
+              </div>
           </div>
         </div>
       </div>

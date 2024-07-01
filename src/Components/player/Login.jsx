@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import Button from '../common/Button';
 import InputField from '../common/InputField';
-import { login, toggleOtpAcess } from '../../redux/slices/authSlice';
+import { googleSignin, login, toggleOtpAcess } from '../../redux/slices/authSlice';
 import Swal from 'sweetalert2';
 import { LineWave } from 'react-loader-spinner';
+import userApi from '../../api/axiosconfig';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +21,65 @@ const Login = () => {
   const dispatch = useDispatch()
   const location = useLocation()
   const loading = useSelector(state=>state.auth.loading)
+
+  const handleSignInWithGoogle = async (response)=>{
+    console.log(response);
+    const payload = response.credential
+    try{
+      const response = await userApi.post('google',{"access_token":payload})
+      console.log(response);
+      if (response.status === 200){
+        localStorage.setItem('access',response.data.access)
+        localStorage.setItem('refresh',response.data.refresh)
+        localStorage.setItem('role','player')
+        localStorage.setItem('user',response.data.username)
+        await Swal.fire({
+          icon : 'success',
+          title: 'Login successfull,\n welcome back '+response.data.username,
+          // text: error.data.detail
+        })
+        const payload = {
+          username:response.data.username,
+          role:'player',
+          dob:response.data.dob
+        }
+        dispatch(googleSignin(payload))
+        if (!response.data.dob){
+          navigate('/welcome')
+        } else {
+          navigate('/home')
+        }
+      }else{
+        await Swal.fire({
+          icon : 'error',
+          // title: 'email already exists',
+          text: 'server error please try again later'
+        })
+      }
+
+    }catch(error){
+      console.log(error);
+      if (error.data.detail){
+        await Swal.fire({
+          icon : 'info',
+          title: 'email already exists',
+          text: error.data.detail
+        })
+      }
+    }
+  }
+
+  useEffect(() => {
+    google.accounts.id.initialize({
+      client_id:import.meta.env.VITE_GOOGLE_CLIENT_ID,
+      callback:handleSignInWithGoogle
+    })
+    google.accounts.id.renderButton(
+      document.getElementById('signInDiv'),
+      {theme:"filled_b",size:'large',text:'signin_with',shape:'square',width:'320'}
+    )
+  }, [])
+  
 
   const handleChange = (e)=>{
     setFormData({...formData, [e.target.name]: e.target.value })
@@ -133,6 +193,11 @@ const Login = () => {
           </Link>
         </p>
         <Link to={'/academy/login'}>  <p className='text-center mt-3 text-orange-400 hover:underline cursor-pointer  lg:hidden'> Join us as an academy</p> </Link> 
+        {/* google singup button */}
+        <div className='flex justify-center mt-2'>
+          <div className='googleDiv' id='signInDiv'>
+          </div>
+        </div>
       </div>
     </div>
     </div>

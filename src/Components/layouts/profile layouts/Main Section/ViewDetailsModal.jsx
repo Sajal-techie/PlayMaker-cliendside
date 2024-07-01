@@ -59,7 +59,7 @@ const ViewDetailsModal = ({isOpen,closeModal,userData}) => {
                 State: <span className='font-semibold'>{userData?.profile?.district} </span>
               </div>
               <div className='text-center'>
-                Sports: <span className='font-semibold'> {userData?.sport.map((obj,index)=> <> {obj.sport_name},</>  )} </span>
+                Sports: <span className='font-semibold'> {userData?.sport.map((obj,index)=> <span key={index} className='capitalize'> {obj.sport_name},</span>  )} </span>
               </div>
               <div className='text-center'>
                 Bio: <span className='font-semibold'>{userData?.profile?.bio} </span>

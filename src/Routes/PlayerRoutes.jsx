@@ -12,6 +12,7 @@ import ViewExperience from '../Components/layouts/profile layouts/Experience Sec
 import ViewAchievement from '../Components/layouts/profile layouts/Achievement Section/ViewAchievement'
 import ForgetPassword from '../Components/common/ForgetPassword'
 import ResetPassword from '../Components/common/ResetPassword'
+import GetUserDetails from '../Components/player/Signup/GetUserDetails'
 
 
 
@@ -26,6 +27,7 @@ const PlayerRoutes = () => {
         <Route path='/reset_password' element={<RedirectIfAuthenticated element={<ResetPassword/>} redirectTo={'/home'} />  } />
         
         <Route path='/home' element={<ProtectedRoute element={<Home/>} role={"player"} />}/>
+        <Route path='/welcome' element={<ProtectedRoute element={<GetUserDetails/>} role={"player"} />}/>
         <Route path='/profile' element={<ProtectedRoute element={<PlayerProfile/>} role={"player"} /> }/>
         <Route path='/view_experience' element={<ProtectedRoute element={<ViewExperience/>} role={"player"} /> }/>
         <Route path='/view_achievements' element={<ProtectedRoute element={<ViewAchievement/>} role={"both"} /> }/>

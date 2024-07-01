@@ -1,34 +1,46 @@
 import React, { useEffect, useState } from 'react'
 import ReactModal from 'react-modal'
 import { toast } from "react-toastify";
+import Select from 'react-select';
 import "react-toastify/dist/ReactToastify.css";
 import all_states from '../../../../api/json data/states_districts'
+import all_sports from '../../../../api/json data/sports';
 import userApi from '../../../../api/axiosconfig'
 
-const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,phone,fetchapi}) => {
+const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,phone,fetchapi,sport}) => {
     const [districts,setDistricts] = useState([])
+    const [selectedSports,setSelectedSports] = useState([])
+    const [error,setError] = useState()
     const [formData,setFormData] = useState({
         'username':username ? username : '', 
         'bio': bio ? bio : '',
         'state':state ? state : '',
         'district':district ? district : '',
         'phone': phone ? phone : '',
+        'sport':sport ? sport.sport_name : [],
     })
-    console.log(formData,username);
+    
+    const sportOptions = all_sports.map(sport => ({value:sport,label:sport}))
     const states = [...all_states.map((obj)=>(
-        obj.state
+      obj.state
     ))]
-
+    
     useEffect(()=>{
-        if (formData.state){
+      if (formData.state){
             const state = formData.state
             const selectedState = all_states.find((obj) => obj.state === state);
             if (selectedState) {
-            setDistricts(selectedState.districts);
+              setDistricts(selectedState.districts);
             }
-        }
-    },[])
+          }
+          if (sport){
+            setSelectedSports(sport.map(obj=> ({value:obj.sport_name , label:obj.sport_name }) ))
+            setFormData({ ...formData, sport: sport.map(obj=>obj.sport_name) })
 
+        }
+      },[])
+      
+      console.log(formData,sport,sportOptions,selectedSports);
       // to get all dsitricts from the selected state 
     const handledistrict = (e)=>{
         handleChange(e)
@@ -46,9 +58,31 @@ const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,ph
         setFormData({...formData,[name]:value})
     }
 
+    //  to handle sports change , multiple sports adding option
+    const handleSportsChange = (selectedOptions) => {
+      console.log(selectedOptions);
+      if (selectedOptions.some(option=>option.value === 'other')){
+        const customSport = prompt('please enter sport:')
+        if (customSport){
+          setSelectedSports(prev=>[...prev, { value: customSport, label: customSport }])
+          setFormData({ ...formData, sport: selectedOptions.map(option => option.value !="other"? option.value : customSport) })
+      }
+      }else{
+        setFormData({ ...formData, sport: selectedOptions.map(option => option.value) })
+        setSelectedSports(selectedOptions)
+      }
+    }
     //  to handle form Submission
     const handleSubmit = async (e)=>{
         e.preventDefault()
+        if (formData.sport.length ==0){
+          setError('Atleast One Sport is required')
+          return
+        }
+        else if(formData.sport.length > 3){
+          setError('Select 3 or less sports')
+          return
+        }
         try{
             const res = await userApi.post('profile',formData)
             console.log(res,'response');
@@ -67,7 +101,7 @@ const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,ph
             draggable: true,
         }
         if (status===200){
-            toast.success(message, options);
+            toast.success(message, options)
         }
         else{
             toast.error(message,options)
@@ -122,6 +156,19 @@ const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,ph
               <div className='flex flex-col items-start mb-4'>
                 <label htmlFor="phone" className='mb-2'>Phone Number:</label>
                 <input  name='phone' id='phone' type="text" placeholder='phone' value={formData.phone} className='w-full border-2 pl-2 py-1' onChange={handleChange}/>
+              </div>
+              <div className='flex flex-col items-start mb-4'>
+                      <label className="" htmlFor="sports">Sports</label>
+                      <Select
+                          isMulti
+                          name="sport"
+                          options={sportOptions}
+                          className="border border-slate-300 w-full rounded-md text-sm outline-none  "
+                          classNamePrefix="select"
+                          onChange={handleSportsChange}
+                          value={selectedSports}
+                          />
+                      {error && <p className="text-red-500 text-sm md:mr-14">{error}</p>}
               </div>
               <div className='flex flex-col items-start mb-4'>
                 <label htmlFor="startMonth" className='mb-2'>Issued Date:</label>

@@ -104,6 +104,12 @@ const authSlice = createSlice({
     reducers: {
         toggleOtpAcess: (state,action) => {
             state.is_access = action.payload
+        },
+        googleSignin:(state,action)=>{
+            state.user = action.payload.username
+            state.role = action.payload.role
+            state.dob = action.payload.dob
+            console.log(action, state.user,state.role);
         }
     },
     extraReducers:(builder)=> {
@@ -161,5 +167,5 @@ const authSlice = createSlice({
     }
 })
 
-export const {toggleOtpAcess} = authSlice.actions
+export const {toggleOtpAcess,googleSignin} = authSlice.actions
 export default authSlice.reducer
