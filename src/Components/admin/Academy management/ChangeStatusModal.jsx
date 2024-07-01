@@ -34,6 +34,7 @@ const ChangeStatusModal = ({isOpen,closeModal,current,fetchAcademies}) => {
         };
   return (
     <ReactModal isOpen={isOpen}
+    onRequestClose={closeModal}
     ariaHideApp={false}
     style={{
       content: {

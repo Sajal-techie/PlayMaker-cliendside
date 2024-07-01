@@ -20,7 +20,7 @@ const Login = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
-  const loading = useSelector(state=>state.auth.loading)
+  const loading = useSelector(state=>state.auth?.loading)
 
   const handleSignInWithGoogle = async (response)=>{
     console.log(response);

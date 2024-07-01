@@ -163,6 +163,7 @@ const PlayerManage = () => {
 
             {/* modal for changing status (block / unblock) */}
             <ReactModal isOpen={isOpen}
+            onRequestClose={closeModal}
             ariaHideApp={false}
             style={{
               content: {

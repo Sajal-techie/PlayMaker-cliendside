@@ -104,6 +104,7 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id,fetchapi }) => {
     <>
       <ReactModal
         isOpen={isOpen}
+        onRequestClose={closeCoverModal}
         ariaHideApp={false}
         style={{
           content: {

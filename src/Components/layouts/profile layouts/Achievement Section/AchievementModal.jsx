@@ -135,6 +135,7 @@ const AchievementModal = ({isOpen,closeAchievementModal,getAchievements,initialS
   return (
     <ReactModal
         isOpen={isOpen}
+        onRequestClose={closeAchievementModal}
         ariaHideApp={false}
         style={{
           content: {

@@ -2,7 +2,7 @@ import React, { Suspense, useState } from 'react'
 import { baseUrl } from '../../../../api/api'
 import coverImage from '../../../../assets/cover.png'
 
-const MainSection = ({id,username,bio,state,district,phone,academy,profile_pic,cover_pic,fetchapi,userData}) => {
+const MainSection = React.memo(({id,username,bio,state,district,phone,academy,profile_pic,cover_pic,fetchapi,userData}) => {
     const UpdateDetailsModal = React.lazy(()=>import ('./UpdateDetailsModal'))
     const ViewDetailsModal =  React.lazy(()=>import ('./ViewDetailsModal'))
     const CoverImgModal = React.lazy(()=>import ('./CoverImgModal'))
@@ -144,5 +144,5 @@ const MainSection = ({id,username,bio,state,district,phone,academy,profile_pic,c
     </>
   )
 }
-
+)
 export default MainSection

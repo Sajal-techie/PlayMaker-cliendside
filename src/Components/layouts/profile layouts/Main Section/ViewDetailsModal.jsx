@@ -8,6 +8,7 @@ const ViewDetailsModal = ({isOpen,closeModal,userData}) => {
         <ReactModal
         isOpen={isOpen}
         ariaHideApp={false}
+        onRequestClose={closeModal}
         style={{
           content: {
             position: 'relative',

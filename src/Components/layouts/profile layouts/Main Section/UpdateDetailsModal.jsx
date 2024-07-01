@@ -112,6 +112,7 @@ const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,ph
       <ReactModal
         isOpen={isOpen}
         ariaHideApp={false}
+        onRequestClose={closeModal}
         style={{
           content: {
             position: 'relative',

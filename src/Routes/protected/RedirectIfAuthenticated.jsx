@@ -5,7 +5,7 @@ import { Navigate, useLocation } from 'react-router-dom'
 const RedirectIfAuthenticated = ({element, redirectTo}) => {
     const location = useLocation();
     console.log(location,'location');
-    const role = useSelector(state=>state.auth.role)
+    const role = useSelector(state=>state.auth?.role)
     
     if (role) {
         return <Navigate to={redirectTo} replace />;

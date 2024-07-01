@@ -1,6 +1,6 @@
 import React, { Suspense, useState } from 'react'
 
-const AboutSection = ({academy,about,fetchapi}) => {
+const AboutSection = React.memo(({academy,about,fetchapi}) => {
   const UpdateAboutModal = React.lazy(()=> import ('./UpdateAboutModal')) 
 
   const [isOpen,setIsOpen] = useState(false)
@@ -36,6 +36,6 @@ const AboutSection = ({academy,about,fetchapi}) => {
     </Suspense>
    </>
   )
-}
+})
 
 export default AboutSection

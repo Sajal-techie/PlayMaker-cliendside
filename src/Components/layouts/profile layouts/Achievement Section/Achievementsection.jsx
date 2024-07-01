@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useState } from 'react'
 import userApi from '../../../../api/axiosconfig'
 import { Link } from 'react-router-dom'
 
-const Achievementsection = ({academy,dob}) => {
+const Achievementsection = React.memo(({academy,dob}) => {
     const AchievementModal = React.lazy(()=>import('./AchievementModal')) 
 
     const [achievements,setAchievements] = useState([])
@@ -97,5 +97,5 @@ const Achievementsection = ({academy,dob}) => {
     </div>
   )
 }
-
+)
 export default Achievementsection

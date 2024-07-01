@@ -96,7 +96,7 @@ const ImgModal = ({state,is_pic,id,fetchapi,bgColor,textColor}) => {
         
         <Modal 
             isOpen={modalIsOpen} 
-            onRequestClose={() => closeModal()} 
+            onRequestClose={closeModal} 
             parentSelector={() => document.querySelector('#my_modal_3')} 
             ariaHideApp={false}
             className=' min-w-[500px]  max-w-[500px] shadow-md font-kanit border border-gray-900 bg-white'

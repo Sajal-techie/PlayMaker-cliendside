@@ -157,6 +157,7 @@ const authSlice = createSlice({
             state.user = null
             state.loading = false
             state.role = null
+            state.dob = null
         })
         .addCase(logout.rejected, (state,action)=>{
             console.log(action.payload,'logout rejected');

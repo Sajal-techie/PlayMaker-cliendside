@@ -38,6 +38,7 @@ const UpdateAboutModal = ({isOpen,closeUpdateModal,about,fetchapi}) => {
     <div>
       <ReactModal
         isOpen={isOpen}
+        onRequestClose={closeUpdateModal}
         ariaHideApp={false}
         style={{
           content: {

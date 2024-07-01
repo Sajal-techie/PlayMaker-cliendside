@@ -14,8 +14,9 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
   const [filteredAcademies,setFilteredAcademies] = useState([])
   const [id,setId] = useState(initialState?.id ? initialState?.id : null)
   const [errors,setErrors] = useState({})
+  console.log(initialState);
   const [formData,setFormData] = useState({
-    'sport': !initialState?.sport ? '' : sports.includes(initialState.sport) ? initialState.sport :'other',
+    'sport': !initialState?.sport ? '' : sports.includes(initialState?.sport) ? initialState?.sport :'other',
     'position': initialState?.position ? initialState.position : '',
     'academy': initialState?.academy_details?.id ? initialState?.academy_details?.id : '',
     'start_month': initialState?.start_month ? initialState?.start_month: '',
@@ -24,7 +25,7 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
     'end_year': initialState?.end_year ? initialState?.end_year : '',
     'academy_name':  initialState?.academy_details?.username ?  initialState?.academy_details?.username : '',
     'is_current': initialState?.is_current ? initialState?.is_current : false,
-    'customSport': sports.includes(initialState.sport) ? '':initialState.sport
+    'customSport': sports.includes(initialState?.sport) ? '':initialState?.sport
   })
   const dob = useSelector(state=>state.auth.dob)
   useEffect(()=>{
@@ -175,6 +176,7 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
   return (
     <ReactModal
         isOpen={isOpen}
+        onRequestClose={closeUpdateModal}
         ariaHideApp={false}
         style={{
           content: {
@@ -221,7 +223,8 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
                 </select>
                 {errors.sport && <div className="text-red-500 text-sm">{errors.sport}</div>}
               </div>
-              {formData.sport === 'other' || !sports.includes( formData.sport)  && (
+              {(formData?.sport === 'other' || 
+                  (!sports.includes(formData.sport))) && (
               <div className="flex flex-col items-start mb-4">
                 <label className="text-md " htmlFor="customSport">Specify Sport</label>
                 <input type="text" name="customSport" placeholder="Enter sport name" value={formData.customSport} onChange={handleChange} className='w-full border-2 pl-2 py-1 text-slate-400' />

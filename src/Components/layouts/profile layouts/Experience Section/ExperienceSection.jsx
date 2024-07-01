@@ -1,7 +1,7 @@
 import React, { useEffect, useState,Suspense } from 'react'
 import { Link } from 'react-router-dom'
 import userApi from '../../../../api/axiosconfig'
-const ExperienceSection = ({dob}) => {
+const ExperienceSection = React.memo(({dob}) => {
     const ExperienceModal = React.lazy(()=>import('./ExperienceModal'))
     const [isOpen,setIsOpen] = useState(false)
     const [userAcademies,setUserAcademies] = useState([])
@@ -92,6 +92,6 @@ const ExperienceSection = ({dob}) => {
         </Suspense>
     </div>
   )
-}
+})
 
 export default ExperienceSection
