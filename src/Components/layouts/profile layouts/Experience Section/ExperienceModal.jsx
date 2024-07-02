@@ -134,6 +134,11 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
       
     }catch(error){
       console.log(error,'error in submiting');
+      if (error.status===403){
+        showToastMessage({status:403,message:error.data?.detail})
+      }else{
+        showToastMessage({status:400,message:"Server error try again later"})
+      }
     }
     getUserAcademies()
     closeUpdateModal()
@@ -148,6 +153,11 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
       } 
     }catch(error){
       console.log(error,'delete error');
+      if (error.status==403){
+        showToastMessage({status:403,message:error.data?.detail})
+      }else{
+        showToastMessage({status:400,message:"Server error try again later"})
+      }
     }
     getUserAcademies() 
     closeUpdateModal()

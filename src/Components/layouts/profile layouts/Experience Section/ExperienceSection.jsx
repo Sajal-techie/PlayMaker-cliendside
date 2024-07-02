@@ -1,8 +1,9 @@
 import React, { useEffect, useState,Suspense } from 'react'
 import { Link } from 'react-router-dom'
 import userApi from '../../../../api/axiosconfig'
+const ExperienceModal = React.lazy(()=>import('./ExperienceModal'))
+
 const ExperienceSection = React.memo(({dob}) => {
-    const ExperienceModal = React.lazy(()=>import('./ExperienceModal'))
     const [isOpen,setIsOpen] = useState(false)
     const [userAcademies,setUserAcademies] = useState([])
 
@@ -48,7 +49,7 @@ const ExperienceSection = React.memo(({dob}) => {
                     <div>
                         {userAcademies.slice(0,3).map((obj,index)=>(
                             <div key={index} className='flex mb-5 capitalize px-8'>
-                                <img className='w-20' src={obj?.academy_details?.profile?.profile_photo ? obj?.academy_details?.profile?.profile_photo : 
+                                <img className='w-20 border border-gray-300' src={obj?.academy_details?.profile?.profile_photo ? obj?.academy_details?.profile?.profile_photo : 
                                                                 'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'} alt="hai"/>
                                <div className='ml-2 flex flex-col text-sm'>
                                     <div>

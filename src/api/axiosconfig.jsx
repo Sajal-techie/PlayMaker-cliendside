@@ -47,13 +47,14 @@ userApi.interceptors.response.use(
     
     async (error) =>{
         try{
-            console.log(error.config.url,'inside reposcne error',error.config);
+            console.log(error.response,'inside reposcne error',error.config);
             const previosRequest = error.config
-        if (error.response && error.response.status === 401 && !previosRequest._retry && error.response?.data?.code!="token_not_valid",previosRequest.url!='google'){
+        if (error.response && error.response.status === 401 && !previosRequest._retry && error.response?.data?.code!="token_not_valid" && previosRequest.url!='google'){
             previosRequest._retry = true
 
 
                 try {
+                    console.log(' in try');
                     const accessToken = await refreshToken()
                     userApi.defaults.headers.common.Authorization = `Bearer ${accessToken}`
                     previosRequest.headers['Authorization'] = `Bearer ${accessToken}`                    

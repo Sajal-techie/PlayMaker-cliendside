@@ -93,6 +93,11 @@ const AchievementModal = ({isOpen,closeAchievementModal,getAchievements,initialS
             }
         }catch(error){
             console.log(error,'achievement submit error');
+            if (error.status ===403){
+              showToastMessage({status:error.status,message:error.data.detail})
+            }else{
+              showToastMessage({status:400,message:"Server error try again later"})
+            }
         }
         setFormData(null)
         getAchievements()
@@ -106,8 +111,13 @@ const AchievementModal = ({isOpen,closeAchievementModal,getAchievements,initialS
             if (res.status === 204){
                 showToastMessage({status:200,message:"Deleted successfully"})
             }
-        }catch(err){
-            console.log(err,'error in deleting academy');
+        }catch(error){
+            console.log(error,'error in deleting academy');
+            if (error.status==403){
+              showToastMessage({status:403,message:error.data?.detail})
+            }else{
+              showToastMessage({status:400,message:"Server error try again later"})
+            }
         }
         getAchievements()
         closeAchievementModal()

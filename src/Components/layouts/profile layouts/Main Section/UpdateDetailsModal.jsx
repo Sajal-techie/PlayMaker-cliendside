@@ -3,11 +3,11 @@ import ReactModal from 'react-modal'
 import { toast } from "react-toastify";
 import Select from 'react-select';
 import "react-toastify/dist/ReactToastify.css";
+import { useUpdateDetials } from '../../../common/Custom Hooks/useProfile';
 import all_states from '../../../../api/json data/states_districts'
 import all_sports from '../../../../api/json data/sports';
-import userApi from '../../../../api/axiosconfig'
 
-const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,phone,fetchapi,sport}) => {
+const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,phone,sport}) => {
     const [districts,setDistricts] = useState([])
     const [selectedSports,setSelectedSports] = useState([])
     const [error,setError] = useState()
@@ -19,6 +19,7 @@ const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,ph
         'phone': phone ? phone : '',
         'sport':sport ? sport.sport_name : [],
     })
+    const updateDetails = useUpdateDetials()
     
     const sportOptions = all_sports.map(sport => ({value:sport,label:sport}))
     const states = [...all_states.map((obj)=>(
@@ -83,30 +84,10 @@ const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,ph
           setError('Select 3 or less sports')
           return
         }
-        try{
-            const res = await userApi.post('profile',formData)
-            console.log(res,'response');
-            showToastMessage(res.data)
-        }catch(error){
-            console.log(error, 'form submission error');
-            showToastMessage({status:500,message:error?.code==='ERR_NETWORK'?"Internal Server Error":"Bad Gateway"})
-        }
-        fetchapi()
+        //  update details using custom hook and react query
+        updateDetails.mutate(formData)
         closeModal()
     }
-    const showToastMessage = ({ status, message }) => {
-        console.log(status, message);
-        const options = {
-            position: 'bottom-right',
-            draggable: true,
-        }
-        if (status===200){
-            toast.success(message, options)
-        }
-        else{
-            toast.error(message,options)
-        }
-        };
   return (
     <>
       <ReactModal

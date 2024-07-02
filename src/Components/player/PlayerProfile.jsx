@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import userApi from '../../api/axiosconfig'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import AboutSection from '../layouts/profile layouts/About Section/AboutSection'
 import MainSection from '../layouts/profile layouts/Main Section/MainSection'
 import PostProfile from '../layouts/profile layouts/PostProfile'
@@ -9,30 +9,17 @@ import ExperienceSection from '../layouts/profile layouts/Experience Section/Exp
 import Achievementsection from '../layouts/profile layouts/Achievement Section/Achievementsection'
 import Navbar from '../layouts/navbar/Navbar'
 import BottomNavbar from '../layouts/navbar/BottomNavbar'
-import { ToastContainer } from 'react-toastify'
+import { useProfile } from '../common/Custom Hooks/useProfile'
+import Skelton_profile from '../../Pages/Skelton_profile'
 
 const PlayerProfile = () => {
-  const {user,token,loading,message,error, role} = useSelector(state=>state.auth)
   const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const [userData,setUserData] = useState({})
+  const {data: userData, isLoading,isError, error:fetchError} = useProfile()
 
-    useEffect (()=>{
-        fetchapi()
-    },[])
-    async function fetchapi(){
-      try{
-        const res = await userApi.get('profile')
-          console.log(res.data,'hai data'); 
-          setUserData(res.data.user_details)
-        
-      }catch(err){
-        console.log(err,'errore profiule page');
-        // dispatch(logout())
-        // navigate('/')
-      }
-    }
-    console.log(userData);
+  if (isLoading) return <><Skelton_profile/> </>
+  if (isError) return <><Navigate to={'/home'}/> </>
+
+    console.log(userData,isLoading,isError);
   return (
     <>
     <Navbar/>
@@ -46,19 +33,15 @@ const PlayerProfile = () => {
                       district={userData?.profile?.district}
                       profile_pic={userData?.profile?.profile_photo}
                       cover_pic={userData?.profile?.cover_photo}
-                      fetchapi={fetchapi}  
                       userData={userData}
                       />
 
         {/* first section end */}
-        <ToastContainer />
 
 
         <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
             <div className="flex flex-col w-full ">
-                <AboutSection about={userData?.profile?.about}
-                              fetchapi={fetchapi}
-                              />
+                <AboutSection about={userData?.profile?.about} />
                 <PostProfile data={userData?.profile?.about}  />
                 <ExperienceSection   dob={userData?.user?.dob}/>
                 <Achievementsection  dob={userData?.user?.dob}/>

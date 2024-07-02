@@ -2,11 +2,12 @@ import React, { Suspense, useState } from 'react'
 import { baseUrl } from '../../../../api/api'
 import coverImage from '../../../../assets/cover.png'
 
-const MainSection = React.memo(({id,username,bio,state,district,phone,academy,profile_pic,cover_pic,fetchapi,userData}) => {
-    const UpdateDetailsModal = React.lazy(()=>import ('./UpdateDetailsModal'))
-    const ViewDetailsModal =  React.lazy(()=>import ('./ViewDetailsModal'))
-    const CoverImgModal = React.lazy(()=>import ('./CoverImgModal'))
-    const ImgModal = React.lazy(()=>import ('./ImgModal'))
+const UpdateDetailsModal = React.lazy(()=>import ('./UpdateDetailsModal'))
+const ViewDetailsModal =  React.lazy(()=>import ('./ViewDetailsModal'))
+const CoverImgModal = React.lazy(()=>import ('./CoverImgModal'))
+const ImgModal = React.lazy(()=>import ('./ImgModal'))
+
+const MainSection = React.memo(({id,username,bio,state,district,phone,academy,profile_pic,cover_pic,userData}) => {
 
     const [profile,setProfile] = useState()
     const [coverModalOpen,setCoverModalOpen] = useState(false)
@@ -107,7 +108,7 @@ const MainSection = React.memo(({id,username,bio,state,district,phone,academy,pr
         <Suspense fallback={<>loading</>}>
 
             <ImgModal state={profile} is_pic={profile_pic} 
-                    id={id} fetchapi={fetchapi} 
+                    id={id} 
                     bgColor={bgColor} textColor={textColor} 
                     />
         </Suspense>
@@ -115,7 +116,7 @@ const MainSection = React.memo(({id,username,bio,state,district,phone,academy,pr
             {coverModalOpen &&   
                     <CoverImgModal  id={id} isOpen={coverModalOpen} 
                                     changeModalStatus={ChangeCovelModalOpen}  
-                                    state={cover} fetchapi={fetchapi}  
+                                    state={cover} 
                                     bgColor={bgColor} textColor={textColor}
                                     />
                 }
@@ -129,7 +130,6 @@ const MainSection = React.memo(({id,username,bio,state,district,phone,academy,pr
                                     bio={bio}
                                     state={state} 
                                     district={district}
-                                    fetchapi={fetchapi}
                                     academy={academy}
                                     sport={userData.sport}
                                     />

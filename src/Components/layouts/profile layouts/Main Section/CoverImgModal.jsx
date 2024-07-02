@@ -3,16 +3,18 @@ import ReactModal from 'react-modal';
 import Cropper from 'react-easy-crop';
 import {toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import userApi from '../../../../api/axiosconfig';
 import getCroppedImg from './cropImage';
+import { useDeletePhoto, useUpdatePhoto } from '../../../common/Custom Hooks/useProfile';
 
-const CoverImgModal = ({ isOpen, changeModalStatus, state, id,fetchapi }) => {
+const CoverImgModal = ({ isOpen, changeModalStatus, state, id }) => {
   const [image, setImage] = useState(null); 
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-  // const [croppedImage, setCroppedImage] = useState(null);
   
+  const updateCoverPhoto = useUpdatePhoto()
+  const deletePhoto = useDeletePhoto()
+
   //  to update the croppedAreaPixels in Cropper (triggered when user stops cropping)
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -22,7 +24,6 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id,fetchapi }) => {
   const showCroppedImage = useCallback(async () => {
     try {
       const croppedImage = await getCroppedImg(image, croppedAreaPixels);
-      // setCroppedImage(croppedImage);
       updatePhoto(croppedImage);
       console.log('updated');
     } catch (e) {
@@ -35,15 +36,9 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id,fetchapi }) => {
     console.log(croppedImage);
     const formData = new FormData();
     formData.append('cover_photo', croppedImage); 
-    try {
-      const res = await userApi.post('update_photo/' + id, formData);
-      console.log(res);
-      showToastMessage(res.data)
-    } catch (error) {
-      console.log(error, 'error in updating profile');
-      showToastMessage({status:500,message:error?.code==='ERR_NETWORK'?"Internal Server Error":"Bad Gateway"})
-    }
-    fetchapi();
+
+   
+    updateCoverPhoto.mutate({id,formData}) // to update cover photo using custom hook and react query
     closeCoverModal()
   };
 
@@ -69,36 +64,15 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id,fetchapi }) => {
     setCrop({ x: 0, y: 0 })
     setZoom(1)
     setCroppedAreaPixels(null)
-    // setCroppedImage(null)
     changeModalStatus()
   }
 
   const deleteCoverImage = async ()=>{
-    try{
-      const res = await userApi.delete('delete_photo/'+id, { data: {'type':'cover'}})
-      console.log(res,'response data');
-      showToastMessage(res.data)
-    }catch(error){
-      console.log(error, 'error in delete');
-      showToastMessage({status:500,message:error?.code==='ERR_NETWORK'?"Internal Server Error":"Bad Gateway"})
-    }
-    fetchapi();
+    const type = {'type':'cover'}
+    
+    deletePhoto.mutate({id,type}) // to delete cover image using custom hook and react query
     closeCoverModal();
   }
-    //  to show succes to error message to user
-    const showToastMessage = ({status,message}) => {
-      console.log(status,message);
-      const options = {
-              position: 'bottom-right',
-              draggable: true,
-          }
-      if (status===200){
-          toast.success(message, options);
-      }
-      else{
-          toast.error(message,options)
-      }
-    };
 
   return (
     <>

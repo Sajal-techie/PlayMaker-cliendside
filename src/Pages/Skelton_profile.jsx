@@ -1,11 +1,12 @@
+import React from 'react'
 
-const Test = () => {
+const Skelton_profile = () => {
   return (
     <>
-      <div className="card rounded-[12px] text-xl shadow-2xl p-5 animate-pulse bg-white">
+    <div className="card rounded-[12px] text-xl shadow-2xl p-5 animate-pulse bg-white">
         <div className="h-4 bg-gray-300 rounded  mb-2 animate-bounce"></div>
         <div className="h-4 bg-gray-300 rounded  animate-bounce"></div>
-      </div>
+    </div>
     <div className="card rounded-[12px] m-10 text-xl shadow-2xl p-5 animate-pulse bg-white">
         <div className="w-full h-64 bg-gray-300 rounded mb-3 "></div>
         <div className="h-4 bg-gray-300 rounded w-3/4 mb-2 animate-bounce"></div>
@@ -28,4 +29,4 @@ const Test = () => {
   )
 }
 
-export default Test
+export default Skelton_profile

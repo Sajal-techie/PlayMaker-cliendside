@@ -2,28 +2,26 @@ import React, { useState } from 'react'
 import Modal from 'react-modal'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import userApi from '../../../../api/axiosconfig'
+import { useDeletePhoto, useUpdatePhoto } from '../../../common/Custom Hooks/useProfile';
 
-const ImgModal = ({state,is_pic,id,fetchapi,bgColor,textColor}) => {
+const ImgModal = ({state,is_pic,id,bgColor,textColor}) => {
     const [image,setImage] = useState(null)
     const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    const updateProfilePhoto = useUpdatePhoto()
+    const deletePhoto = useDeletePhoto()
 
     // to send profile photo to server
     const updatePhoto = async (id)=>{
         const formData = new FormData()
         formData.append('profile_photo',image)
-        try{
-            const res = await userApi.post('update_photo/'+id, formData)
-            console.log(res);
-            showToastMessage(res.data)  // to show succes or error message to user as toast
-        }catch (error){
-            console.log(error,'errror in update profile');
-            showToastMessage({status:500,message:error?.code==='ERR_NETWORK'?"Internal Server Error":"Bad Gateway"})
-        }
-        fetchapi()
+        
+       
+        updateProfilePhoto.mutate({id,formData}) // to update profile using custom hook and react query 
         closeModal()
         document.getElementById('my_modal_3').close()
     }
+
     //  to close the modal and clear states 
     const closeModal = ()=>{
         setModalIsOpen(false)
@@ -34,33 +32,13 @@ const ImgModal = ({state,is_pic,id,fetchapi,bgColor,textColor}) => {
         setModalIsOpen(true)
     }
     // to delete the profile photo from server
-    const deletePhoto = async ()=>{
-        try{
-            const res = await userApi.delete('delete_photo/'+id, { data: {'type':'profile'}})
-            console.log(res,'response delete');
-            showToastMessage(res.data)  // to show succes or error message to user as toast
-        }catch(error){
-            console.log(error, 'error delete');
-            showToastMessage({status:500,message:error?.code==='ERR_NETWORK'?"Internal Server Error":"Bad Gateway"})
-        }
-        fetchapi()
+    const deleteProfilePhoto = async ()=>{
+        const type = {'type':'profile'}
+        deletePhoto.mutate({id,type}) // to delete profile photo using custom hook and react query
         closeModal()
         document.getElementById('my_modal_3').close()
     }
-    //  to show succes to error message to user
-    const showToastMessage = ({ status, message }) => {
-        console.log(status, message);
-        const options = {
-            position: 'bottom-right',
-            draggable: true,
-        }
-        if (status===200){
-            toast.success(message, options);
-        }
-        else{
-            toast.error(message,options)
-        }
-      };
+
   return (
     <>
     {/*  modal to show the existing image*/}
@@ -81,7 +59,7 @@ const ImgModal = ({state,is_pic,id,fetchapi,bgColor,textColor}) => {
         </div>
             <div className="mt-2 flex justify-between">
                 {   state &&
-                    <button className='border border-red-500 hover:border-red-900 w-full py-1 hover:bg-red-300 text-red-500 hover:text-red-900' onClick={deletePhoto}>  
+                    <button className='border border-red-500 hover:border-red-900 w-full py-1 hover:bg-red-300 text-red-500 hover:text-red-900' onClick={deleteProfilePhoto}>  
                         Delete photo
                     </button>
                 }

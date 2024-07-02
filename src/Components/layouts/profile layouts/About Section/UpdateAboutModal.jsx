@@ -1,39 +1,19 @@
 import React, { useCallback, useState } from 'react'
 import ReactModal from 'react-modal'
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import userApi from '../../../../api/axiosconfig'
+import { useUpdateAbout } from '../../../common/Custom Hooks/useProfile';
 
-const UpdateAboutModal = ({isOpen,closeUpdateModal,about,fetchapi}) => {
+const UpdateAboutModal = ({isOpen,closeUpdateModal,about}) => {
   const [data,setData] = useState(about?about:null)
+
+  const updateAbout = useUpdateAbout()
   
-  const updateAbout = async (e)=>{
+  const updateAboutData = async (e)=>{
     e.preventDefault()
-    console.log(data);
-    try{
-      const res = await userApi.put('update_about',{about:data})
-      console.log(res);
-      showToastMessage(res.status,"  About updated success")
-    } catch (err){
-      console.log(err);
-      showToastMessage({status:500,message:err?.code==='ERR_NETWORK'?"Internal Server Error":"Bad Gateway"})
-    } 
-    fetchapi()
+    
+    updateAbout.mutate({about:data}) // using custom hook and react query update about 
     closeUpdateModal()
   }
-  const showToastMessage = (status, message) => {
-    console.log(status, message);
-    const options = {
-        position: 'bottom-right',
-        draggable: true,
-    }
-    if (status===200){
-        toast.success(message, options);
-    }
-    else{
-        toast.error(message,options)
-    }
-  };
+
   return (
     <div>
       <ReactModal
@@ -72,7 +52,7 @@ const UpdateAboutModal = ({isOpen,closeUpdateModal,about,fetchapi}) => {
               ✕
             </button>
             <h3 className="font-bold text-lg text-center capitalize">Update About </h3>
-            <form className='flex flex-col items-center' onSubmit={updateAbout}>
+            <form className='flex flex-col items-center' onSubmit={updateAboutData}>
               <textarea defaultValue={about}  id='about' rows={10} className='border border-black my-3 px-1 w-11/12' onChange={(e)=>setData(e.target.value)} >
                    
               </textarea>

@@ -1,7 +1,7 @@
 import React, { Suspense, useState } from 'react'
+const UpdateAboutModal = React.lazy(()=> import ('./UpdateAboutModal')) 
 
-const AboutSection = React.memo(({academy,about,fetchapi}) => {
-  const UpdateAboutModal = React.lazy(()=> import ('./UpdateAboutModal')) 
+const AboutSection = React.memo(({academy,about}) => {
 
   const [isOpen,setIsOpen] = useState(false)
 
@@ -32,7 +32,7 @@ const AboutSection = React.memo(({academy,about,fetchapi}) => {
         </div>
     </div>
     <Suspense fallback={<>loading</>}>
-     {isOpen &&  <UpdateAboutModal isOpen={isOpen} closeUpdateModal={closeUpdateModal} about={about} fetchapi={fetchapi}/>}
+     {isOpen &&  <UpdateAboutModal isOpen={isOpen} closeUpdateModal={closeUpdateModal} about={about}/>}
     </Suspense>
    </>
   )

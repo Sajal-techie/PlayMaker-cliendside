@@ -1,9 +1,9 @@
 import React, { Suspense, useEffect, useState } from 'react'
 import userApi from '../../../../api/axiosconfig'
 import { Link } from 'react-router-dom'
+const AchievementModal = React.lazy(()=>import('./AchievementModal')) 
 
 const Achievementsection = React.memo(({academy,dob}) => {
-    const AchievementModal = React.lazy(()=>import('./AchievementModal')) 
 
     const [achievements,setAchievements] = useState([])
     const [isOpen,setIsOpen] = useState(false)
@@ -54,7 +54,7 @@ const Achievementsection = React.memo(({academy,dob}) => {
                 <div>
                     {achievements.slice(0,3).map((obj,index)=>(
                         <div key={index} className='flex mb-5 capitalize px-8'>
-                            <img className='w-20' src={obj?.image ? obj?.image : 
+                            <img className='w-20 border border-gray-300' src={obj?.image ? obj?.image : 
                                                             'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'} alt="achievement image"/>
                             <div className='ml-2 flex flex-col text-sm justify-center'>
                                 <div>
