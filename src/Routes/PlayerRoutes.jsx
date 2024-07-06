@@ -1,9 +1,9 @@
 import React, { Suspense, lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { InfinitySpin } from 'react-loader-spinner';
-import Skelton1 from '../Pages/Skelton1';
 import RedirectIfAuthenticated from './protected/RedirectIfAuthenticated';
 import ProtectedRoute from './protected/ProtectedRoute';
+import Skelton_profile from '../Pages/Skelton_profile';
 
 const Home = lazy(()=> import ('../Components/player/Home') )
 const Login = lazy(()=> import ('../Components/player/Login'))
@@ -21,7 +21,7 @@ const  GetUserDetails = lazy(()=> import('../Components/player/Signup/GetUserDet
 const PlayerRoutes = () => {
     
   return (  
-      <Suspense fallback={<Skelton1/>}>
+      <Suspense fallback={<Skelton_profile/>}>
         <Routes>
               <Route path="/" element={<RedirectIfAuthenticated element={<Login/>} redirectTo={'/home'} />   }/>
               <Route path="/signup" element={<RedirectIfAuthenticated element={<Signup/>} redirectTo={'/home'} />  }/>

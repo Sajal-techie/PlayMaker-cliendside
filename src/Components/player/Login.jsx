@@ -175,8 +175,8 @@ const Login = () => {
               {error}
             </div>
           {loading ?
-            <div className='flex justify-center -mt-14'>
-              <LineWave color='#00BFFF' height={120} width={120} /> 
+            <div className='flex justify-center -mt-14 ml-10'>
+              <LineWave color='#1e88e5' height={120} width={120} /> 
             </div>
             :
             <div className="">
