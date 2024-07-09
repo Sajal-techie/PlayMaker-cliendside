@@ -11,7 +11,7 @@ const  HomeAcademy = lazy(()=> import('../Components/academy/HomeAcademy'))
 const  ProfileAcademy = lazy(()=> import('../Components/academy/ProfileAcademy'))
 const AddTrial = lazy(()=> import('../Components/academy/selection trials/AddTrial'))
 const ListOwnTrial = lazy(()=>import('../Components/academy/selection trials/ListOwnTrials/ListOwnTrial'))
-
+const TrialDetails = lazy(()=>import ('../Components/academy/selection trials/ListOwnTrials/TrialDetails'))
 
 const AcademyRoutes = () => {
 
@@ -24,6 +24,7 @@ const AcademyRoutes = () => {
           <Route path="/profile" element={<ProtectedRoute element={<ProfileAcademy/>} role={"academy"} />} />
           <Route path="/add_trial" element={<ProtectedRoute element={<AddTrial/>} role={"academy"} />} />
           <Route path="/list_trials" element={<ProtectedRoute element={<ListOwnTrial/>} role={"academy"} />} />
+          <Route path="/trial_details/:id" element={<ProtectedRoute element={<TrialDetails/>} role={"academy"} />} />
       </Routes>
     </Suspense>
   )

@@ -17,6 +17,7 @@ import userApi from '../../../api/axiosconfig';
 import all_sports from '../../../api/json data/sports';
 import all_states from '../../../api/json data/states_districts';
 import { showToastMessage } from '../../common/functions/showToastMessage';
+import { useCreateNewTrial } from '../Custom Hooks/useTrialAcademy';
 
 
 const states = all_states.map((obj)=> obj.state)
@@ -28,8 +29,9 @@ const AddTrial = () => {
   const [districts,setDistricts] = useState([])
   const [requirementError,setRequirementError] = useState()
 
+  const addTrial = useCreateNewTrial()
   const navigate = useNavigate()
-
+  
   const formik = useFormik({
     initialValues: {
       sport: '',
@@ -100,19 +102,20 @@ const AddTrial = () => {
         }
         formData.forEach((e)=>console.log(e))
         try {
-          const response = await userApi.post('trial', formData);
-          console.log(response);
-          if (response.status === 201){
-            showToastMessage(200,'Trial created successfully')
+            addTrial.mutate(formData)
             navigate('/academy/list_trials')
-          }
+          // const response = await userApi.post('trial', formData);
+          // console.log(response);
+          // if (response.status === 201){
+          //   showToastMessage(200,'Trial created successfully')
+          // }
         } catch (error) {
           console.error(error);
-          if (error.status ===403){
-            showToastMessage(error.status,error.data.detail)
-          }else{
-            showToastMessage(400,"Server error try again later")
-          }
+          // if (error.status ===403){
+          //   showToastMessage(error.status,error.data.detail)
+          // }else{
+          //   showToastMessage(400,"Server error try again later")
+          // }
           navigate('/academy/home')
         }
       },

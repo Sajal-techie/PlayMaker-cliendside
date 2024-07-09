@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { Box, Container, Typography, TextField, Button, Grid, Tabs, Tab } from '@mui/material';
+import { Box, Container, Typography, TextField, Button, Grid, Tabs, Tab,Input } from '@mui/material';
 import TrialCard from './TrialCard';
 import Navbar from '../../../layouts/navbar/Navbar';
 import { useTrialAcademy } from '../../Custom Hooks/useTrialAcademy';
 import Skelton_profile from '../../../../Pages/Skelton_profile';
 import { Link, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const ListOwnTrial = () => {
   const { data: trialList, isLoading, isError, error: fetchError } = useTrialAcademy();
   const [searchTerm, setSearchTerm] = useState('');
   const [tabValue, setTabValue] = useState(0);
+
+  const role = useSelector(state=>state.auth.role)
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -18,7 +21,7 @@ const ListOwnTrial = () => {
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
-
+  console.log(trialList,role);
   const filterTrials = (trials) => {
     const currentDate = new Date();
     switch (tabValue) {
@@ -47,7 +50,7 @@ const ListOwnTrial = () => {
 
   return (
     <>
-      <Navbar academy={true} />
+      <Navbar academy={role==='academy'} />
       <Container maxWidth="md" sx={{ py: 3 }}>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
           <Typography variant="h4">Selection Trials</Typography>
@@ -61,7 +64,7 @@ const ListOwnTrial = () => {
           placeholder="Search trials"
           value={searchTerm}
           onChange={handleSearch}
-          sx={{ mb: 1, backgroundColor: 'white' }}
+          sx={{ mb: 1, backgroundColor: 'white',borderRadius:4,}}
         />
         <Tabs value={tabValue} onChange={handleTabChange} centered sx={{ mb: 4}}>
           <Tab label="Upcoming" />

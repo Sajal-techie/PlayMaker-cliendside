@@ -9,15 +9,20 @@ import {
   Grid,
 } from '@mui/material';
 import { convertTo12HourFormat } from '../../../common/functions/covertTime';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const TrialCard = React.memo((trial) => {
   console.log(trial);
-
+  let id = trial.id
   const trialDate = new Date(trial.trial_date).toDateString();
   const deadline = new Date(trial.deadline).toDateString();
   const trialTime = convertTo12HourFormat(trial.trial_time);
 
-  console.log(trialDate, trialTime);
+  const role = useSelector(state=>state.auth.role)
+  const trialLink = role === 'academy' ? `/academy/trial_details/${id}` : `/trial_details/${id}`
+
+  console.log(trialDate, trialTime, role);
   return (
     <Card sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, mb: 2, boxShadow: 3 }}>
       <CardMedia
@@ -44,6 +49,12 @@ const TrialCard = React.memo((trial) => {
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
+              {
+                role === 'player' &&
+                <Typography variant="body2" color="text.secondary" sx={{ fontSize: 16 }}>
+                  <span className="text-black">Academy:</span> {trial.academy_details.username} 
+                </Typography>
+              }
               <Typography variant="body2" color="text.secondary" sx={{ fontSize: 16 }}>
                 <span className="text-black">Sport:</span> {trial.sport}
               </Typography>
@@ -62,10 +73,6 @@ const TrialCard = React.memo((trial) => {
               <Typography variant="body2" color="text.secondary" sx={{ fontSize: 16 }}>
                 <span className="text-black">District:</span> {trial.district}
               </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ fontSize: 16 }}>
-                <span className="text-black">Fees:</span>{' '}
-                {trial.is_registration_fee ? <>₹{trial.registration_fee}</>  : 'Free'}
-              </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Typography variant="body2" color="text.secondary" sx={{ fontSize: 16 }}>
@@ -77,13 +84,19 @@ const TrialCard = React.memo((trial) => {
               <Typography variant="body2" color="text.secondary" sx={{ fontSize: 16 }}>
                 <span className="text-black">Last Date:</span> {deadline}
               </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: 16 }}>
+                <span className="text-black">Fees:</span>{' '}
+                {trial.is_registration_fee ? <>₹{trial.registration_fee}</>  : 'Free'}
+              </Typography>
             </Grid>
           </Grid>
         </CardContent>
         <Box sx={{ p: 2, textAlign: 'center' }}>
-          <Button variant="outlined" color="primary" sx={{ color: 'rgb(79 70 229)' }}>
-            View Details
-          </Button>
+          <Link to={trialLink}>
+            <Button variant="outlined" color="primary" sx={{ color: 'rgb(79 70 229)' }}>
+              View Details
+            </Button>
+          </Link>
         </Box>
       </Box>
     </Card>
