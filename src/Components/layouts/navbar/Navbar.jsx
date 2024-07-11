@@ -6,14 +6,16 @@ import NavDropdown from './NavDropdown'
 import NavbarMenu from './NavbarMenu'
 import NavSearch from './NavSearch'
 import Swal from 'sweetalert2'
+import { useQueryClient } from 'react-query'
 
 const Navbar = ({academy}) => {
     const [dropdown,setDropdown] = useState(false)
     const dropdownRef = useRef()
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
 
-    const customColor = academy ? "text-indigo-500 hover:text-black" :""
+    const customColor = academy ? "text-indigo-500 hover:text-black" :"text-gblue-500 hover:text-black"
 
     const handleClickOutside = (event)=>{
         if (!dropdownRef.current.contains(event.target)){
@@ -32,9 +34,10 @@ const Navbar = ({academy}) => {
 
     const handleLogout = async ()=>{
         try{
-    
+          
           const res = await dispatch(logout()).unwrap()
           console.log(res,'in home');
+          queryClient.clear()  // clear the fetched datas by useQuery
           Swal.fire({
             icon: 'success',
             title: 'Logout Successfull',

@@ -21,7 +21,7 @@ const TrialCard = React.memo((trial) => {
 
   const role = useSelector(state=>state.auth.role)
   const trialLink = role === 'academy' ? `/academy/trial_details/${id}` : `/trial_details/${id}`
-
+  const customColor = role === 'academy' ? 'rgb(99 102 241)' : 'rgb(30 136 229)'
   console.log(trialDate, trialTime, role);
   return (
     <Card sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, mb: 2, boxShadow: 3 }}>
@@ -42,7 +42,7 @@ const TrialCard = React.memo((trial) => {
                   textTransform: 'capitalize',
                   textAlign: 'center',
                   marginBottom: 2,
-                  color: 'rgb(99 102 241)',
+                  color: customColor,
                 }}
               >
                 {trial.name}
@@ -93,7 +93,7 @@ const TrialCard = React.memo((trial) => {
         </CardContent>
         <Box sx={{ p: 2, textAlign: 'center' }}>
           <Link to={trialLink}>
-            <Button variant="outlined" color="primary" sx={{ color: 'rgb(79 70 229)' }}>
+            <Button variant="outlined" color="primary" sx={{ color: customColor }}>
               View Details
             </Button>
           </Link>

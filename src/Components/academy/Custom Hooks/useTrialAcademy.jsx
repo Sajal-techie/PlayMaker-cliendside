@@ -111,11 +111,11 @@ export const useDeleteTrial = (id)=>{
         {
             onSuccess:()=>{
                 queryClient.invalidateQueries('trials')
-                showToastMessage(200, 'trial deleted succesfully')
+                showToastMessage(200, 'trial cancelled succesfully')
             },
             onError:(error)=>{
                 console.log('error dleteing',error);
-                showToastMessage(400,'Error deleting trial')
+                showToastMessage(400,'Error cancelling trial')
             }
         }
     )

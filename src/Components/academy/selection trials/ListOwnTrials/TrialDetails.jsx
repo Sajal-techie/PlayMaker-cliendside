@@ -81,7 +81,6 @@ const TrialDetails = () => {
   });
 
 
-
   useEffect(() => {
     if (isEditing) {
       formik.setValues(trial);
@@ -91,7 +90,7 @@ const TrialDetails = () => {
     console.log('in effect');
   }, [isEditing, trial]);
 
-  const handleDelete = () => {
+  const handleCancel = () => {
     deleteTrialMutation.mutate()
     navigate('/academy/list_trials')
   };
@@ -340,8 +339,8 @@ const TrialDetails = () => {
                     <Button variant="contained" color="primary" onClick={() => setIsEditing(true)}>
                         Edit
                     </Button>
-                    <Button variant="contained" color="error" onClick={handleDelete}>
-                        Delete
+                    <Button variant="contained" color="error" onClick={handleCancel}>
+                        Cancel
                     </Button>
                     </Box>
                 }

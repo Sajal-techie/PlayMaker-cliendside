@@ -21,7 +21,7 @@ const fetchProfile = async ()=>{
 
 export const useProfile = () => {
   return useQuery('profile',fetchProfile,{
-
+        staleTime: 10 * (60 * 1000),
   })
 }
 

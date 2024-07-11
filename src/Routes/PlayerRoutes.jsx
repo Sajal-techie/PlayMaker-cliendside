@@ -5,6 +5,7 @@ import RedirectIfAuthenticated from './protected/RedirectIfAuthenticated';
 import ProtectedRoute from './protected/ProtectedRoute';
 import Skelton_profile from '../Pages/Skelton_profile';
 import ViewTrialdetails from '../Components/player/selection trial/ViewTrialdetails';
+import RegisterTrial from '../Components/player/selection trial/RegisiterTrial';
 
 
 const Home = lazy(()=> import ('../Components/player/Home') )
@@ -38,6 +39,7 @@ const PlayerRoutes = () => {
               <Route path='/view_achievements' element={<ProtectedRoute element={<ViewAchievement/>} role={"both"} /> }/>
               <Route path='/list_trials' element={<ProtectedRoute element={<ListTrials/>} role={"player"} /> }/>
               <Route path='/trial_details/:id' element={<ProtectedRoute element={<ViewTrialdetails/>} role={"player"} /> }/>
+              <Route path='/register_trial/:id' element={<ProtectedRoute element={<RegisterTrial/>} role={"player"} /> }/>
               <Route path='*' element={<ErrorPage404/>}/>
         </Routes>
       </Suspense>
