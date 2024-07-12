@@ -37,13 +37,13 @@ const ForgetPassword = () => {
         dispatch(toggleOtpAcess(true))
         navigate('/otp_verification', {state : {email : email,forget_pass: true}})
       }
-      else if (response.status===200 && response.data.status===200){
+      else if (response.status===200 && response.data.status===400){
         await Swal.fire({
             icon:'error',
             title:'Email not registered',
             text:'You are not registered try signing in'
         })
-        navigate('/')
+        navigate('/signup')
       }
     } catch (error) {
         console.log(error);

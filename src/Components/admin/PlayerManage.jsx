@@ -129,9 +129,9 @@ const PlayerManage = () => {
                                                 <div className="flex items-center text-sm">
                                                     <div className='flex'>
                                                         {!obj.is_active ? 
-                                                            <p className="font-semibold text-red-500 cursor-pointer w-1/3" onClick={() => handleActive('block', obj.id)}>Blocked</p>
+                                                            <p className="font-semibold text-red-500 w-1/3">Blocked</p>
                                                             :
-                                                            <p className="font-semibold text-green-500 cursor-pointer" onClick={() => handleActive('active', obj.id)}>Active</p>
+                                                            <p className="font-semibold text-green-500">Active</p>
                                                         }
                                                        <span onClick={()=>changeStatus(obj)} className='ml-5 bg-amber-500 p-1 text-white cursor-pointer hover:bg-amber-600 border hover:border-black ' >
                                                             update

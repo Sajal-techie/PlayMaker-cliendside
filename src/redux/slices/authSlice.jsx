@@ -1,8 +1,5 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import { baseUrl } from "../../api/api";
-// import axios from "axios";
 import userApi from "../../api/axiosconfig";
-import { QueryClient, useQueryClient } from "react-query";
 
 export const login = createAsyncThunk(
     "auth/login",

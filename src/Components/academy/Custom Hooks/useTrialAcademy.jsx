@@ -1,7 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import userApi from '../../../api/axiosconfig'
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { showToastMessage } from '../../common/functions/showToastMessage';
 
 
@@ -50,7 +48,6 @@ export const useTrialAcademy = ()=>{
 
 //  custom hook for fetching single trial details
 export const useTrialDetails = (id) =>{
-    console.log(id,'helellee');
     return useQuery(['trial',id],()=>fetchTrialDetails(id),{
         enabled: !!id,
         staleTime: 10 * (60 * 1000),

@@ -76,6 +76,9 @@ const ViewTrialdetails = () => {
                       {trial.name}
                     </Typography>
                     <Typography variant="body1" gutterBottom sx={{wordBreak:'break-word',overflowWrap:'break-word',maxWidth:430}}>
+                        Academy: <strong className='text-slate-600'>{trial.academy_details.username}</strong>  
+                    </Typography>
+                    <Typography variant="body1" gutterBottom sx={{wordBreak:'break-word',overflowWrap:'break-word',maxWidth:430}}>
                         Venue: <strong className='text-slate-600'>{trial.venue}</strong>  
                     </Typography>
                     <Typography variant="body1" gutterBottom sx={{wordBreak:'break-word',overflowWrap:'break-word',maxWidth:430}}>
@@ -135,7 +138,7 @@ const ViewTrialdetails = () => {
                   unique_id ? (
                     <div className='border-2 p-4 font-bold flex flex-col items-center text-lg'>
                       <div>ID: <span className='text-blue-500 font-bold text-xl'>{unique_id}</span></div>
-                      <span className='capitalize'>{status}</span>
+                      <span className={`capitalize ${status === 'selected' ? 'text-green-500' : 'text-red-500'}`}> {status} </span>
                     </div>
                   ) : (
                     <>

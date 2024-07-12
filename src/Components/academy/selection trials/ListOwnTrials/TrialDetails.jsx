@@ -16,13 +16,13 @@ import {
   Paper,
   IconButton,
 } from '@mui/material';
-// import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Navbar from '../../../../Components/layouts/navbar/Navbar';
 import { useDeleteTrial, useTrialDetails, useUpdateTrial } from '../../Custom Hooks/useTrialAcademy';
 import { convertTo12HourFormat } from '../../../common/functions/covertTime';
 import Skelton_profile from '../../../../Pages/Skelton_profile';
+import PlayersCard from './PlayersCard';
 
 const TrialDetails = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -64,15 +64,28 @@ const TrialDetails = () => {
       trial_date: Yup.date().required('Trial date is required'),
       trial_time: Yup.string().required('Trial time is required'),
       deadline: Yup.date().required('Deadline is required'),
-    //   total_participant_limit: Yup.number().when('is_participant_limit', {
-    //     is: true,
-    //     then: Yup.number().required('Participant limit is required'),
-    //   }),
+      total_participant_limit: Yup.number()
+      .when('is_participant_limit', {
+        is: true,
+        then:()=> Yup.number()
+          .required('Participant limit is required')
+          .positive('Limit must be positive')
+          .integer('Limit must be an integer')
+          .test(
+            'is-greater-than-player-count',
+            'Participant limit must be greater than or equal to the current number of registered players',
+            function (value) {
+              const { player_count } = trial; 
+              return value >= player_count;
+            }
+          ),
+        otherwise:()=> Yup.mixed().notRequired(),
+      }),
     }),
     onSubmit: (values) => {
         console.log(values,'hai');
         if (!values.is_participant_limit){
-            values.total_participant_limit = 0
+            values.total_participant_limit = null
         }
         delete values.image
         updateTrialMutation.mutate(values);
@@ -87,7 +100,6 @@ const TrialDetails = () => {
     } else {
       formik.resetForm();
     }
-    console.log('in effect');
   }, [isEditing, trial]);
 
   const handleCancel = () => {
@@ -95,32 +107,22 @@ const TrialDetails = () => {
     navigate('/academy/list_trials')
   };
 
-//   const handleUpdate = () => {
-//     delete formValues.image
-//     updateTrialMutation.mutate(formValues)
-//     setIsEditing(false)
-//   };
-
-//   const handleChange = (e) => {
-//     setFormValues({ ...formValues, [e.target.name]: e.target.value });
-//   };
-
-  if (!trial) return <div> <Skelton_profile/> </div>;
-  if (isLoading) return <> <Skelton_profile/> </>
-
+  if (!trial) return  <Skelton_profile/> 
+  if (isLoading) return  <Skelton_profile/> 
+  console.log(trial);
   return (
     <>
       <Navbar academy={true} />
       <Container sx={{ mt: 7, mb: 5 }}>
         {/* <IconButton onClick={() => navigate(-1)} color="primary">
-          <ArrowBackIcon />
+          <ArrowBack />
         </IconButton> */}
         <Card sx={{ mt: 4 }}>
           <CardMedia
             component="img"
             image={trial.image ? trial.image : 'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'}
             alt="Trial Poster"
-            sx={{ objectFit: 'fill',maxHeight:600 }}
+            sx={{ objectFit: 'fill',maxHeight:500 }}
           />
           <CardContent>
             {isEditing ? (
@@ -325,6 +327,9 @@ const TrialDetails = () => {
                         <strong className='text-slate-600'>Deadline:</strong> {deadline}
                       </Typography>
                       <Typography variant="body1" gutterBottom>
+                        <strong className='text-slate-600'>Registered players:</strong> {trial.player_count }
+                      </Typography>
+                      <Typography variant="body1" gutterBottom>
                         <strong className='text-slate-600'>Participant Limit:</strong> {trial.is_participant_limit ? trial.total_participant_limit : 'No Limit'}
                       </Typography>
                       <Typography variant="body1" gutterBottom>
@@ -340,15 +345,17 @@ const TrialDetails = () => {
                         Edit
                     </Button>
                     <Button variant="contained" color="error" onClick={handleCancel}>
-                        Cancel
+                        Cancel Trial
                     </Button>
                     </Box>
                 }
+                <PlayersCard id={id} count={trial.player_count} />
               </Box>
             )}
           </CardContent>
         </Card>
       </Container>
+      
     </>
   );
 };
