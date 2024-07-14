@@ -1,11 +1,8 @@
 import React, { Suspense, lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { InfinitySpin } from 'react-loader-spinner';
 import RedirectIfAuthenticated from './protected/RedirectIfAuthenticated';
 import ProtectedRoute from './protected/ProtectedRoute';
 import Skelton_profile from '../Pages/Skelton_profile';
-import ViewTrialdetails from '../Components/player/selection trial/ViewTrialdetails';
-import RegisterTrial from '../Components/player/selection trial/RegisiterTrial';
 
 
 const Home = lazy(()=> import ('../Components/player/Home') )
@@ -20,6 +17,10 @@ const   ForgetPassword= lazy(()=> import('../Components/common/ForgetPassword'))
 const  ResetPassword = lazy(()=> import('../Components/common/ResetPassword'))
 const  GetUserDetails = lazy(()=> import('../Components/player/Signup/GetUserDetails'))
 const ListTrials = lazy(()=>import('../Components/player/selection trial/ListTrials'))
+const ViewTrialdetails = lazy(()=>import('../Components/player/selection trial/ViewTrialdetails'))
+const RegisterTrial = lazy(()=>import('../Components/player/selection trial/RegisiterTrial'))
+const PaymentSuccess = lazy(()=>import('../Components/player/selection trial/PaymentSuccess'))
+const PaymentFailed = lazy(()=>import('../Components/player/selection trial/PaymentFailed'))
 
 const PlayerRoutes = () => {
     
@@ -40,6 +41,8 @@ const PlayerRoutes = () => {
               <Route path='/list_trials' element={<ProtectedRoute element={<ListTrials/>} role={"player"} /> }/>
               <Route path='/trial_details/:id' element={<ProtectedRoute element={<ViewTrialdetails/>} role={"player"} /> }/>
               <Route path='/register_trial/:id' element={<ProtectedRoute element={<RegisterTrial/>} role={"player"} /> }/>
+              <Route path='/payment_success' element={<ProtectedRoute element={<PaymentSuccess/>} role={"player"} /> }/>
+              <Route path='/payment_failed' element={<ProtectedRoute element={<PaymentFailed/>} role={"player"} /> }/>
               <Route path='*' element={<ErrorPage404/>}/>
         </Routes>
       </Suspense>

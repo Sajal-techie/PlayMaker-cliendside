@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify'
-
 import './App.css'
 import PlayerRoutes from './Routes/PlayerRoutes';
 import AcademyRoutes from './Routes/AcademyRoutes';
@@ -12,20 +11,21 @@ function App() {
   return (
     <>
     <ToastContainer />
-    <Router>
-      <Routes> 
-        {/* user routes */}
-        <Route path='/*' element={<PlayerRoutes/>}/>
-        {/* academy routes */}
-        <Route path='/academy/*' element={<AcademyRoutes/>} />
-        {/* admin routes */}
-        <Route path='/admin/*' element={<AdminRoutes/>}/>
+      <Router>
+        <Routes> 
+          {/* player routes */}
+          <Route path='/*' element={<PlayerRoutes/>}/>
+          {/* academy routes */}
+          <Route path='/academy/*' element={<AcademyRoutes/>} />
+          {/* admin routes */}
+          <Route path='/admin/*' element={<AdminRoutes/>}/>
 
 
-        <Route path='/unauthenticated' element={<Error401/>} /> 
-        <Route path='/sample' element={<Test/>} />   
-      </Routes>
-    </Router>
+          <Route path='/unauthenticated' element={<Error401/>} /> 
+          <Route path='/sample' element={<Test/>} />   
+        </Routes>
+      </Router>
+
     </>
   )
 }

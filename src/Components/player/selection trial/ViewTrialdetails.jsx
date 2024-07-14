@@ -24,18 +24,17 @@ const ViewTrialdetails = () => {
   const { id } = useParams()
   const [unique_id,setUnique_id] = useState('')
   const [status,setStatus] = useState('')
-  const [count,setCount] = useState(0)
-  const {data:trial, isLoading,isError} = useTrialDetails(id)
+  const {data:trial, isLoading,isError} = useTrialDetails(id) // fetch trial using custom hook
 
+  // to fetch current player details (for uniqueid and status) 
   const fetchPlayerinTrial = async ()=>{
     try{
-      const res = await userApi.get(`player_exist/${id}`)
+      const res = await userApi.get(`trial_player_details/${id}`)
       console.log(res);
       if (res.status === 200){
         setStatus(res.data.status)
         setUnique_id(res.data.unique_id) 
       }
-      setCount(res.data.count)
     }catch(error){
       console.log(error,'error fetching');
     }
@@ -46,6 +45,7 @@ const ViewTrialdetails = () => {
   }, [])
 
   console.log(trial,id);
+  //  to show dates in a user friendly format
   const trialDate = trial?.trial_date ?  new Date(trial?.trial_date).toDateString() : trial?.trial_date
   const deadline = trial?.deadline ? new Date(trial?.deadline).toDateString() : trial?.deadline
   const trialTime = trial?.trial_time ? convertTo12HourFormat(trial?.trial_time) : trial?.trial_time
@@ -54,6 +54,7 @@ const ViewTrialdetails = () => {
   if (isLoading) return <> <Skelton_profile/> </>
   if (isError) return <Navigate to={'/home'} />
 
+  //  stript time to get a proper comparisson result
   const strippedDate = stripTime(today)
   const deadlineStripped = stripTime(new Date(trial.deadline))
   console.log(today,deadline,today>deadline, new Date(trial.deadline),strippedDate,deadlineStripped);
@@ -96,6 +97,7 @@ const ViewTrialdetails = () => {
                             Description: <strong className='text-slate-600'> {trial.description}</strong>
                         </Typography>
                     }
+                    {/* show addition requirements if sepcified in trial */}
                     {
                         trial.additional_requirements.length > 0 && 
                         <>
@@ -122,7 +124,7 @@ const ViewTrialdetails = () => {
                         <strong className='text-slate-600'>Deadline:</strong> {deadline}
                       </Typography>
                       <Typography variant="body1" gutterBottom>
-                        <strong className='text-slate-600'>Registered Players:</strong> {count}
+                        <strong className='text-slate-600'>Registered Players:</strong> {trial.player_count}
                       </Typography> 
                       <Typography variant="body1" gutterBottom>
                         <strong className='text-slate-600'>Participant Limit:</strong> {trial.is_participant_limit ? trial.total_participant_limit : 'No Limit'}
@@ -134,14 +136,17 @@ const ViewTrialdetails = () => {
                   </Grid>
                 </Grid>
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+
+                  {/* if already registered show unique id and status */}
                 {
                   unique_id ? (
                     <div className='border-2 p-4 font-bold flex flex-col items-center text-lg'>
                       <div>ID: <span className='text-blue-500 font-bold text-xl'>{unique_id}</span></div>
-                      <span className={`capitalize ${status === 'selected' ? 'text-green-500' : 'text-red-500'}`}> {status} </span>
+                      <span className={`capitalize ${status === 'selected' ? 'text-green-500' : status ==='rejected' ? 'text-red-500':'text-yellow-500'} `}> {status} </span>
                     </div>
                   ) : (
                     <>
+                    {/* if  there is no participant limit show register button */}
                       {!trial.is_participant_limit ? (
                         <Link to={`/register_trial/${id}`}>
                           <Button variant="contained" color="primary">
@@ -149,16 +154,19 @@ const ViewTrialdetails = () => {
                           </Button>
                         </Link>
                       ) : (
-                        trial.total_participant_limit > count && strippedDate <= deadlineStripped ? (
+                        // if  total players in trial and deadline is lower that neede then show the button
+                        trial.total_participant_limit > trial.player_count && strippedDate <= deadlineStripped ? (
                           <Link to={`/register_trial/${id}`}>
                             <Button variant="contained" color="primary">
                               Register
                             </Button>
                           </Link>
                         ) : (
+                          //  if deadline is more than todays date hide button
                           strippedDate > deadlineStripped ? (
                             <>Deadline Over</>
                           ) : (
+                            // if participant count more than registered players count hide button
                             <>Slot Full</>
                           )
                         )

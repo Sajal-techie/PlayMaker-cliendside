@@ -77,6 +77,7 @@ export const useCreateNewTrial = () =>{
 }
 
 
+// custom hook to update a trial 
 export const useUpdateTrial = (id) =>{
     const queryClient = useQueryClient()
     return useMutation(
@@ -99,6 +100,7 @@ export const useUpdateTrial = (id) =>{
 }
 
 
+// custom hook to delete a trial 
 export const useDeleteTrial = (id)=>{
     const queryClient = useQueryClient()
     return useMutation(

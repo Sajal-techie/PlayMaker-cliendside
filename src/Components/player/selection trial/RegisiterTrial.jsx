@@ -9,17 +9,25 @@ import {
 import userApi from '../../../api/axiosconfig';
 import Navbar from '../../layouts/navbar/Navbar';
 import { showToastMessage } from '../../common/functions/showToastMessage';
+import { loadStripe } from '@stripe/stripe-js';
+import { ColorRing } from 'react-loader-spinner';
+  
+const stripePromise = loadStripe(import.meta.env.REACT_APP_STRIPE_KEY || 'pk_test_51PbymA2Kz50DKZ1p9iPax1hcYrd5RghzVFUtw5PqjM8D4n4tOoBDABb1YIjR2xYFrwkb2mgRVaxcxJgzQsH8hPYt00YMuVWYrY')
+
 
 const RegisterTrial = () => {
   const { id } = useParams();
   const [trial,setTrial] = useState({})
-  const navigate = useNavigate();
-
   const [player, setPlayer] = useState({});
+  const [loading,setLoading] = useState(false)
+  const navigate = useNavigate();
 
   useEffect(() => {
       fetchTrialData()
       fetchPlayerData();
+    }, []);
+
+    useEffect(()=>{
       formik.setValues({
         name:player?.user?.username,
         dob:player?.user?.dob,
@@ -32,8 +40,10 @@ const RegisterTrial = () => {
             value: ''
       })) || []
     })
-    }, []);
 
+    },[player,trial])
+
+    //  to fetch trial data (for getting trial requriements)
     const fetchTrialData = async ()=>{
         try{
             const response = await userApi.get(`trial/${id}`)
@@ -43,6 +53,8 @@ const RegisterTrial = () => {
             console.log(error,'error fetching trial');
         }
     }
+
+    // to fetch player data (autofill form fields)
     const fetchPlayerData = async () => {
       try{
         const response = await userApi(`profile`)
@@ -71,20 +83,26 @@ const RegisterTrial = () => {
     validationSchema: Yup.object({
       name: Yup.string().required('Name is required'),
       dob: Yup.date().required('Date of Birth is required'),
-      number: Yup.string().required('Number is required'),
+      number:  Yup.string()
+                .matches(/^[0-9]+$/, "Must be only digits")
+                .length(10, "Must be valid number (10 digits)")
+                .required("Phone number is required"),
       email: Yup.string().email('Invalid email').required('Email is required'),
       state: Yup.string().required('State is required'),
       district: Yup.string().required('District is required'),
       achievement: Yup.string().required('Achievement is required'),
       additional_requirements: Yup.array().of(
-        Yup.object().shape({
-          requirement: Yup.string(),
-          value: Yup.string().required('This field is required')
-        })
+          Yup.object().shape({
+            requirement: Yup.string(),
+            value: Yup.string().required('This field is required')
+          })
       )
     }),
     onSubmit: async (values) => {
+      setLoading(true)
         console.log(values);
+
+        // add additional requirement as object{}
       const registrationData = {
         ...values,
         trial: id,
@@ -95,22 +113,47 @@ const RegisterTrial = () => {
         }))
 
       };
-      console.log(registrationData);
       try{
+        // submit form data and register player in a trial 
         const response = await userApi.post('player_trial',registrationData)
         console.log(response);
-        showToastMessage(200,"registered succesfully")
-        navigate(`/trial_details/${id}`)
+
+        // if payment is required redirect to stripe checkout page using session if passed from server
+        if (trial.is_registration_fee){
+          const stripe = await stripePromise;
+          console.log(response,stripe);
+          const {sessionId} = response.data;
+          const result = await stripe.redirectToCheckout({sessionId});
+          // after successfull payment or cancelled payment server will direct respective pages
+          
+          if (result.error) {
+              console.log(result.error.message,'result error');
+              setLoading(false)
+          }
+      
+        //  redirect to trial details page if no payments required
+        }else{
+          console.log('status confirmeed ');
+          showToastMessage(200,"registered succesfully")
+          navigate(`/trial_details/${id}`)
+        }
       }catch(error){
-        showToastMessage(400,"some error in registration try again later")
         console.log(error,'create register trial');
+        if (error.status===400 && error?.data?.non_field_errors){
+          showToastMessage(error.status,error.data.non_field_errors[0])
+          navigate(`/trial_details/${id}`)
+        }
+        else if(error.status===406 || error.status===404){
+          showToastMessage(400,error.data)
+        }
+        else{
+          showToastMessage(400,"some error in registration try again later")
+        }
+      }finally{
+        setLoading(false)
       }
-    //   registerPlayerMutation.mutate(registrationData, {
-    //     onSuccess: () => {
-    //       navigate(`/trials/${id}`);
-    //     },
-    //   });
     }
+
   });
   console.log(trial,player,formik.values);
 
@@ -222,6 +265,8 @@ const RegisterTrial = () => {
                   <MenuItem value='nation'>Played in National level tournaments</MenuItem>
                 </TextField>
             </Grid>
+
+            {/* to show additional requirements if specified in trial */}
             {
                 formik?.values?.additional_requirements?.length > 0 && 
                     <Grid item xs={12} >
@@ -245,10 +290,30 @@ const RegisterTrial = () => {
                         ))}
                     </Grid>
                 }   
-            <Grid item xs={12}>
-              <Button type="submit" variant="contained" color="primary" fullWidth>
-                Register
-              </Button>
+            <Grid item xs={12} sx={{display:'flex',justifyContent:'center'}}>
+              {
+                loading ? 
+                <ColorRing
+                  visible={true}
+                  height="70"
+                  width="70"
+                  ariaLabel="color-ring-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="color-ring-wrapper"
+                  colors={['rgb(30 136 229)', 'rgb(30 136 229)', 'blue', 'rgb(30 136 229)','rgb(30 136 229)' ]}
+                  />
+                  :
+                  <>
+                  {
+                    trial.is_registration_fee ?
+                    <Button type='submit'variant="contained" color="primary"  sx={{py:1,px:3}}>Pay {trial.registration_fee}</Button>
+                    :
+                    <Button type="submit" variant="contained" color="primary" >
+                      Register
+                    </Button>
+                  }
+                  </>       
+            }
             </Grid>
           </Grid>
         </form>

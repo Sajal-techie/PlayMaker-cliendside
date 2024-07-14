@@ -2,6 +2,7 @@ import { QueriesObserver, useQuery, useQueryClient } from "react-query";
 import userApi from "../../../api/axiosconfig"
 
 
+//  to get players joined in a trial 
 const fetchPlayersInTrial = async (id)=>{
     try{
         const response = await userApi.get(`players_in_trial_list/${id}`)
