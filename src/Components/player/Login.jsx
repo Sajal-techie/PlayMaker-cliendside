@@ -52,7 +52,6 @@ const Login = () => {
       }else{
         await Swal.fire({
           icon : 'error',
-          // title: 'email already exists',
           text: 'server error please try again later'
         })
       }
@@ -62,7 +61,7 @@ const Login = () => {
       if (error.data.detail){
         await Swal.fire({
           icon : 'info',
-          title: 'email already exists',
+          title: "Can't login",
           text: error.data.detail
         })
       }

@@ -21,6 +21,7 @@ const ViewTrialdetails = lazy(()=>import('../Components/player/selection trial/V
 const RegisterTrial = lazy(()=>import('../Components/player/selection trial/RegisiterTrial'))
 const PaymentSuccess = lazy(()=>import('../Components/player/selection trial/PaymentSuccess'))
 const PaymentFailed = lazy(()=>import('../Components/player/selection trial/PaymentFailed'))
+const TrialHistory = lazy(()=>import('../Components/player/selection trial/TrialHistory'))
 
 const PlayerRoutes = () => {
     
@@ -43,6 +44,7 @@ const PlayerRoutes = () => {
               <Route path='/register_trial/:id' element={<ProtectedRoute element={<RegisterTrial/>} role={"player"} /> }/>
               <Route path='/payment_success' element={<ProtectedRoute element={<PaymentSuccess/>} role={"player"} /> }/>
               <Route path='/payment_failed' element={<ProtectedRoute element={<PaymentFailed/>} role={"player"} /> }/>
+              <Route path='/trial_history' element={<ProtectedRoute element={<TrialHistory/>} role={"player"} /> }/>
               <Route path='*' element={<ErrorPage404/>}/>
         </Routes>
       </Suspense>

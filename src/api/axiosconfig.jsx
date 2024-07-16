@@ -1,5 +1,6 @@
 import axios  from "axios";
 import { useNavigate } from "react-router-dom";
+import { showToastMessage } from "../Components/common/functions/showToastMessage";
 
 // to create an instance of axios with baseurl
 const userApi = axios.create({
@@ -62,7 +63,11 @@ userApi.interceptors.response.use(
                 } catch (err){
                     localStorage.clear()
                     console.log(err,'refrseh token error');
-                    window.location.href = '/'
+                    let data = await err?.data?.code === 'user_inactive' ? "You account is blocked" : "session expired try login again"
+                    showToastMessage(400,data)
+                    setTimeout(()=>{
+                        window.location.href = '/'
+                    },1500)
                     return Promise.reject(err)
                 }
         }else if (error.response && error.response.status >= 500){

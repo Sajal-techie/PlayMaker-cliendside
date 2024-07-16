@@ -7,7 +7,7 @@ const fetchTrialsList = async ()=>{
     try{
         const response = await userApi.get('trial')
         console.log(response,'inn fetch trials');
-        return response.data
+        return response.data.results
     }catch(error){
         console.log(error);
         if (error.status === 403){
@@ -100,12 +100,13 @@ export const useUpdateTrial = (id) =>{
 }
 
 
-// custom hook to delete a trial 
+// custom hook to cancel a trial 
 export const useDeleteTrial = (id)=>{
     const queryClient = useQueryClient()
     return useMutation(
-        async () =>{
-            await userApi.delete(`trial/${id}`)
+        async (reason) =>{
+            console.log(reason,'///////////////////////////////////');
+            await userApi.delete(`trial/${id}/?reason=${reason}`,{reason:reason})
         },
         {
             onSuccess:()=>{

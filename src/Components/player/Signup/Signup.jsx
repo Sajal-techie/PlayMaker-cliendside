@@ -69,7 +69,6 @@ const Signup = () => {
       }else{
         await Swal.fire({
           icon : 'error',
-          // title: 'email already exists',
           text: 'server error please try again later'
         })
       }
@@ -79,7 +78,7 @@ const Signup = () => {
       if (error.data.detail){
         await Swal.fire({
           icon : 'info',
-          title: 'email already exists',
+          title: "Can't signup",
           text: error.data.detail
         })
       }

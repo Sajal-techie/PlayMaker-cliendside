@@ -90,7 +90,7 @@ const Admin_login = () => {
             </div>
             { loading ? 
                 <div className='flex justify-center -mt-12 ml-12'>
-                  <LineWave color='#00BFFF' height={120} width={120} /> 
+                  <LineWave color='rgb(120 53 15)' height={120} width={120} /> 
                 </div>
                 :
                 <div className="">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -23,14 +23,19 @@ import { useDeleteTrial, useTrialDetails, useUpdateTrial } from '../../Custom Ho
 import { convertTo12HourFormat } from '../../../common/functions/covertTime';
 import Skelton_profile from '../../../../Pages/Skelton_profile';
 import PlayersCard from './PlayersCard';
+import CancelTrialModal from './CancelTrialModal';
 
 const TrialDetails = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [isOpen,setIsOpen] = useState(false)
+
   const { id } = useParams();
   const {data:trial, isLoading,isError} = useTrialDetails(id)
 
   const navigate = useNavigate();
-  
+  const closeUpdateModal = ()=>{
+      setIsOpen(false)
+  }
 
   const updateTrialMutation = useUpdateTrial(id)
   const deleteTrialMutation = useDeleteTrial(id) 
@@ -102,13 +107,15 @@ const TrialDetails = () => {
     }
   }, [isEditing, trial]);
 
-  const handleCancel = () => {
-    deleteTrialMutation.mutate()
+  const handleCancel = (reason) => {
+    console.log(reason, '=============================')
+    deleteTrialMutation.mutate(reason)
     navigate('/academy/list_trials')
   };
 
   if (!trial) return  <Skelton_profile/> 
   if (isLoading) return  <Skelton_profile/> 
+  if (isError) return <Navigate to={'/academy/list_trials'}/>
   console.log(trial);
   return (
     <>
@@ -344,18 +351,20 @@ const TrialDetails = () => {
                     <Button variant="contained" color="primary" onClick={() => setIsEditing(true)}>
                         Edit
                     </Button>
-                    <Button variant="contained" color="error" onClick={handleCancel}>
+                    <Button variant="contained" color="error" onClick={()=>setIsOpen(true)}>
                         Cancel Trial
                     </Button>
                     </Box>
                 }
-                <PlayersCard id={id} count={trial.player_count} />
+                {
+                  trial.player_count > 0 && <PlayersCard id={id} count={trial.player_count} />
+                }
               </Box>
             )}
           </CardContent>
         </Card>
       </Container>
-      
+        <CancelTrialModal isOpen={isOpen} closeModal={closeUpdateModal} current={trial} handleCancel={handleCancel}/>
     </>
   );
 };

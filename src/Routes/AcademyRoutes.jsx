@@ -12,6 +12,7 @@ const  ProfileAcademy = lazy(()=> import('../Components/academy/ProfileAcademy')
 const AddTrial = lazy(()=> import('../Components/academy/selection trials/AddTrial'))
 const ListOwnTrial = lazy(()=>import('../Components/academy/selection trials/ListOwnTrials/ListOwnTrial'))
 const TrialDetails = lazy(()=>import ('../Components/academy/selection trials/ListOwnTrials/TrialDetails'))
+import ErrorPage404 from '../Components/common/ErrorPage404';
 
 const AcademyRoutes = () => {
 
@@ -25,6 +26,7 @@ const AcademyRoutes = () => {
           <Route path="/add_trial" element={<ProtectedRoute element={<AddTrial/>} role={"academy"} />} />
           <Route path="/list_trials" element={<ProtectedRoute element={<ListOwnTrial/>} role={"academy"} />} />
           <Route path="/trial_details/:id" element={<ProtectedRoute element={<TrialDetails/>} role={"academy"} />} />
+          <Route path='*' element={<ErrorPage404/>}/>
       </Routes>
     </Suspense>
   )

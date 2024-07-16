@@ -7,7 +7,7 @@ import MainSection from '../layouts/profile layouts/Main Section/MainSection'
 import AboutSection from '../layouts/profile layouts/About Section/AboutSection'
 import PostProfile from '../layouts/profile layouts/PostProfile'
 import Achievementsection from '../layouts/profile layouts/Achievement Section/Achievementsection'
-import TrialSection from '../layouts/profile layouts/TrialSection'
+import TrialSection from './selection trials/Profile Trial Section/TrialSection'
 import { useProfile } from '../common/Custom Hooks/useProfile'
 import Skelton_profile from '../../Pages/Skelton_profile'
 

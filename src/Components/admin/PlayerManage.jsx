@@ -203,9 +203,9 @@ const PlayerManage = () => {
                 <div className='text-center w-full'>
                     {
                         current?.is_active ?
-                        <button className='bg-red-500 py-2 w-1/3 text-white hover:bg-red-800'>Block</button>
+                        <button className='bg-red-500 py-2 w-1/3 text-white hover:bg-red-800' onClick={()=>handleActive('block',current.id)}>Block</button>
                         :
-                        <button className='bg-green-500 py-2 w-1/3 hover:bg-green-700 text-white'>Activate</button>
+                        <button className='bg-green-500 py-2 w-1/3 hover:bg-green-700 text-white'onClick={()=>handleActive('active',current.id)}>Activate</button>
                     }
                 </div>
                 

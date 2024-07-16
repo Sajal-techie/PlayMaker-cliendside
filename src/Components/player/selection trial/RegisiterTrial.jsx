@@ -125,7 +125,7 @@ const RegisterTrial = () => {
           const {sessionId} = response.data;
           const result = await stripe.redirectToCheckout({sessionId});
           // after successfull payment or cancelled payment server will direct respective pages
-          
+
           if (result.error) {
               console.log(result.error.message,'result error');
               setLoading(false)
@@ -306,7 +306,7 @@ const RegisterTrial = () => {
                   <>
                   {
                     trial.is_registration_fee ?
-                    <Button type='submit'variant="contained" color="primary"  sx={{py:1,px:3}}>Pay {trial.registration_fee}</Button>
+                    <Button type='submit'variant="contained" color="primary"  sx={{py:1,px:3}}>Pay ₹{trial.registration_fee}</Button>
                     :
                     <Button type="submit" variant="contained" color="primary" >
                       Register
