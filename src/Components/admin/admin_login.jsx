@@ -45,7 +45,7 @@ const Admin_login = () => {
       console.log(error);
       Swal.fire({
         icon: 'error',
-        title: 'Oops',
+        title: 'Login failed',
         text: error.message
       })
     }
@@ -77,14 +77,6 @@ const Admin_login = () => {
               </label>
               <InputField name='password' type='password' placeholder='password' onChange={handleChange} />
             </div>
-            <div className="flex justify-between">
-              <div>
-
-              </div>
-              {/* <span className="text-sm text-orange-400 hover:underline cursor-pointer">
-                Forgot password?
-              </span> */}
-            </div>
             <div className='text-red-500 text-center'>
               {error}
             </div>
@@ -98,7 +90,6 @@ const Admin_login = () => {
                 </div>
               }
           </form>
-          {/* <Link to={'/academy_login'}>  <p className='text-center mt-3 text-orange-400 hover:underline cursor-pointer  lg:hidden'> Join us as an academy</p> </Link>  */}
         </div>
       </div>
       </div>

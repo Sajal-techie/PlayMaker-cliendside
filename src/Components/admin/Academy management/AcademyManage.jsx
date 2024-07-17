@@ -2,9 +2,14 @@ import React, { Suspense, useEffect, useState } from 'react'
 import userApi from '../../../api/axiosconfig'
 import { baseUrl } from '../../../api/api'
 import ReactModal from 'react-modal';
+import AdminNavbar from '../contents/AdminNavbar';
+import AdminSidebar from '../contents/AdminSidebar';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleSidebar } from '../../../redux/slices/adminSlice';
 
 const AcademyManage = () => {
     const ChangeStatusModal = React.lazy(()=>import ('./ChangeStatusModal'))
+    const dispatch = useDispatch()
 
     const [academy, setAcademy] = useState([]);
     const [filteredAcademy, setFilteredAcademy] = useState([]);
@@ -15,6 +20,7 @@ const AcademyManage = () => {
     const [isOpen,setIsOpen] = useState(false)
     const [current,setCurrent] = useState()
 
+    const isSidebarOpen = useSelector(state=>state.admin.isSidebarOpen)
     //  to close the modal
     const closeModal = ()=>{
         setCurrent()
@@ -22,7 +28,8 @@ const AcademyManage = () => {
     }
 
     useEffect(() => {
-        fetchAcademies();
+        fetchAcademies();   
+        dispatch(toggleSidebar(false))
     }, []);
 
     useEffect(() => {
@@ -89,8 +96,12 @@ const AcademyManage = () => {
     const paginate = pageNumber => setCurrentPage(pageNumber);
     console.log(filteredAcademy,license);
     return (
-        <>
-            <section className="container mx-auto p-6 font-kanit">
+        <> 
+          <AdminNavbar />
+          <AdminSidebar />
+          <br /><br /><br />
+            <section className={`container mx-auto p-6 font-kanit h-full w-full bg-gray-100 relative overflow-y-auto transition-margin duration-75 ${
+                    isSidebarOpen ? 'ml-64' : ''}`}>
                 <div className="mb-4 flex justify-between items-center bg-gray-200 px-4 py-2">
                     <h1 className="text-2xl font-bold">Academy Management</h1>
                     <input
@@ -121,7 +132,7 @@ const AcademyManage = () => {
                                     <p><strong>State:</strong> {obj.profile.state}</p>
                                     <p><strong>District:</strong> {obj.profile.district}</p>
                                     <p><strong>Certification:</strong> {obj.academy_data.is_certified === true ? <span>Approved</span> : <span>Denied</span>}</p>
-                                    <p><strong>Available Sports:</strong> {obj.sport.map((obj,index)=> <span className=''> {obj.sport_name}, </span>)}</p>
+                                    <p><strong>Available Sports:</strong> {obj.sport.map((obj,index)=> <span className='' key={index}> {obj.sport_name}, </span>)}</p>
                                 </div>
                                 <div className="text-center">
                                     <span className='text-cyan-500 hover:text-cyan-700 cursor-pointer' onClick={() => viewLicense(obj.academy_data.license, obj.username)}>View Certificate</span>  

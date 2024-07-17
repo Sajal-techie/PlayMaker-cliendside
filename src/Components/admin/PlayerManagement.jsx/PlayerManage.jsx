@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import userApi from '../../api/axiosconfig'
+import userApi from '../../../api/axiosconfig'
 import ReactModal from 'react-modal';
-import { baseUrl } from '../../api/api';
+import { baseUrl } from '../../../api/api';
+import { toggleSidebar } from '../../../redux/slices/adminSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import AdminNavbar from '../contents/AdminNavbar';
+import AdminSidebar from '../contents/AdminSidebar';
+import HandleActiveModal from './HandleActiveModal';
 
 const PlayerManage = () => {
     const [players, setPlayers] = useState([]);
@@ -11,6 +16,9 @@ const PlayerManage = () => {
     const [playersPerPage] = useState(10);
     const [current,setCurrent] = useState()
     const [isOpen,setIsOpen] = useState(false)
+
+    const isSidebarOpen = useSelector(state=>state.admin.isSidebarOpen)
+    const dispatch = useDispatch()
 
     // to close the modal 
     const closeModal = ()=>{
@@ -26,6 +34,7 @@ const PlayerManage = () => {
     useEffect(() => {
         // to fetch all the players from server
         fetchPlayers();
+        dispatch(toggleSidebar(false)) //close side bar while opeing the page
     }, []);
 
     useEffect(() => {
@@ -56,16 +65,6 @@ const PlayerManage = () => {
         }
     }
 
-    // change status of a player
-    const handleActive = async (data, id) => {
-        try {
-            await userApi.post(`toggleIsactive/${id}`, { value: data });
-        } catch (error) {
-            console.log(error);
-        }
-        fetchPlayers();
-        closeModal()
-    }
 
     // to handle search input
     const handleSearch = (e) => {
@@ -81,7 +80,11 @@ const PlayerManage = () => {
 
     return (
         <>
-            <section className="container mx-auto p-6 font-kanit">
+        <AdminNavbar />
+        <AdminSidebar />
+        <br /><br /><br />
+            <section className={`container mx-auto p-6 font-kanit h-full w-full bg-gray-100 relative overflow-y-auto transition-margin duration-75 ${
+                    isSidebarOpen ? 'ml-64' : ''}`}>
                 <div className="mb-4 flex justify-between items-center bg-gray-200 px-4 py-1">
                     <h1 className="text-2xl font-bold">Player Management</h1>
                     <input
@@ -162,54 +165,7 @@ const PlayerManage = () => {
             </section>
 
             {/* modal for changing status (block / unblock) */}
-            <ReactModal isOpen={isOpen}
-            onRequestClose={closeModal}
-            ariaHideApp={false}
-            style={{
-              content: {
-                position: 'relative',
-                margin: 'auto',
-                maxWidth: '500px',
-                width: '90%',
-                inset: 'auto',
-                //  borderRadius: '8px',
-                overflow: 'auto',
-                padding: '20px',
-                border: 'none',
-                // top: '50%',
-                // transform: 'translateY(-50%)',
-                backgroundColor: '#fff',
-              },
-              overlay: {
-                backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                overflow:'auto'
-              },
-            }}
-            >
-            <button
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 hover:text-lg" title='close'
-              onClick={closeModal}
-            >
-              ✕
-            </button>
-                <div className='text-center font-extrabold text-2xl'>
-                    Change Status
-                </div>
-                <div className='text-center mt-4 '>Player Name : <span className='font-semibold'>{current?.username}</span> </div>
-                <div className='text-center mb-1'>current status : <b> {current?.is_active ?<>Active</>:<>Blocked</>}</b></div>
-                <div className='text-center w-full'>
-                    {
-                        current?.is_active ?
-                        <button className='bg-red-500 py-2 w-1/3 text-white hover:bg-red-800' onClick={()=>handleActive('block',current.id)}>Block</button>
-                        :
-                        <button className='bg-green-500 py-2 w-1/3 hover:bg-green-700 text-white'onClick={()=>handleActive('active',current.id)}>Activate</button>
-                    }
-                </div>
-                
-            </ReactModal>
+            <HandleActiveModal isOpen={isOpen} closeModal={closeModal} current={current} fetchPlayers={fetchPlayers}  />
         </>
     );
 }
