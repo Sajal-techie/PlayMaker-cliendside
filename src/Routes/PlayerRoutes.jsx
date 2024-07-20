@@ -3,6 +3,10 @@ import { Route, Routes } from 'react-router-dom'
 import RedirectIfAuthenticated from './protected/RedirectIfAuthenticated';
 import ProtectedRoute from './protected/ProtectedRoute';
 import Skelton_profile from '../Pages/Skelton_profile';
+import FriendRequest from '../Components/player/friends/friend request/FriendRequest';
+import FriendList from '../Components/player/friends/friends list/FriendList';
+import SentRequest from '../Components/player/friends/sent requests/SentRequest';
+import Following from '../Components/player/friends/following/Following';
 
 
 const Home = lazy(()=> import ('../Components/player/Home') )
@@ -45,6 +49,10 @@ const PlayerRoutes = () => {
               <Route path='/payment_success' element={<ProtectedRoute element={<PaymentSuccess/>} role={"player"} /> }/>
               <Route path='/payment_failed' element={<ProtectedRoute element={<PaymentFailed/>} role={"player"} /> }/>
               <Route path='/trial_history' element={<ProtectedRoute element={<TrialHistory/>} role={"player"} /> }/>
+              <Route path='/friends' element={<ProtectedRoute element={<FriendList/>} role={"player"} /> }/>
+              <Route path='/following' element={<ProtectedRoute element={<Following/>} role={"player"} /> }/>
+              <Route path='/friend_request_list' element={<ProtectedRoute element={<FriendRequest/>} role={"player"} /> }/>
+              <Route path='/sent_request_list' element={<ProtectedRoute element={<SentRequest/>} role={"player"} /> }/>
               <Route path='*' element={<ErrorPage404/>}/>
         </Routes>
       </Suspense>

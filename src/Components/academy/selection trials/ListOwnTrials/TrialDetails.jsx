@@ -364,7 +364,7 @@ const TrialDetails = () => {
           </CardContent>
         </Card>
       </Container>
-        <CancelTrialModal isOpen={isOpen} closeModal={closeUpdateModal} current={trial} handleCancel={handleCancel}/>
+      { isOpen && <CancelTrialModal isOpen={isOpen} closeModal={closeUpdateModal} current={trial} handleCancel={handleCancel}/>}
     </>
   );
 };
