@@ -10,6 +10,7 @@ const Following = () => {
     useEffect(()=>{
         fetchFollowings()
     },[])
+
     const fetchFollowings = async () =>{
         try{
             const response = await userApi.get('follow')
@@ -38,10 +39,11 @@ const Following = () => {
             {following.map((friend, index) => (
                 <FriendListItem
                 key={index}
-                name={friend.username}
-                bio={friend.bio}
-                id={friend.id}
-                profileImage={friend.profile_photo}
+                name={friend?.academy?.username}
+                bio={friend?.academy?.bio}
+                id={friend?.academy?.id}
+                profileImage={friend?.academy?.profile_photo}
+                type={'academy'}
                 />
             ))}
         </div>

@@ -85,6 +85,7 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id }) => {
             position: 'relative',
             margin: 'auto',
             maxWidth: '900px',
+            marginTop:'90px',
             width: '90%',
             inset: 'auto',
             borderRadius: '8px',

@@ -22,7 +22,7 @@ const AcademyRoutes = () => {
           <Route path="/login" element={<RedirectIfAuthenticated element={<AcademyLogin/>} redirectTo={'/academy/home'} /> }  />
           <Route path="/signup" element={<RedirectIfAuthenticated element={<Academy_signup/>} redirectTo={'/academy/home'} /> } />
           <Route path="/home" element={<ProtectedRoute element={<HomeAcademy/>} role={"academy"} />} />
-          <Route path="/profile" element={<ProtectedRoute element={<ProfileAcademy/>} role={"academy"} />} />
+          <Route path="/profile/:userId?" element={<ProtectedRoute element={<ProfileAcademy/>} role={"both"} />} />
           <Route path="/add_trial" element={<ProtectedRoute element={<AddTrial/>} role={"academy"} />} />
           <Route path="/list_trials" element={<ProtectedRoute element={<ListOwnTrial/>} role={"academy"} />} />
           <Route path="/trial_details/:id" element={<ProtectedRoute element={<TrialDetails/>} role={"academy"} />} />

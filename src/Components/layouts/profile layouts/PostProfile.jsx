@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PostProfile = ({data,academy}) => {
+const PostProfile = ({data,academy,ownProfile}) => {
   const bgColor = academy ? "bg-indigo-400":"bg-gblue-400" 
   const textColor = academy ? "text-indigo-500": "text-gblue-500" 
   const borderColor = academy ? "border-indigo-600" : "border-gblue-700"

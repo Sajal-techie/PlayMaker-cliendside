@@ -3,10 +3,15 @@ import userApi from '../../../api/axiosconfig'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const fetchProfile = async ()=>{
+const fetchProfile = async (id)=>{
     try{
-        const res = await userApi.get('profile')
-        return res.data.user_details
+        if (id){
+            const res = await userApi.get(`profile/${id}`)
+            return res.data.user_details
+        }else{
+            const res = await userApi.get('profile')
+            return res.data.user_details
+        }
     }catch(error){
         console.log(error);
         if (error.status === 403){
@@ -19,8 +24,9 @@ const fetchProfile = async ()=>{
     }
 }
 
-export const useProfile = () => {
-  return useQuery('profile',fetchProfile,{
+export const useProfile = (id) => {
+    console.log(id);
+  return useQuery(['profile',id],()=>fetchProfile(id),{
         staleTime: 10 * (60 * 1000),
   })
 }

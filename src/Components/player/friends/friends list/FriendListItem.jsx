@@ -1,13 +1,23 @@
 import React from 'react'
+import { baseUrl } from '../../../../api/api'
+import { useNavigate } from 'react-router-dom'
 
-const FriendListItem = ({ name, bio, id, profileImage }) => {
+const FriendListItem = ({ name, bio, id, profileImage, type}) => {
+  const navigate = useNavigate()
+  const handleNavigate  = async (id)=>{
+    if (type==='player'){
+      navigate(`/profile/${id}`)
+    }else{
+      navigate(`/academy/profile/${id}`)
+    }
+  }
   return (
     <div className="flex items-center p-4 bg-white shadow-md rounded-lg mb-4 font-kanit">
-      <img className="w-14 h-14 rounded-full" src={profileImage || "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg"} alt={name} />
-      <div className="ml-4">
+      <img className="w-14 h-14 rounded-full cursor-pointer" src={profileImage ? baseUrl+profileImage : "https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg"} alt={name}  onClick={()=>handleNavigate(id)}/>
+      <div className="ml-4 cursor-pointer" onClick={()=>handleNavigate(id)}>
         <h3 className="text-lg font-semibold">{name}</h3>
         <p className="text-gray-600">{bio}</p>
-        <p className="text-gray-500 text-sm">{id}</p>
+        {/* <p className="text-gray-500 text-sm">{id}</p> */}
       </div>
       <div className="ml-auto flex space-x-2">
         <button className="px-4 py-2 bg-blue-500 text-white rounded flex">

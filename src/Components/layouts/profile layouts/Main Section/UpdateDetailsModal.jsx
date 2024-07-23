@@ -98,6 +98,7 @@ const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,ph
           content: {
             position: 'relative',
             margin: 'auto',
+            marginTop:'80px',
             maxWidth: '900px',
             width: '90%',
             inset: 'auto',
@@ -125,7 +126,7 @@ const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,ph
             >
               ✕
             </button>
-            <h3 className="font-bold text-lg text-center capitalize">Add Achievement </h3>
+            <h3 className="font-bold text-lg text-center capitalize">Update Details </h3>
             <form className='px-3 text-center' onSubmit={handleSubmit} encType="multipart/form-data">
               <div className='flex flex-col items-start mb-4'>
                 <label htmlFor="username" className='mb-2'>Username:</label>

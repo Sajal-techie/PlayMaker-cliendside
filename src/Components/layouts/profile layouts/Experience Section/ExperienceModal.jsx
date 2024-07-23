@@ -192,6 +192,7 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
           content: {
             position: 'relative',
             margin: 'auto',
+            marginTop:'80px',
             maxWidth: '900px',
             width: '90%',
             inset: 'auto',

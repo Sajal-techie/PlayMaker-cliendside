@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDeletePhoto, useUpdatePhoto } from '../../../common/Custom Hooks/useProfile';
 
-const ImgModal = ({state,is_pic,id,bgColor,textColor}) => {
+const ImgModal = ({state,is_pic,id,bgColor,textColor,ownProfile}) => {
     const [image,setImage] = useState(null)
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -42,7 +42,7 @@ const ImgModal = ({state,is_pic,id,bgColor,textColor}) => {
   return (
     <>
     {/*  modal to show the existing image*/}
-        <dialog id="my_modal_3" className="modal p-6 font-kanit border border-gray-400">
+        <dialog id="my_modal_3" className="modal p-6 font-kanit border border-gray-400 mt-20">
         <div className="modal-box">
             <form method="dialog" className="modal-backdrop">
             <button
@@ -57,6 +57,8 @@ const ImgModal = ({state,is_pic,id,bgColor,textColor}) => {
                      src={state?state:"https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg"  } alt="image" />
             </div>
         </div>
+        {
+            ownProfile &&
             <div className="mt-2 flex justify-between">
                 {   state &&
                     <button className='border border-red-500 hover:border-red-900 w-full py-1 hover:bg-red-300 text-red-500 hover:text-red-900' onClick={deleteProfilePhoto}>  
@@ -67,6 +69,7 @@ const ImgModal = ({state,is_pic,id,bgColor,textColor}) => {
                     update photo  
                 </button>
             </div>
+        }
         </dialog>
 
 

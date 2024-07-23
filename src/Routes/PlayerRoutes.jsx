@@ -7,6 +7,7 @@ import FriendRequest from '../Components/player/friends/friend request/FriendReq
 import FriendList from '../Components/player/friends/friends list/FriendList';
 import SentRequest from '../Components/player/friends/sent requests/SentRequest';
 import Following from '../Components/player/friends/following/Following';
+import SearchResults from '../Components/common/SearchResults';
 
 
 const Home = lazy(()=> import ('../Components/player/Home') )
@@ -40,7 +41,7 @@ const PlayerRoutes = () => {
               
               <Route path='/home' element={<ProtectedRoute element={<Home/>} role={"player"} />}/>
               <Route path='/welcome' element={<ProtectedRoute element={<GetUserDetails/>} role={"player"} />}/>
-              <Route path='/profile' element={<ProtectedRoute element={<PlayerProfile/>} role={"player"} /> }/>
+              <Route path='/profile/:userId?' element={<ProtectedRoute element={<PlayerProfile/>} role={"both"} /> }/>
               <Route path='/view_experience' element={<ProtectedRoute element={<ViewExperience/>} role={"player"} /> }/>
               <Route path='/view_achievements' element={<ProtectedRoute element={<ViewAchievement/>} role={"both"} /> }/>
               <Route path='/list_trials' element={<ProtectedRoute element={<ListTrials/>} role={"player"} /> }/>
@@ -53,6 +54,7 @@ const PlayerRoutes = () => {
               <Route path='/following' element={<ProtectedRoute element={<Following/>} role={"player"} /> }/>
               <Route path='/friend_request_list' element={<ProtectedRoute element={<FriendRequest/>} role={"player"} /> }/>
               <Route path='/sent_request_list' element={<ProtectedRoute element={<SentRequest/>} role={"player"} /> }/>
+              <Route path='/search' element={<ProtectedRoute element={<SearchResults/>} role={"both"} /> }/>
               <Route path='*' element={<ErrorPage404/>}/>
         </Routes>
       </Suspense>

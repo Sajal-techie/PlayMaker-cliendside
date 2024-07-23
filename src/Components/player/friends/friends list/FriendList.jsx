@@ -27,7 +27,7 @@ const FriendList = () => {
     <>
     <Navbar />
     <SideBarLayout >
-    <div className="flex-grow p-8 bg-gray-100 min-h-screen">
+    <div className="flex-grow p-8 bg-gray-100 min-h-screen font-kanit">
       <h1 className="text-2xl font-bold mb-4">Friends</h1>
       <div className="mb-4">
         <input
@@ -46,12 +46,13 @@ const FriendList = () => {
                 bio={friend.bio}
                 id={friend.id}
                 profileImage={friend.profile_photo}
+                type={'player'}
                 />
             ))}
         </div>
         :
         <div className='flex items-center p-4 bg-white shadow-md rounded-lg mb-4'>
-            No followings
+            No Friends
         </div>
         }
     </div>

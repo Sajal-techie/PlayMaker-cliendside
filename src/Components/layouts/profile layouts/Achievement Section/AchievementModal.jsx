@@ -60,7 +60,7 @@ const AchievementModal = ({isOpen,closeAchievementModal,getAchievements,initialS
       if (!formData.issued_month) formErrors.issued_month = "Issued month is Required"
       if (!formData.issued_year) formErrors.issued_year = "Issued year is Required"
       const allowedTypes = ['image/jpeg','image/png','image/webp']
-      if (!allowedTypes.includes(formData.image.type) && !id ){
+      if (formData.image && !allowedTypes.includes(formData.image.type) && !id ){
         formErrors.image = "Invalid file type select JPEG or PNG image"
       }
       setErrors(formErrors)
@@ -72,7 +72,9 @@ const AchievementModal = ({isOpen,closeAchievementModal,getAchievements,initialS
         e.preventDefault()
         if (!validateForm()) return
         const formd = new FormData()
-        formd.append('image',formData.image)
+        if (formData.image){ 
+          formd.append('image',formData.image)
+        }
         formd.append('title',formData.title)
         formd.append('issued_by',formData.issued_by)
         formd.append('issued_month',formData.issued_month)
@@ -151,6 +153,7 @@ const AchievementModal = ({isOpen,closeAchievementModal,getAchievements,initialS
           content: {
             position: 'relative',
             margin: 'auto',
+            marginTop:'80px',
             maxWidth: '900px',
             width: '90%',
             inset: 'auto',
