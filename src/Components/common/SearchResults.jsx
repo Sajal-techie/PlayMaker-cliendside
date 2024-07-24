@@ -4,6 +4,7 @@ import userApi from '../../api/axiosconfig';
 import Navbar from '../layouts/navbar/Navbar';
 import { useSelector } from 'react-redux';
 import BottomNavbar from '../layouts/navbar/BottomNavbar';
+import { useQueryClient } from 'react-query';
 
 const SearchResults = () => {
   const [results, setResults] = useState([]);
@@ -13,6 +14,7 @@ const SearchResults = () => {
   const navigate = useNavigate()
   const role = useSelector(state=>state.auth.role)
   const query = new URLSearchParams(location.search).get('q');
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     
@@ -49,8 +51,10 @@ const SearchResults = () => {
     console.log(data);
     if (data.type ==='Trial'){
       navigate(`/trial_details/${data.id}`)
-    }else if(data.type==='Player' || data.type==='Academy'){
+    }else if(data.type==='Player') {
       navigate(`/profile/${data.id}`);
+    }else if (data.type==='Academy'){
+      navigate(`/academy/profile/${data.id}`)
     }
   }
   const handleAddFriend = async (to_user)=>{
@@ -58,6 +62,7 @@ const SearchResults = () => {
       const res = await userApi.post(`friend_request`,{'to_user':to_user})
       console.log(res);
       updateResultStatus(to_user,'friend_status','request_sent')
+      queryClient.invalidateQueries('profile')
     }catch(error){
       console.log(error);
     }
@@ -67,6 +72,7 @@ const SearchResults = () => {
       const res = await userApi.post(`cancel_request/${id}`)
       console.log(res);
       updateResultStatus(id,'friend_status','none')
+      queryClient.invalidateQueries('profile')
     }catch(error){
       console.log(error,'error  cancelling request');
     }
@@ -76,6 +82,7 @@ const SearchResults = () => {
       const res = await userApi.post(`friend_request_accept/${id}`)
       console.log(res);
       updateResultStatus(id,'friend_status','friends',1)
+      queryClient.invalidateQueries('profile')
     }catch(error){
       console.log(error);
     }
@@ -85,6 +92,7 @@ const SearchResults = () => {
       const res = await userApi.post(`follow`,{'academy':academy_id})
       console.log(res);
       updateResultStatus(academy_id,'follow_status','following',1)
+      queryClient.invalidateQueries('profile')
     }catch(error){
       console.log(error,'error following academy');
     }
@@ -94,8 +102,18 @@ const SearchResults = () => {
       const res = await userApi.post('unfollow',{'academy':id})
       console.log(res,'unfollowed successfully');
       updateResultStatus(id,'follow_status','none',-1)
+      queryClient.invalidateQueries('profile')
     }catch(error){
       console.log(error, 'unfollow error');
+    }
+  }  
+  const handleRemoveFriend = async (id)=>{
+    try{
+      const res = await userApi.delete(`friends/${id}`)
+      console.log(res);
+      queryClient.invalidateQueries('profile')
+    }catch(error){
+      console.log(error);
     }
   }
   const updateResultStatus = (id, statusType, statusValue,count=0) => {
@@ -111,12 +129,13 @@ const SearchResults = () => {
     );
   };
 
+
   const renderButtons = (data) => {
     console.log(data);
     if (data.type === 'Player' || data.type === 'Academy') {
       if (data.type === 'Player') {
         if (data.friend_status === 'friends') {
-          return <button className='bg-blue-400 text-white px-3 py-1'>Message</button>;
+          return <button className='bg-blue-400 text-white px-3 py-1' onClick={()=>handleRemoveFriend(data.id)}>Message</button>;
         } else if (data.friend_status === 'request_received') {
           return <button className='bg-blue-400 text-white px-3 py-1' onClick={()=>handleAccept(data.id)}>Accept</button>;
         } else if (data.friend_status === 'request_sent') {

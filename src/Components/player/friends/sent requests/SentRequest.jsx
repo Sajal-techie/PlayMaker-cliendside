@@ -4,10 +4,12 @@ import SideBarLayout from '../SideBarLayout';
 import userApi from '../../../../api/axiosconfig';
 import { baseUrl } from '../../../../api/api';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from 'react-query';
 
 const SentRequest = () => {
     const [sentRequests, setSentRequests] = useState([]);
     const navigate = useNavigate();
+    const queryClient = useQueryClient()
 
     useEffect(() => {
         fetchFriendRequests();
@@ -29,6 +31,7 @@ const SentRequest = () => {
             console.log(response);
             // Refresh the friend requests list
             fetchFriendRequests();
+            queryClient.invalidateQueries('profile')
         } catch (error) {
             console.log(error);
         }

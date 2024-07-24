@@ -5,9 +5,11 @@ import FriendSidebar from '../FriendSidebar'
 import Navbar from '../../../layouts/navbar/Navbar'
 import SideBarLayout from '../SideBarLayout'
 import { baseUrl } from '../../../../api/api'
+import { useQueryClient } from 'react-query'
 
 const FriendRequest = () => {
     const [friendRequests, setFriendRequests] = useState([])
+    const queryClient = useQueryClient()
 
     useEffect(()=>{
         fetchFriendRequests()
@@ -28,6 +30,7 @@ const FriendRequest = () => {
         const res = await userApi.post(`friend_request_accept/${id}`)
         console.log(res);
         fetchFriendRequests()
+        queryClient.invalidateQueries('profile')
       }catch(error){
         console.log(error,'error accepting request');
       }

@@ -44,6 +44,7 @@ const Following = () => {
                 id={friend?.academy?.id}
                 profileImage={friend?.academy?.profile_photo}
                 type={'academy'}
+                fetchData={fetchFollowings}
                 />
             ))}
         </div>

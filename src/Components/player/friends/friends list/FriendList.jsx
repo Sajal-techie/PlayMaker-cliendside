@@ -47,6 +47,7 @@ const FriendList = () => {
                 id={friend.id}
                 profileImage={friend.profile_photo}
                 type={'player'}
+                fetchData={fetchFriends}
                 />
             ))}
         </div>

@@ -1,6 +1,8 @@
 import React, { Suspense, useState } from 'react'
 import { baseUrl } from '../../../../api/api'
 import coverImage from '../../../../assets/cover.png'
+import userApi from '../../../../api/axiosconfig'
+import { useQueryClient } from 'react-query'
 
 const UpdateDetailsModal = React.lazy(()=>import ('./UpdateDetailsModal'))
 const ViewDetailsModal =  React.lazy(()=>import ('./ViewDetailsModal'))
@@ -14,6 +16,7 @@ const MainSection = React.memo(({id,academy,profile_pic,cover_pic,userData,ownPr
     const [cover,setCover] = useState()
     const [updateModalOpen,setUpdateModalOpen] = useState(false)
     const [viewDetailModalOpen,setViewDetailsModalOpen] = useState(false)
+    const queryClient = useQueryClient()
 
     const bgColor = academy ? "bg-indigo-500 hover:bg-indigo-800 ":"bg-gblue-400 hover:bg-gblue-700" 
     const textColor = academy ? "text-indigo-500": "text-gblue-500" 
@@ -45,6 +48,52 @@ const MainSection = React.memo(({id,academy,profile_pic,cover_pic,userData,ownPr
     const closeDetailsModal = ()=>{
         setViewDetailsModalOpen(false)
     }
+    const handleCancelRequest = async ()=>{
+        try{
+            const res = await userApi.post(`cancel_request/${id}`)
+            console.log(res);
+            queryClient.invalidateQueries('profile')
+        }catch(error){
+            console.log(error);
+        }
+    }
+    const handleAccept = async ()=>{
+        try{
+            const res = await userApi.post(`friend_request_accept/${id}`)
+            console.log(res);
+            queryClient.invalidateQueries('profile')
+        }catch(error){
+            console.log(error);
+        }
+    }
+    const handleAddFriend = async ()=>{
+        try{
+            const res = await userApi.post(`friend_request`,{'to_user':id})
+            console.log(res);
+            queryClient.invalidateQueries('profile')
+        }catch(error){
+            console.log(error);
+        }
+    }
+    const handleFollow = async ()=>{
+        try{
+            const res = await userApi.post(`follow`,{'academy':id})
+            console.log(res);
+            queryClient.invalidateQueries('profile')
+        }catch(error){
+            console.log(error);
+        }
+    }
+    const handleUnfollow = async ()=>{
+        try{
+            const res = await userApi.post('unfollow',{'academy':id})
+            console.log(res);
+            queryClient.invalidateQueries('profile')
+        }catch(error){
+            console.log(error);
+        }
+    }
+
     return (
     <>
         <div className="bg-white rounded-lg shadow-2xl pb-2">
@@ -84,10 +133,54 @@ const MainSection = React.memo(({id,academy,profile_pic,cover_pic,userData,ownPr
                                 </div>
                                 <p className="text-gray-700">{userData?.profile?.bio}</p>
                                 <p className="text-sm text-gray-500">{userData?.profile?.state}, {userData?.profile?.district}</p>
-                                <p className={`${textColor} normal-case font-semibold`}> 258 freinds </p>
-                                <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={changeDetailsModalOpen}> 
-                                    view detials 
-                                </button>
+                                <p className={`${textColor} normal-case font-semibold`}> 
+                                     {
+                                        userData?.user?.is_academy ? 
+                                        <> {userData?.followers} followers </>
+                                        :
+                                        <>{userData?.user?.friends?.length} friends </> 
+                                     } 
+                                </p>
+                                {
+                                    ownProfile ?
+                                    <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={changeDetailsModalOpen}> 
+                                        view detials 
+                                    </button>
+                                    :
+                                    userData?.friend_status === 'friends' ?
+                                    <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={changeDetailsModalOpen}> 
+                                        message 
+                                    </button>
+                                    :
+                                    userData?.friend_status === 'sent' ?
+                                    <button className={`bg-white  border border-gblue-500 rounded-full px-2 py-1 mt-2 text-gblue-500 hover:bg-gblue-400 hover:text-white`} onClick={()=>handleCancelRequest()}> 
+                                        cancel request 
+                                    </button>
+                                    :
+                                    userData?.friend_status === 'received' ?
+                                    <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={handleAccept}> 
+                                        Accept 
+                                    </button>
+                                    :
+                                    userData?.friend_status === 'none' ?
+                                    <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={handleAddFriend}> 
+                                        Add friend 
+                                    </button>
+                                    :
+                                    userData?.friend_status === 'follow' ?
+                                    <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={handleFollow}> 
+                                        follow 
+                                    </button>
+                                    :
+                                    userData?.friend_status === 'following' ?
+                                    <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={handleUnfollow}> 
+                                        following 
+                                    </button>
+                                    :
+                                    <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={changeDetailsModalOpen}> 
+                                        nothing 
+                                    </button>
+                                }
                             </div>
                             
                             {/* current academy section only for players */}

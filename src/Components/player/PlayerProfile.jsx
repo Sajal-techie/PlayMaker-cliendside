@@ -30,7 +30,7 @@ const PlayerProfile = () => {
                       profile_pic={userData?.profile?.profile_photo}
                       cover_pic={userData?.profile?.cover_photo}
                       userData={userData}
-                      ownProfile={userData.own_profile}
+                      ownProfile={userData?.own_profile}
                       />
 
         {/* first section end */}
@@ -38,10 +38,10 @@ const PlayerProfile = () => {
 
         <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
             <div className="flex flex-col w-full ">
-                <AboutSection about={userData?.profile?.about} ownProfile={userData.own_profile} />
-                <PostProfile data={userData?.profile?.about} ownProfile={userData.own_profile} />
-                <ExperienceSection   dob={userData?.user?.dob} ownProfile={userData.own_profile} userAcademies={userData?.user_academies}/>
-                <Achievementsection  dob={userData?.user?.dob} ownProfile={userData.own_profile} achievements={userData?.achievements}/>
+                <AboutSection about={userData?.profile?.about} ownProfile={userData?.own_profile} />
+                <PostProfile data={userData?.profile?.about} ownProfile={userData?.own_profile} />
+                <ExperienceSection   dob={userData?.user?.dob} ownProfile={userData?.own_profile} userAcademies={userData?.user_academies}/>
+                <Achievementsection  dob={userData?.user?.dob} ownProfile={userData?.own_profile} achievements={userData?.achievements}/>
             </div>
         </div>
     </div>
