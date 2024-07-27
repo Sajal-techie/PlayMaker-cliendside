@@ -1,5 +1,5 @@
 import React, { useEffect, useState,Suspense } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import userApi from '../../../../api/axiosconfig'
 import { baseUrl } from '../../../../api/api'
 import { useQueryClient } from 'react-query'
@@ -8,6 +8,7 @@ const ExperienceModal = React.lazy(()=>import('./ExperienceModal'))
 const ExperienceSection = React.memo(({dob,userAcademies,ownProfile}) => {
     const [isOpen,setIsOpen] = useState(false)
     const queryClient = useQueryClient()
+    const navigate = useNavigate()
 
     const getUserAcademies = ()=>{
         queryClient.invalidateQueries('profile')
@@ -46,9 +47,9 @@ const ExperienceSection = React.memo(({dob,userAcademies,ownProfile}) => {
                     { userAcademies.length >0 ?  
                         <div>
                             {userAcademies.slice(0,3).map((obj,index)=>(
-                                <div key={index} className='flex mb-5 capitalize px-8'>
-                                    <img className='w-20 border border-gray-300' src={obj?.academy_details?.profile?.profile_photo ? baseUrl+obj?.academy_details?.profile?.profile_photo : 
-                                                                    'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'} alt="hai"/>
+                                <div key={index} className='flex mb-5 capitalize px-8 border-b last:border-b-0 pb-3'>
+                                    <img className='w-20 border border-gray-300 cursor-pointer' src={obj?.academy_details?.profile?.profile_photo ? baseUrl+obj?.academy_details?.profile?.profile_photo : 
+                                                                    'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'} alt="hai" onClick={()=>navigate(`/academy/profile/${obj?.academy}`)}/>
                                 <div className='ml-2 flex flex-col text-sm'>
                                         <div>
                                             {obj?.sport}

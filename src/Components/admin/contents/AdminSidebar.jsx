@@ -69,7 +69,7 @@ const AdminSidebar = () => {
                         </a>
                       </li>
                     </ul>
-                    <div className="space-y-2 pt-2">
+                    {/* <div className="space-y-2 pt-2">
                     
                     <a href="#"  className="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 group transition duration-75 flex items-center p-2">
                         <svg className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -77,7 +77,7 @@ const AdminSidebar = () => {
                         </svg>
                         <span className="ml-3">Help</span>
                     </a>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

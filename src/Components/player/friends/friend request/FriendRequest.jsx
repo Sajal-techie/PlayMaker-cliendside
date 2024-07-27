@@ -6,6 +6,7 @@ import Navbar from '../../../layouts/navbar/Navbar'
 import SideBarLayout from '../SideBarLayout'
 import { baseUrl } from '../../../../api/api'
 import { useQueryClient } from 'react-query'
+import BottomNavbar from '../../../layouts/navbar/BottomNavbar'
 
 const FriendRequest = () => {
     const [friendRequests, setFriendRequests] = useState([])
@@ -82,6 +83,7 @@ const FriendRequest = () => {
       </div>
     </div>
     </SideBarLayout>
+    <BottomNavbar />
   </>
   )
 }

@@ -5,7 +5,7 @@ import Navbar from '../layouts/navbar/Navbar'
 import BottomNavbar from '../layouts/navbar/BottomNavbar'
 import MainSection from '../layouts/profile layouts/Main Section/MainSection'
 import AboutSection from '../layouts/profile layouts/About Section/AboutSection'
-import PostProfile from '../layouts/profile layouts/PostProfile'
+import PostProfile from '../layouts/profile layouts/Post Section/PostProfileSection'
 import Achievementsection from '../layouts/profile layouts/Achievement Section/Achievementsection'
 import TrialSection from './selection trials/Profile Trial Section/TrialSection'
 import { useProfile } from '../common/Custom Hooks/useProfile'
@@ -23,7 +23,7 @@ const ProfileAcademy = () => {
   return (
     <> 
     <Navbar academy={role==='academy'} />
-    <div className="h-full bg-gray-200 md:p-16 xl:px-40 sm:p-12"> 
+    <div className="h-full bg-gray-200 md:p-16 xl:px-40 sm:p-12 pb-16 "> 
       <MainSection  academy={true} 
                     id={academyData?.user?.id}
                     profile_pic={academyData?.profile?.profile_photo}
@@ -38,7 +38,7 @@ const ProfileAcademy = () => {
                           ownProfile={academyData.own_profile}
                           />
             <PostProfile academy={true} ownProfile={academyData.own_profile}/>
-            <TrialSection ownProfile={academyData.own_profile}/>
+            <TrialSection ownProfile={academyData.own_profile} id={userId}/>
             <Achievementsection 
                       academy={true}
                       achievements={academyData?.achievements} 

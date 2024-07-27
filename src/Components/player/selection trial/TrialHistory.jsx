@@ -4,6 +4,7 @@ import Navbar from '../../layouts/navbar/Navbar';
 import userApi from '../../../api/axiosconfig';
 import { convertTo12HourFormat } from '../../common/functions/covertTime';
 import { Link, useNavigate } from 'react-router-dom';
+import BottomNavbar from '../../layouts/navbar/BottomNavbar';
 
 const TrialHistoryPage = () => {
     const [trial, setTrial] = useState([]);
@@ -27,7 +28,7 @@ const TrialHistoryPage = () => {
     return (
         <>
             <Navbar />
-            <Box padding={2} maxWidth="1200px" margin="0 auto">
+            <Box padding={2} maxWidth="1200px" margin="0 auto" paddingBottom={10}>
                 <Box display="flex" alignItems="center" mb={2}>
                     <IconButton onClick={() => navigate(-1)} aria-label="back">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -74,6 +75,7 @@ const TrialHistoryPage = () => {
                     ))}
                 </Grid>
             </Box>
+        <BottomNavbar />
         </>
     );
 };

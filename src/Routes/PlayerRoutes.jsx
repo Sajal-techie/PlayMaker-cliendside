@@ -13,20 +13,21 @@ import SearchResults from '../Components/common/SearchResults';
 const Home = lazy(()=> import ('../Components/player/Home') )
 const Login = lazy(()=> import ('../Components/player/Login'))
 const Signup = lazy(()=> import('../Components/player/Signup/Signup'))
-const  OTP_verification = lazy(()=> import ('../Components/common/OTP_verification')) 
-const  ErrorPage404 = lazy(()=> import('../Components/common/ErrorPage404'))
-const  PlayerProfile = lazy(()=> import('../Components/player/PlayerProfile'))
-const  ViewExperience = lazy(()=> import('../Components/layouts/profile layouts/Experience Section/ViewExperience'))
-const  ViewAchievement = lazy(()=> import('../Components/layouts/profile layouts/Achievement Section/ViewAchievement'))
-const   ForgetPassword= lazy(()=> import('../Components/common/ForgetPassword'))
-const  ResetPassword = lazy(()=> import('../Components/common/ResetPassword'))
-const  GetUserDetails = lazy(()=> import('../Components/player/Signup/GetUserDetails'))
+const OTP_verification = lazy(()=> import ('../Components/common/OTP_verification')) 
+const ErrorPage404 = lazy(()=> import('../Components/common/ErrorPage404'))
+const PlayerProfile = lazy(()=> import('../Components/player/PlayerProfile'))
+const ViewExperience = lazy(()=> import('../Components/layouts/profile layouts/Experience Section/ViewExperience'))
+const ViewAchievement = lazy(()=> import('../Components/layouts/profile layouts/Achievement Section/ViewAchievement'))
+const ForgetPassword= lazy(()=> import('../Components/common/ForgetPassword'))
+const ResetPassword = lazy(()=> import('../Components/common/ResetPassword'))
+const GetUserDetails = lazy(()=> import('../Components/player/Signup/GetUserDetails'))
 const ListTrials = lazy(()=>import('../Components/player/selection trial/ListTrials'))
 const ViewTrialdetails = lazy(()=>import('../Components/player/selection trial/ViewTrialdetails'))
 const RegisterTrial = lazy(()=>import('../Components/player/selection trial/RegisiterTrial'))
 const PaymentSuccess = lazy(()=>import('../Components/player/selection trial/PaymentSuccess'))
 const PaymentFailed = lazy(()=>import('../Components/player/selection trial/PaymentFailed'))
 const TrialHistory = lazy(()=>import('../Components/player/selection trial/TrialHistory'))
+const ViewAllPosts = lazy(()=>import('../Components/layouts/profile layouts/Post Section/ViewAllPosts'))
 
 const PlayerRoutes = () => {
     
@@ -55,6 +56,7 @@ const PlayerRoutes = () => {
               <Route path='/friend_request_list' element={<ProtectedRoute element={<FriendRequest/>} role={"player"} /> }/>
               <Route path='/sent_request_list' element={<ProtectedRoute element={<SentRequest/>} role={"player"} /> }/>
               <Route path='/search' element={<ProtectedRoute element={<SearchResults/>} role={"both"} /> }/>
+              <Route path='/view_posts/:userId?' element={<ProtectedRoute element={<ViewAllPosts/>} role={"both"} /> }/>
               <Route path='*' element={<ErrorPage404/>}/>
         </Routes>
       </Suspense>

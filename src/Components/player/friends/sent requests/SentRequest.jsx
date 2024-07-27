@@ -5,6 +5,7 @@ import userApi from '../../../../api/axiosconfig';
 import { baseUrl } from '../../../../api/api';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from 'react-query';
+import BottomNavbar from '../../../layouts/navbar/BottomNavbar';
 
 const SentRequest = () => {
     const [sentRequests, setSentRequests] = useState([]);
@@ -80,6 +81,7 @@ const SentRequest = () => {
                     </div>
                 </div>
             </SideBarLayout>
+            <BottomNavbar />
         </>
     );
 };

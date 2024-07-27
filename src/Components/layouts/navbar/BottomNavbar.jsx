@@ -1,13 +1,16 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const BottomNavbar = ({academy}) => {
+    const role = useSelector(state=>state.auth.role)
 
-    const homeLink = academy ? '/academy/home':'/home'
-    const trialLink = academy ? '/academy/list_trials' : '/list_trials'
+    const homeLink = role === 'academy' ? '/academy/home':'/home'
+    const trialLink = role === 'academy' ? '/academy/list_trials' : '/list_trials'
+    const friendLink = role === 'academy' ? '' : '/friends'
 
-    const color = academy ? "text-indigo-500 group-hover:text-white ": 'text-gblue-400 group-hover:text-white'
-    const hovercolor = academy ? " hover:bg-indigo-400 ": 'hover:bg-gblue-400 '
+    const color = role === 'academy' ? "text-indigo-500 group-hover:text-white ": 'text-gblue-400 group-hover:text-white'
+    const hovercolor = role === 'academy' ? " hover:bg-indigo-400 ": 'hover:bg-gblue-400 '
   return (
     <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-300  sm:hidden">
         <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
@@ -31,20 +34,20 @@ const BottomNavbar = ({academy}) => {
                 <span className={`${color} text-sm `}>Messages</span>
             </button>
             { academy ?
-                <button type="button" className={`${hovercolor}inline-flex flex-col items-center justify-center px-5   group`}>
+                <Link to={'/academy/profile'} className={`${hovercolor}inline-flex flex-col items-center justify-center px-5   group`}>
                 <svg className={`${color} w-6 h-6 mb-1   ` } xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                     <path fillRule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clipRule="evenodd" />
                 </svg>
 
                     <span className={`${color} text-sm `}>Profile</span>
-                </button>
+                </Link>
                 :
-                <button type="button" className={`${hovercolor}inline-flex flex-col items-center justify-center px-5   group`}>
+                <Link to={friendLink} className={`${hovercolor}inline-flex flex-col items-center justify-center px-5   group`}>
                 <svg className={`${color} w-6 h-6 mb-1   ` }  fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                 </svg>
                     <span className={`${color} text-sm `}>Friends</span>
-                </button>
+                </Link>
             }
         </div>
     </div>

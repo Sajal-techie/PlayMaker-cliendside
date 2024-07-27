@@ -19,6 +19,7 @@ import { convertTo12HourFormat } from '../../common/functions/covertTime';
 import userApi from '../../../api/axiosconfig';
 import { stripTime } from '../../common/functions/stripTime';
 import { baseUrl } from '../../../api/api';
+import BottomNavbar from '../../layouts/navbar/BottomNavbar';
 
 
 const ViewTrialdetails = () => {
@@ -62,11 +63,11 @@ const ViewTrialdetails = () => {
   return (
     <>
     <Navbar />
-     <Container sx={{ mt: 7, mb: 5 }}>
+     <Container sx={{ mt: 7, pb:10 }}>
         <Card sx={{ mt: 4 }}>
           <CardMedia
             component="img"
-            image={trial?.image ? `${baseUrl}${trial?.image}` : 'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'}
+            image={trial?.image ? `${trial?.image}` : 'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'}
             alt="Trial Poster"
             sx={{ objectFit: 'fill',maxHeight:500 }}
           />
@@ -180,6 +181,7 @@ const ViewTrialdetails = () => {
           </CardContent>
         </Card>
       </Container>
+      <BottomNavbar />
       </>
   )
 }

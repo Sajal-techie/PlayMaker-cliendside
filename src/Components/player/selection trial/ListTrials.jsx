@@ -7,6 +7,7 @@ import TrialCard from '../../academy/selection trials/ListOwnTrials/TrialCard';
 import userApi from '../../../api/axiosconfig';
 import all_sports from '../../../api/json data/sports';
 import all_states from '../../../api/json data/states_districts';
+import BottomNavbar from '../../layouts/navbar/BottomNavbar';
 
 
 const ListTrials = () => {
@@ -84,7 +85,7 @@ const ListTrials = () => {
   return (
     <>
       <Navbar />
-      <Container maxWidth="md" sx={{ py: 3 }}>
+      <Container maxWidth="md" sx={{ py: 3, pb:10 }} >
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
           <TextField
             fullWidth
@@ -179,6 +180,7 @@ const ListTrials = () => {
           </Grid>
         </InfiniteScroll>
       </Container>
+      <BottomNavbar />
     </>
   );
 };

@@ -6,6 +6,7 @@ import { useTrialAcademy } from '../../Custom Hooks/useTrialAcademy';
 import Skelton_profile from '../../../../Pages/Skelton_profile';
 import { Link, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import BottomNavbar from '../../../layouts/navbar/BottomNavbar';
 
 const ListOwnTrial = () => {
   const { data: trialList, isLoading, isError, error: fetchError } = useTrialAcademy();
@@ -51,7 +52,7 @@ const ListOwnTrial = () => {
   return (
     <>
       <Navbar academy={role==='academy'} />
-      <Container maxWidth="md" sx={{ py: 3 }}>
+      <Container maxWidth="md" sx={{ py: 3,pb:10 }}>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
           <Typography variant="h4">Selection Trials</Typography>
           <Link to={'/academy/add_trial'}>
@@ -85,6 +86,7 @@ const ListOwnTrial = () => {
           )}
         </Grid>
       </Container>
+      <BottomNavbar academy={true}/>
     </>
   );
 };

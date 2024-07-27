@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import AboutSection from '../layouts/profile layouts/About Section/AboutSection'
 import MainSection from '../layouts/profile layouts/Main Section/MainSection'
-import PostProfile from '../layouts/profile layouts/PostProfile'
+import PostProfile from '../layouts/profile layouts/Post Section/PostProfileSection'
 import ExperienceSection from '../layouts/profile layouts/Experience Section/ExperienceSection'
 import Achievementsection from '../layouts/profile layouts/Achievement Section/Achievementsection'
 import Navbar from '../layouts/navbar/Navbar'
@@ -16,6 +16,7 @@ const PlayerProfile = () => {
   const navigate = useNavigate()
   const {userId} = useParams()
   const {data: userData, isLoading,isError, error:fetchError} = useProfile(userId)
+  const role = useSelector(state=>state.auth.role)
 
   if (isLoading) return <><Skelton_profile/> </>
   if (isError) return <><Navigate to={'/home'}/> </>
@@ -23,8 +24,8 @@ const PlayerProfile = () => {
     console.log(userData,isLoading,isError,userId);
   return (
     <>
-    <Navbar/>
-    <div className="h-full bg-gray-200 md:p-16 xl:px-40 sm:p-12"> 
+    <Navbar academy={role==='academy'}/>
+    <div className="h-full bg-gray-200 md:p-16 xl:px-40 sm:p-12 pb-16"> 
         {/* first section  */}
         <MainSection  id={userData?.user?.id}
                       profile_pic={userData?.profile?.profile_photo}
@@ -39,7 +40,7 @@ const PlayerProfile = () => {
         <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
             <div className="flex flex-col w-full ">
                 <AboutSection about={userData?.profile?.about} ownProfile={userData?.own_profile} />
-                <PostProfile data={userData?.profile?.about} ownProfile={userData?.own_profile} />
+                <PostProfile  ownProfile={userData?.own_profile} />
                 <ExperienceSection   dob={userData?.user?.dob} ownProfile={userData?.own_profile} userAcademies={userData?.user_academies}/>
                 <Achievementsection  dob={userData?.user?.dob} ownProfile={userData?.own_profile} achievements={userData?.achievements}/>
             </div>

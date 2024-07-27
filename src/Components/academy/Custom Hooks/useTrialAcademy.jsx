@@ -3,7 +3,7 @@ import userApi from '../../../api/axiosconfig'
 import { showToastMessage } from '../../common/functions/showToastMessage';
 
 
-const fetchTrialsList = async (page,pageSize,searchTerm,sport,state,payment)=>{
+const fetchTrialsList = async (page,pageSize,searchTerm,sport,state,payment,id)=>{
     try{
         const response = await userApi.get('trial',{
             params:{
@@ -13,6 +13,7 @@ const fetchTrialsList = async (page,pageSize,searchTerm,sport,state,payment)=>{
                 sport: sport,
                 state: state,
                 payment: payment,
+                id:id
             }
         })
         console.log(response,'inn fetch trials');
@@ -48,9 +49,9 @@ const fetchTrialDetails = async (id)=>{
 
 
 // custom hook for fetching list of trials
-export const useTrialAcademy = (page=1,pageSize=10,searchTerm=null,sport=null,state=null,payment=null)=>{
-    console.log(page,pageSize,searchTerm,state,sport,payment);
-    return useQuery(['trials',page,pageSize,searchTerm],()=>fetchTrialsList(page,pageSize,searchTerm,sport,state,payment),{
+export const useTrialAcademy = (page=1,pageSize=10,searchTerm=null,sport=null,state=null,payment=null,id=null)=>{
+    console.log(page,pageSize,searchTerm,state,sport,payment,id);
+    return useQuery(['trials',page,pageSize,searchTerm,state,sport,payment,id],()=>fetchTrialsList(page,pageSize,searchTerm,sport,state,payment,id),{
         keepPreviousData:true,
         staleTime: 10 * (60 * 1000),
     })

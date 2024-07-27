@@ -3,13 +3,16 @@ import userApi from '../../../../api/axiosconfig'
 import { Link } from 'react-router-dom'
 import { baseUrl } from '../../../../api/api'
 import { useQueryClient } from 'react-query'
+import { useSelector } from 'react-redux'
 const AchievementModal = React.lazy(()=>import('./AchievementModal')) 
 
 const Achievementsection = React.memo(({academy,dob,ownProfile,achievements}) => {
     const [isOpen,setIsOpen] = useState(false)
-    const bgColor = academy ? "bg-indigo-400":"bg-gblue-400" 
-    const textColor = academy ? "text-indigo-500": "text-gblue-500" 
-    const borderColor = academy ? "border-indigo-600" : "border-gblue-700"
+    const role = useSelector(state=>state.auth.role)
+
+    const bgColor = role === 'academy' ? "bg-indigo-400":"bg-gblue-400" 
+    const textColor = role === 'academy' ? "text-indigo-500": "text-gblue-500" 
+    const borderColor = role === 'academy' ? "border-indigo-600" : "border-gblue-700"
     const queryClient = useQueryClient()
     
     const getAchievements =  ()=>{
@@ -50,7 +53,7 @@ const Achievementsection = React.memo(({academy,dob,ownProfile,achievements}) =>
             { achievements.length >0 ?  
                     <div>
                         {achievements.slice(0,3).map((obj,index)=>(
-                            <div key={index} className='flex mb-5 capitalize px-8'>
+                            <div key={index} className='flex mb-5 capitalize px-8 border-b last:border-b-0 pb-3'>
                                 <img className='w-20 border border-gray-300' src={obj?.image ? baseUrl+obj?.image : 
                                                                 'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'} alt="achievement image"/>
                                 <div className='ml-2 flex flex-col text-sm justify-center'>

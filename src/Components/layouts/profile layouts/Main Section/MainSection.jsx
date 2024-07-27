@@ -3,6 +3,8 @@ import { baseUrl } from '../../../../api/api'
 import coverImage from '../../../../assets/cover.png'
 import userApi from '../../../../api/axiosconfig'
 import { useQueryClient } from 'react-query'
+import { useSearchParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const UpdateDetailsModal = React.lazy(()=>import ('./UpdateDetailsModal'))
 const ViewDetailsModal =  React.lazy(()=>import ('./ViewDetailsModal'))
@@ -16,7 +18,9 @@ const MainSection = React.memo(({id,academy,profile_pic,cover_pic,userData,ownPr
     const [cover,setCover] = useState()
     const [updateModalOpen,setUpdateModalOpen] = useState(false)
     const [viewDetailModalOpen,setViewDetailsModalOpen] = useState(false)
+
     const queryClient = useQueryClient()
+    const role = useSelector(state=>state.auth.role)
 
     const bgColor = academy ? "bg-indigo-500 hover:bg-indigo-800 ":"bg-gblue-400 hover:bg-gblue-700" 
     const textColor = academy ? "text-indigo-500": "text-gblue-500" 
@@ -147,39 +151,60 @@ const MainSection = React.memo(({id,academy,profile_pic,cover_pic,userData,ownPr
                                         view detials 
                                     </button>
                                     :
-                                    userData?.friend_status === 'friends' ?
+                                    role === 'player' ?
+                                    <>
+                                    {
+
+                                        userData?.friend_status === 'friends' ?
+                                        <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={changeDetailsModalOpen}> 
+                                            message 
+                                        </button>
+                                        :
+                                        userData?.friend_status === 'sent' ?
+                                        <button className={`bg-white  border border-gblue-500 rounded-full px-2 py-1 mt-2 text-gblue-500 hover:bg-gblue-400 hover:text-white`} onClick={()=>handleCancelRequest()}> 
+                                            cancel request 
+                                        </button>
+                                        :
+                                        userData?.friend_status === 'received' ?
+                                        <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={handleAccept}> 
+                                            Accept 
+                                        </button>
+                                        :
+                                        userData?.friend_status === 'none' ?
+                                        <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={handleAddFriend}> 
+                                            Add friend 
+                                        </button>
+                                        :
+                                        userData?.friend_status === 'follow' ?
+                                        <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={handleFollow}> 
+                                            follow 
+                                        </button>
+                                        :
+                                        userData?.friend_status === 'following' ?
+                                        <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={handleUnfollow}> 
+                                            following 
+                                        </button>
+                                        :
+                                        <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={changeDetailsModalOpen}> 
+                                            nothing 
+                                        </button>
+                                    }
+                                    </> 
+                                    :
+                                    userData?.user?.is_academy ?
+                                    <button>
+                                        {/* message */}
+                                    </button>
+                                    :
+                                    userData?.friend_status === 'follower' ?
                                     <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={changeDetailsModalOpen}> 
                                         message 
                                     </button>
                                     :
-                                    userData?.friend_status === 'sent' ?
-                                    <button className={`bg-white  border border-gblue-500 rounded-full px-2 py-1 mt-2 text-gblue-500 hover:bg-gblue-400 hover:text-white`} onClick={()=>handleCancelRequest()}> 
-                                        cancel request 
-                                    </button>
-                                    :
-                                    userData?.friend_status === 'received' ?
-                                    <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={handleAccept}> 
-                                        Accept 
-                                    </button>
-                                    :
-                                    userData?.friend_status === 'none' ?
-                                    <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={handleAddFriend}> 
-                                        Add friend 
-                                    </button>
-                                    :
-                                    userData?.friend_status === 'follow' ?
-                                    <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={handleFollow}> 
-                                        follow 
-                                    </button>
-                                    :
-                                    userData?.friend_status === 'following' ?
-                                    <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={handleUnfollow}> 
-                                        following 
-                                    </button>
-                                    :
-                                    <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={changeDetailsModalOpen}> 
-                                        nothing 
-                                    </button>
+                                    <></>
+                                    // <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={changeDetailsModalOpen}> 
+                                    //     not followed 
+                                    // </button>
                                 }
                             </div>
                             

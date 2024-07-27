@@ -1,14 +1,18 @@
 import React from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useTrialAcademy } from '../../Custom Hooks/useTrialAcademy'
 import { Skeleton } from '@mui/material'
+import { useSelector } from 'react-redux'
 
-const TrialSection = ({ownProfile}) => {
-    const {data:trialList, isLoading,isError} = useTrialAcademy()
-
+const TrialSection = ({ownProfile,id}) => {
+    const {data:trialList, isLoading,isError} = useTrialAcademy(1,10,null,null,null,null,id=id)
+    const role = useSelector(state=>state.auth.role)
+    console.log(id,role,ownProfile)
+    const navigate = useNavigate()
+    
     if (isLoading) return <Skeleton />
-    if (isError) return <Navigate to={'/academy/home'} />
-    console.log(trialList);
+    if (isError) return role === 'academy' ? <Navigate to={'/academy/home'} />: <Navigate to={'/home'} />
+
   return (
     <div className="flex-1 bg-white rounded-lg shadow-xl mt-4 font-kanit">
         <div className='flex justify-between items-center w-full p-8 pb-0'>
@@ -31,12 +35,12 @@ const TrialSection = ({ownProfile}) => {
         </div> 
 
         <div className="mt-2 text-gray-700  ">
-            { trialList.results.length >0 ?  
+            { trialList.length >0 ?  
                 <div>
-                    {trialList.results.slice(0,3).map((obj,index)=>(
+                    {trialList.slice(0,3).map((obj,index)=>(
                         <div key={index} className='flex mb-5 capitalize px-8'>
-                            <img className='w-20 border border-gray-300' src={obj?.image ? obj?.image : 
-                                                            'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'} alt="achievement image"/>
+                            <img className={`w-20 border border-gray-300 ${role==='player' && 'cursor-pointer'}`} src={obj?.image ? obj?.image : 
+                                            'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'} alt="trial image" onClick={()=>( role === 'player' && navigate(`/trial_details/${obj.id}`))}  />
                             <div className='ml-2 flex flex-col text-sm justify-center'>
                                 <div>
                                     {obj?.name}
@@ -51,7 +55,7 @@ const TrialSection = ({ownProfile}) => {
                         </div>
                     ))}
                     {
-                        (trialList.results.length > 3 && ownProfile) && 
+                        (trialList.length > 3 && ownProfile) && 
                         <Link to={'/academy/list_trials'}>
                             <div className='flex justify-center border py-2 font-medium cursor-pointer hover:font-semibold hover:bg-gray-100'>
                                 <div className='flex items-center'>

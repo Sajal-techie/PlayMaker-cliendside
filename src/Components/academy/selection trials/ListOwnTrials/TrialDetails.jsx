@@ -24,6 +24,8 @@ import { convertTo12HourFormat } from '../../../common/functions/covertTime';
 import Skelton_profile from '../../../../Pages/Skelton_profile';
 import PlayersCard from './PlayersCard';
 import CancelTrialModal from './CancelTrialModal';
+import { baseUrl } from '../../../../api/api';
+import BottomNavbar from '../../../layouts/navbar/BottomNavbar';
 
 const TrialDetails = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -120,14 +122,14 @@ const TrialDetails = () => {
   return (
     <>
       <Navbar academy={true} />
-      <Container sx={{ mt: 7, mb: 5 }}>
+      <Container sx={{ mt: 7, mb: 5, pb:4  }}>
         {/* <IconButton onClick={() => navigate(-1)} color="primary">
           <ArrowBack />
         </IconButton> */}
         <Card sx={{ mt: 4 }}>
           <CardMedia
             component="img"
-            image={trial.image ? `${baseUrl}${trial.image}` : 'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'}
+            image={trial.image ? `${trial.image}` : 'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'}
             alt="Trial Poster"
             sx={{ objectFit: 'fill',maxHeight:500 }}
           />
@@ -282,7 +284,7 @@ const TrialDetails = () => {
                 </Box>
               </form>
             ) : (
-              <Box sx={{ p: 2 }}>
+              <Box sx={{ p: 2}}>
                 <Grid container spacing={4}>
                   <Grid item xs={12} md={6}>
                     <Typography  variant="h4" color={'rgb(99 102 291)'} textTransform={'capitalize'}  gutterBottom>
@@ -365,6 +367,7 @@ const TrialDetails = () => {
         </Card>
       </Container>
       { isOpen && <CancelTrialModal isOpen={isOpen} closeModal={closeUpdateModal} current={trial} handleCancel={handleCancel}/>}
+      <BottomNavbar academy={true} />
     </>
   );
 };

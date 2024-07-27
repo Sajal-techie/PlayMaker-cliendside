@@ -27,7 +27,7 @@ const FriendList = () => {
     <>
     <Navbar />
     <SideBarLayout >
-    <div className="flex-grow p-8 bg-gray-100 min-h-screen font-kanit">
+    <div className="flex-grow p-8 bg-gray-100 font-kanit">
       <h1 className="text-2xl font-bold mb-4">Friends</h1>
       <div className="mb-4">
         <input

@@ -5,6 +5,7 @@ import {toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import getCroppedImg from './cropImage';
 import { useDeletePhoto, useUpdatePhoto } from '../../../common/Custom Hooks/useProfile';
+import { showToastMessage } from '../../../common/functions/showToastMessage';
 
 const CoverImgModal = ({ isOpen, changeModalStatus, state, id }) => {
   const [image, setImage] = useState(null); 
@@ -45,6 +46,10 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id }) => {
   // used to display the crop component after selecting a file 
   const handleFileChange =  (e) => {
     if (e.target.files && e.target.files.length > 0){
+      if (!e.target.files[0].type.startsWith('image')) {
+        showToastMessage(400, 'select a valid image')
+        return
+      } 
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader(); // FileReader used to read the contents of the blob file async
@@ -134,7 +139,7 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id }) => {
               <div className='text-center m-5 p-4'>Showcase your personality, interests, team moments or notable milestones</div> 
               }
             </div>
-            <input hidden id="pic" type="file" onChange={handleFileChange} />
+            <input hidden id="pic" type="file" accept="image/*" onChange={handleFileChange} />
             {image ? (
               <button
                 className="bg-gblue-500 hover:bg-gblue-800 w-full py-2 mb-2 text-white "

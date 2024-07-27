@@ -33,9 +33,16 @@ const NavSearch = ({ academy }) => {
   const handleSuggestionClick = (suggestion) => {
     console.log(suggestion);
     if (suggestion.type ==='Trial'){
-      navigate(`/trial_details/${suggestion.id}`)
-    }else if(suggestion.type==='Player' || suggestion.type==='Academy'){
+      if (academy){
+        navigate(`/academy/trial_details/${suggestion.id}`)
+      }
+      else{
+        navigate(`/trial_details/${suggestion.id}`)
+      }
+    }else if(suggestion.type==='Player' ) {
       navigate(`/profile/${suggestion.id}`);
+    }else if(suggestion.type==='Academy'){
+      navigate(`/academy/profile/${suggestion.id}`)
     }
     setQuery('');
     setSuggestions([]);
@@ -82,7 +89,7 @@ const NavSearch = ({ academy }) => {
                 <span className="text-sm text-gray-500">({suggestion.type})</span>
               </li>
             ))}
-            {suggestions.length > 2 && (
+            {suggestions.length > 7 && (
               <li
                 className="p-2 text-center hover:bg-gray-100 cursor-pointer text-blue-500"
                 onClick={handleSeeAllClick}

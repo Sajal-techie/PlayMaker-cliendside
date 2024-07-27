@@ -71,7 +71,7 @@ const TrialManage = () => {
                 <th className="p-4 text-left text-sm font-semibold text-black">Time & Date</th>
                 <th className="p-4 text-left text-sm font-semibold text-black">Joined</th>
                 <th className="p-4 text-left text-sm font-semibold text-black">status</th>
-                <th className="p-4 text-left text-sm font-semibold text-black">Action</th>
+                {/* <th className="p-4 text-left text-sm font-semibold text-black">Action</th> */}
             </tr>
             </thead>
 
@@ -104,7 +104,7 @@ const TrialManage = () => {
                             <td className={`p-4 ${!trial.is_active ? 'text-red-500' : new Date(trial.trial_date) > currentDate ? 'text-amber-400' : 'text-green-500' }  `}>
                                 {!trial.is_active ? "Cancelled" : new Date(trial.trial_date) > currentDate ? "Up Coming" : "Completed" }
                             </td>
-                            <td className="p-4">
+                            {/* <td className="p-4">
                             <button className="mr-4" title="Edit">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-5 fill-blue-500 hover:fill-blue-700"
                                 viewBox="0 0 348.882 348.882">
@@ -125,7 +125,7 @@ const TrialManage = () => {
                                     data-original="#000000" />
                                 </svg>
                             </button>
-                            </td>
+                            </td> */}
                         </tr>
                     ))
                 }

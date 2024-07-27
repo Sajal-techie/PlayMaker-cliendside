@@ -3,6 +3,7 @@ import Navbar from '../../../layouts/navbar/Navbar'
 import SideBarLayout from '../SideBarLayout'
 import FriendListItem from '../friends list/FriendListItem'
 import userApi from '../../../../api/axiosconfig'
+import BottomNavbar from '../../../layouts/navbar/BottomNavbar'
 
 const Following = () => {
     const [following,setFollowing] = useState([])
@@ -24,7 +25,7 @@ const Following = () => {
     <>
     <Navbar />
     <SideBarLayout >
-    <div className="flex-grow p-8 bg-gray-100 min-h-screen font-kanit">
+    <div className="flex-grow p-8 bg-gray-100 font-kanit">
       <h1 className="text-2xl font-bold mb-4">Following</h1>
       <div className="mb-4">
         <input
@@ -55,6 +56,7 @@ const Following = () => {
         }
     </div>
     </SideBarLayout>
+    <BottomNavbar />
     </>
   )
 }

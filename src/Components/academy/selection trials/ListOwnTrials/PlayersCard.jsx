@@ -37,7 +37,9 @@ const PlayersCard = () => {
 
   const handleStatusChange = async (playerId, newStatus) => {
     try {
-      await userApi.patch(`player_trial/${playerId}`, { status: newStatus });
+      console.log(playerId, newStatus);
+      const  res = await userApi.patch(`player_trial/${playerId}`, { status: newStatus });
+      console.log(res);
       queryClient.invalidateQueries('playerlist');
     } catch (error) {
       console.error('Error updating status:', error);
@@ -101,7 +103,7 @@ const PlayersCard = () => {
                       <Button
                         variant="text"
                         color="primary"
-                        onClick={() => navigate(`/player/profile/${player.id}`)}
+                        onClick={() => navigate(`/profile/${player.player}`)}
                       >
                         {player.name}
                       </Button>

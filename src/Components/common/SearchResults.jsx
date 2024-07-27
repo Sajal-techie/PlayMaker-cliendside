@@ -50,7 +50,11 @@ const SearchResults = () => {
   const handleResultClick = async (data) =>{
     console.log(data);
     if (data.type ==='Trial'){
-      navigate(`/trial_details/${data.id}`)
+      if (role === 'academy'){
+        navigate(`/academy/trial_details/${data.id}`)
+      }else{
+        navigate(`/trial_details/${data.id}`)
+      }
     }else if(data.type==='Player') {
       navigate(`/profile/${data.id}`);
     }else if (data.type==='Academy'){
@@ -134,20 +138,24 @@ const SearchResults = () => {
     console.log(data);
     if (data.type === 'Player' || data.type === 'Academy') {
       if (data.type === 'Player') {
-        if (data.friend_status === 'friends') {
-          return <button className='bg-blue-400 text-white px-3 py-1' onClick={()=>handleRemoveFriend(data.id)}>Message</button>;
-        } else if (data.friend_status === 'request_received') {
-          return <button className='bg-blue-400 text-white px-3 py-1' onClick={()=>handleAccept(data.id)}>Accept</button>;
-        } else if (data.friend_status === 'request_sent') {
-          return <button className='bg-gray-400 text-white px-3 py-1' onClick={()=>handleCancelRequest(data.id)}>Cancel Request</button>;
-        } else if(data.friend_status ==='self'){
-          return <button className='bg-blue-400 text-white px-3 py-1' onClick={()=>navigate('/profile')}>View Profile</button>;
-        } 
-        else {
-          return <button className='bg-blue-400 text-white px-3 py-1' onClick={()=>handleAddFriend(data.id)}>Add Friend</button>;
+        if (role === 'player'){
+          if (data.friend_status === 'friends') {
+            return <button className='bg-blue-400 text-white px-3 py-1' onClick={()=>handleRemoveFriend(data.id)}>Message</button>;
+          } else if (data.friend_status === 'request_received') {
+            return <button className='bg-blue-400 text-white px-3 py-1' onClick={()=>handleAccept(data.id)}>Accept</button>;
+          } else if (data.friend_status === 'request_sent') {
+            return <button className='bg-gray-400 text-white px-3 py-1' onClick={()=>handleCancelRequest(data.id)}>Cancel Request</button>;
+          } else if(data.friend_status ==='self'){
+            return <button className='bg-blue-400 text-white px-3 py-1' onClick={()=>navigate('/profile')}>View Profile</button>;
+          } 
+          else {
+            return <button className='bg-blue-400 text-white px-3 py-1' onClick={()=>handleAddFriend(data.id)}>Add Friend</button>;
+          }
+        }else if (data?.follow_status ==='follower'){
+          return <button className='bg-blue-400 text-white px-3 py-1'>message</button>;
         }
       }
-      if (data.type === 'Academy') {
+      if (data.type === 'Academy' && role === 'player') {
         if (data.follow_status === 'following') {
           return <button className='bg-gray-400 text-white px-3 py-1' onClick={()=>handleUnfollow(data.id)}>Following</button>;
         } else {
