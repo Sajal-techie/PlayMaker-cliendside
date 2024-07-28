@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { showToastMessage } from '../../../common/functions/showToastMessage';
 import CommentList from './CommentList';
 import { baseUrl } from '../../../../api/api';
+import { Link } from 'react-router-dom';
 
 const CommentItem = ({ comment, postId, handleReplySubmit, depth }) => {
     const [reply, setReply] = useState('');
     const [showReplyForm, setShowReplyForm] = useState(false);
     const maxDepth = 10
+    const profileLink = comment.is_academy ? `/academy/profile/${comment.user_id}` : `/profile/${comment.user_id}`
 
     const handleReplyChange = (e) => {
         setReply(e.target.value);
@@ -29,7 +31,7 @@ const CommentItem = ({ comment, postId, handleReplySubmit, depth }) => {
                 <img src={comment.profile_photo ? baseUrl+comment.profile_photo :"https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg"} alt={comment.user} className="w-8 h-8 rounded-full mr-2 flex-shrink-0" />
                 <div className="flex-grow min-w-0">
                     <div className="bg-gray-100 p-2 rounded-lg break-words">
-                        <h4 className="font-semibold">{comment.user}</h4>
+                        <Link to={profileLink} className="font-semibold hover:underline hover:text-gblue-500">{comment.user}</Link>
                         <p className="text-sm">{comment.content}</p>
                     </div>
                     {

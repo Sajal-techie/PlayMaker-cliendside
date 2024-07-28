@@ -1,20 +1,65 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PostVideo from './PostVideo';
 import { TfiCommentAlt } from "react-icons/tfi";
 import { RiShareForwardLine } from "react-icons/ri";
 import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
 import { dateDifference } from '../../../common/functions/dateDifference';
 import userApi from '../../../../api/axiosconfig';
-import Comment from './Comment';
 import { showToastMessage } from '../../../common/functions/showToastMessage';
 import CommentList from './CommentList';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import PostModal from './PostModal';
 
-const PostItem = ({ post }) => {
+const PostItem = ({ post, fetchPost }) => {
     const [liked, setLiked] = useState(post.is_liked_by_current_user);
     const [likesCount, setLikesCount] = useState(post.likes_count);
     const [showComments, setShowComments] = useState(false);
     const [newComment, setNewComment] = useState('');
     const [comments, setComments] = useState(post.comments);
+    const [optionsVisible, setOptionsVisible] = useState(false)
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    
+    const postLink = import.meta.env.VITE_SITE_URL + '/view_post_details/' + post.id
+    const profileLink = post.is_academy ? `/academy/profile/${post.user_id}` : `/profile/${post.user_id}`
+    const role = useSelector(state=>state.auth.role)
+    const navigate = useNavigate()
+    const optionsRef = useRef(null)
+
+    const handleOptionsClick = ()=>{
+        setOptionsVisible(!optionsVisible)
+    }
+
+    const handleCopyLink = async ()=>{
+        console.log(postLink);
+        try{
+            await navigator.clipboard.writeText(postLink)
+            showToastMessage(200, 'post link copied to clipboard')
+        }catch(error){
+            console.log(error);
+        }
+        setOptionsVisible(false)
+    }
+    const openEditModal =()=>{
+        setOptionsVisible(false)
+        setIsEditModalOpen(true)
+    }
+    const closeEditModal = ()=>{
+        setIsEditModalOpen(false)
+    }
+
+
+    useEffect(()=>{
+        const handleClickOutside = (event)=>{
+            if (optionsRef.current && !optionsRef.current.contains(event.target)){
+                setOptionsVisible(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return ()=>{
+            document.removeEventListener('mousedown', handleClickOutside)
+        }   
+    },[optionsRef])
 
     const handleLike = async () => {
         setLiked(!liked);
@@ -65,23 +110,77 @@ const PostItem = ({ post }) => {
             setNewComment('');
         } catch (error) {
             console.log(error, 'error commenting');
+            if (error.status === 404){
+                showToastMessage(400, 'Post has been Deleted or removed')
+            }else{
+                showToastMessage(400, "Server error try again later")
+            }
         }
     };
 
+    const handleDelete = async ()=>{
+        try{
+            const res = await userApi.delete(`post/${post.id}`)
+            console.log(res);
+            showToastMessage(200, 'post deleted successfully')
+            navigate(-1)
+        }catch(error){
+            console.log(error, 'error deleting post');
+        }
+    }
+
     return (
         <div className="bg-white rounded-lg shadow-md mb-4 p-4" key={post.id}>
-            <div className='flex justify-between'>
+            <div className='flex justify-between relative'>
                 <div className="flex items-center mb-2">
-                    <img src={post.profile_photo} alt={post.username} className='w-12 h-12 rounded-full mr-3' />
+                    <img src={post.profile_photo || 'https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg'} alt={post.username} className='w-12 h-12 rounded-full mr-3' />
                     <div>
-                        <h3 className="font-semibold text-gray-800">{post.user}</h3>
+                        <Link to={profileLink} className="font-semibold text-gray-800 hover:underline hover:text-gblue-500">{post.user}</Link>
                         <p className="text-sm text-gray-600">{post.bio}</p>
                         <span className="text-xs text-gray-500">{dateDifference(post.created_at)}</span>
                     </div>
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6" onClick={handleOptionsClick}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
                 </svg>
+                {
+                    optionsVisible && 
+                    <div ref={optionsRef} className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-xl z-10">
+                    {/* <button
+                      className="block px-4 py-2 text-left text-gray-700 hover:bg-gray-100 w-full"
+                      onClick={handleBlock}
+                    >
+                      Block
+                    </button> */}
+                    {/* {
+                        role === 'player' ?
+
+                    } */}
+                    {
+                        post.is_own_post &&
+                        <>
+                            <button
+                            className="block px-4 py-2 text-left text-gray-700 hover:bg-gray-100 w-full border-b"
+                            onClick={handleCopyLink}
+                            >
+                            copy link
+                            </button>
+                            <button
+                            className="block px-4 py-2 text-left text-gray-700 hover:bg-gray-100 w-full border-b"
+                            onClick={openEditModal}
+                            >
+                            Edit post
+                            </button>
+                            <button
+                            className="block px-4 py-2 text-left text-gray-700 hover:bg-gray-100 w-full"
+                            onClick={handleDelete}
+                            >
+                            delete post
+                            </button>
+                        </>
+                    }
+                  </div>
+                }
             </div>
             <div className="post-content">
                 <p className="text-gray-800 mb-3">{post.content}</p>
@@ -131,13 +230,14 @@ const PostItem = ({ post }) => {
                     </button>
                     </form>
                         <CommentList 
-                            comments={post.comments}
+                            comments={comments}
                             postId={post.id}
                             handleReplySubmit={handleCommentSubmit}
                         />
 
                 </div>
             )}
+            <PostModal isOpen={isEditModalOpen} onClose={closeEditModal} post={post} fetchPosts={fetchPost} />
         </div>
     );
 };

@@ -69,14 +69,19 @@ const Login = () => {
   }
 
   useEffect(() => {
-    google.accounts.id.initialize({
-      client_id:import.meta.env.VITE_GOOGLE_CLIENT_ID,
-      callback:handleSignInWithGoogle
-    })
-    google.accounts.id.renderButton(
-      document.getElementById('signInDiv'),
-      {theme:"filled_b",size:'large',text:'signin_with',shape:'square',width:'320'}
-    )
+    try{
+
+      google.accounts.id.initialize({
+        client_id:import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        callback:handleSignInWithGoogle
+      })
+      google.accounts.id.renderButton(
+        document.getElementById('signInDiv'),
+        {theme:"filled_b",size:'large',text:'signin_with',shape:'square',width:'320'}
+      )
+    } catch(error){
+      console.log(error,'no internet connection');
+    }
   }, [])
   
 

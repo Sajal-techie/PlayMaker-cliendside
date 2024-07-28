@@ -8,6 +8,7 @@ import FriendList from '../Components/player/friends/friends list/FriendList';
 import SentRequest from '../Components/player/friends/sent requests/SentRequest';
 import Following from '../Components/player/friends/following/Following';
 import SearchResults from '../Components/common/SearchResults';
+import ViewPost from '../Components/layouts/profile layouts/Post Section/ViewPost';
 
 
 const Home = lazy(()=> import ('../Components/player/Home') )
@@ -57,6 +58,7 @@ const PlayerRoutes = () => {
               <Route path='/sent_request_list' element={<ProtectedRoute element={<SentRequest/>} role={"player"} /> }/>
               <Route path='/search' element={<ProtectedRoute element={<SearchResults/>} role={"both"} /> }/>
               <Route path='/view_posts/:userId?' element={<ProtectedRoute element={<ViewAllPosts/>} role={"both"} /> }/>
+              <Route path='/view_post_details/:postId' element={<ProtectedRoute element={<ViewPost/>} role={"both"} /> }/>
               <Route path='*' element={<ErrorPage404/>}/>
         </Routes>
       </Suspense>

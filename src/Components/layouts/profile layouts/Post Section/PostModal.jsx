@@ -4,13 +4,14 @@ import userApi from '../../../../api/axiosconfig';
 
 Modal.setAppElement('#root');
 
-const PostModal = ({ isOpen, onClose }) => {
-  const [content, setContent] = useState('');
+const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
+  const [content, setContent] = useState(post?.content ? post.content : '');
   const [media, setMedia] = useState(null);
   const [mediaType, setMediaType] = useState(null);
 
   const handleMediaChange = (e, type) => {
     const file = e.target.files[0];
+    console.log(file,type);
     if (file) {
       setMedia(file);
       setMediaType(type);
@@ -28,18 +29,24 @@ const PostModal = ({ isOpen, onClose }) => {
     if (media) formData.append(mediaType, media);
 
     try {
-      const response = await userApi.post('post', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      console.log(response);
-      onClose();
+      if(post){
+        const response = await userApi.patch(`post/${post.id}`,formData)
+        console.log(response);
+    }else{
+        const response = await userApi.post('post', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        console.log(response);
+      }
     } catch (error) {
       console.log(error, 'error in post');
     }
-
+    
+    fetchPosts()
     setContent('');
     setMedia(null);
     setMediaType(null);
+    onClose();
   };
 
   return (
@@ -69,7 +76,7 @@ const PostModal = ({ isOpen, onClose }) => {
     >
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl font-kanit">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold">Create a New Post</h2>
+          <h2 className="text-2xl font-semibold"> { post ? 'Update post content' : 'Create New Post' } </h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -107,7 +114,7 @@ const PostModal = ({ isOpen, onClose }) => {
         
         <div className="flex justify-between items-center mb-4">
           <div className="flex space-x-4">
-          { !media &&
+          { !media && !post &&
           <>
             <label className="flex items-center space-x-2 cursor-pointer text-gray-600 hover:text-blue-500">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -142,7 +149,10 @@ const PostModal = ({ isOpen, onClose }) => {
           className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200"
           onClick={handleSave}
           >
-            Post
+            {
+              post ? 'Update' : 'Post'
+            }
+            
           </button>
         </div>
       </div>

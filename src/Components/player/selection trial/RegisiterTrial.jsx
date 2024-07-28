@@ -12,7 +12,7 @@ import { showToastMessage } from '../../common/functions/showToastMessage';
 import { loadStripe } from '@stripe/stripe-js';
 import { ColorRing } from 'react-loader-spinner';
   
-const stripePromise = loadStripe(import.meta.env.REACT_APP_STRIPE_KEY || 'pk_test_51PbymA2Kz50DKZ1p9iPax1hcYrd5RghzVFUtw5PqjM8D4n4tOoBDABb1YIjR2xYFrwkb2mgRVaxcxJgzQsH8hPYt00YMuVWYrY')
+const stripePromise = loadStripe(import.meta.env.VITE_REACT_APP_STRIPE_KEY || 'pk_test_51PbymA2Kz50DKZ1p9iPax1hcYrd5RghzVFUtw5PqjM8D4n4tOoBDABb1YIjR2xYFrwkb2mgRVaxcxJgzQsH8hPYt00YMuVWYrY')
 
 
 const RegisterTrial = () => {

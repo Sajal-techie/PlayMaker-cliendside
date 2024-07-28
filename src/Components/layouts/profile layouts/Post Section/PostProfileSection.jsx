@@ -3,76 +3,19 @@ import { useSelector } from 'react-redux'
 import PostModal from './PostModal'
 import userApi from '../../../../api/axiosconfig'
 import PostVideo from './PostVideo'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { dateDifference } from '../../../common/functions/dateDifference'
 
 const PostProfile = ({data,ownProfile}) => {
   const {userId} = useParams()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [posts, setPosts] = useState([])
 
+  const navigate = useNavigate()
   const role = useSelector(state=>state.auth.role)
   const bgColor = role === 'academy' ? "bg-indigo-400":"bg-gblue-400" 
   const textColor = role === 'academy' ? "text-indigo-500": "text-gblue-500" 
   const borderColor = role === 'academy' ? "border-indigo-600" : "border-gblue-700"
-
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const [progress, setProgress] = useState(0);
-  const videoRef = useRef(null);
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    const options = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.5
-    };
-
-    const observer = new IntersectionObserver(handleIntersect, options);
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
-      }
-    };
-  }, []);
-
-  const handleIntersect = (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        videoRef.current.play();
-        setIsPlaying(true);
-      } else {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      }
-    });
-  };
-
-  const togglePlay = () => {
-    if (videoRef.current.paused) {
-      videoRef.current.play();
-      setIsPlaying(true);
-    } else {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    }
-  };
-
-  const toggleMute = () => {
-    videoRef.current.muted = !videoRef.current.muted;
-    setIsMuted(!isMuted);
-  };
-
-  const handleProgress = () => {
-    const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
-    setProgress(progress);
-  };
-
-
 
   useEffect(()=>{
     fetchPosts()
@@ -113,17 +56,17 @@ const PostProfile = ({data,ownProfile}) => {
               posts.length > 0 ?
               <>
               {posts.slice(0,3).map((post, index) => (
-                <div key={index} className="border-b last:border-b-0 px-8 pb-4">
+                <div key={index} className="border-b last:border-b-0 px-8 pb-4 cursor-pointer"  onClick={()=>navigate(`/view_post_details/${post.id}`)}>
                   <div className="flex items-center mb-2">
                     {/* <img src={post?.user?.avatar} alt={post.user} className="w-10 h-10 rounded-full mr-3" /> */}
                     <div>
                       {/* <p className="font-semibold">{post.user} posted this</p> */}
-                      <p className="text-sm text-gray-500">posted on - {new Date(post?.created_at).toDateString()}</p>
+                      <p className="text-sm text-gray-500">posted  {dateDifference(post.created_at)}</p>
                     </div>
                   </div>
                   
                   {post.image && (
-                    <img src={post?.image} alt="Post content" className="w-16 h-16 object-cover float-left mr-3 mb-2" />
+                    <img src={post?.image} alt="Post content" className="w-16 h-16 object-cover float-left mr-3 mb-2"/>
                   )}
                   
                   {post.video && (
@@ -167,7 +110,7 @@ const PostProfile = ({data,ownProfile}) => {
       }   
       </div>
     }
-      <PostModal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <PostModal isOpen={isModalOpen} onClose={handleCloseModal} fetchPosts={fetchPosts} />
     </>
   )
 }
