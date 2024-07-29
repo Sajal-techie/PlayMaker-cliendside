@@ -16,12 +16,13 @@ const PlayerProfile = () => {
   const navigate = useNavigate()
   const {userId} = useParams()
   const {data: userData, isLoading,isError, error:fetchError} = useProfile(userId)
-  const role = useSelector(state=>state.auth.role)
-
+  const {role,profile} = useSelector(state=>state.auth)
+  
   if (isLoading) return <><Skelton_profile/> </>
   if (isError) return <><Navigate to={'/home'}/> </>
 
-    console.log(userData,isLoading,isError,userId);
+    console.log(userData,isLoading,isError,userId,profile);
+
   return (
     <>
     <Navbar academy={role==='academy'}/>

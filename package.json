@@ -38,6 +38,7 @@
     "redux-persist": "^6.0.0",
     "reify": "^0.20.12",
     "sweetalert2": "^11.11.1",
+    "websocket": "^1.0.35",
     "yup": "^1.4.0"
   },
   "devDependencies": {

@@ -98,6 +98,8 @@ const authSlice = createSlice({
         dob:null,
         message: null,
         is_access: false,
+        profile:null,
+        user_id: null
     },
     reducers: {
         toggleOtpAcess: (state,action) => {
@@ -107,8 +109,14 @@ const authSlice = createSlice({
             state.user = action.payload.username
             state.role = action.payload.role
             state.dob = action.payload.dob
+            state.user_id = action.payload.user_id
+            state.profile = action.payload.profile_photo
             console.log(action, state.user,state.role);
+        },
+        updateProfilePhoto:(state,action)=>{
+            state.profile = action.profile_photo
         }
+
     },
     extraReducers:(builder)=> {
         builder
@@ -137,7 +145,9 @@ const authSlice = createSlice({
             state.user = action?.payload?.user
             state.role = action?.payload?.role
             state.message = action?.payload?.message
-            state.dob = action.payload.dob
+            state.dob = action?.payload?.dob
+            state.user_id = action?.payload?.user_id
+            state.profile = action?.payload?.profile_photo
             console.log(action.payload,'in fulfilled','message = ',state.message,state.loading);
 
         })
@@ -166,5 +176,5 @@ const authSlice = createSlice({
     }
 })
 
-export const {toggleOtpAcess,googleSignin} = authSlice.actions
+export const {toggleOtpAcess,googleSignin,updateProfilePhoto} = authSlice.actions
 export default authSlice.reducer

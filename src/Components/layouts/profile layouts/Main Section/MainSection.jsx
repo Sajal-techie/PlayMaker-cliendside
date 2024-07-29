@@ -3,7 +3,7 @@ import { baseUrl } from '../../../../api/api'
 import coverImage from '../../../../assets/cover.png'
 import userApi from '../../../../api/axiosconfig'
 import { useQueryClient } from 'react-query'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 const UpdateDetailsModal = React.lazy(()=>import ('./UpdateDetailsModal'))
@@ -19,8 +19,9 @@ const MainSection = React.memo(({id,academy,profile_pic,cover_pic,userData,ownPr
     const [updateModalOpen,setUpdateModalOpen] = useState(false)
     const [viewDetailModalOpen,setViewDetailsModalOpen] = useState(false)
 
+    const navigate = useNavigate()
     const queryClient = useQueryClient()
-    const role = useSelector(state=>state.auth.role)
+    const {role, user_id} = useSelector(state=>state.auth)
 
     const bgColor = academy ? "bg-indigo-500 hover:bg-indigo-800 ":"bg-gblue-400 hover:bg-gblue-700" 
     const textColor = academy ? "text-indigo-500": "text-gblue-500" 
@@ -95,6 +96,20 @@ const MainSection = React.memo(({id,academy,profile_pic,cover_pic,userData,ownPr
             queryClient.invalidateQueries('profile')
         }catch(error){
             console.log(error);
+        }
+    }
+    const handleMessageClick = async ()=>{
+        console.log(id, );
+        try{
+            const response = await userApi.post(`chat`,{
+                sender_id: user_id,
+                receiver_id:id
+            })
+            console.log(response);
+            const {thread_name} = response.data
+            navigate(`/chat/${thread_name}`)
+        }catch(error){
+            console.log(error,'error getting thread ');
         }
     }
 
@@ -173,7 +188,7 @@ const MainSection = React.memo(({id,academy,profile_pic,cover_pic,userData,ownPr
                                     {
 
                                         userData?.friend_status === 'friends' ?
-                                        <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={changeDetailsModalOpen}> 
+                                        <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={handleMessageClick}> 
                                             message 
                                         </button>
                                         :
@@ -214,7 +229,7 @@ const MainSection = React.memo(({id,academy,profile_pic,cover_pic,userData,ownPr
                                     </button>
                                     :
                                     userData?.friend_status === 'follower' ?
-                                    <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={changeDetailsModalOpen}> 
+                                    <button className={`${bgColor} border border-black rounded-full px-2 py-1 mt-2 text-white`} onClick={handleMessageClick}> 
                                         message 
                                     </button>
                                     :

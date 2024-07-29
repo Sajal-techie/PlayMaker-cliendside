@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import Modal from 'react-modal'
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useDeletePhoto, useUpdatePhoto } from '../../../common/Custom Hooks/useProfile';
 
 const ImgModal = ({state,is_pic,id,bgColor,textColor,ownProfile}) => {
