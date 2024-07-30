@@ -22,7 +22,7 @@ const NavbarMenu = ({academy}) => {
             }
             
             <li className={`${textColors}`}>
-            <Link to={''} className="">Messages</Link>
+            <Link to={'/chat'} className="">Messages</Link>
             </li>
         </ul>
   )
