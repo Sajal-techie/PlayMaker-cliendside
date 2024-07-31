@@ -9,6 +9,7 @@ import ChatLayout from './ChatLayout';
 import BottomNavbar from '../../layouts/navbar/BottomNavbar';
 import ChatLandingPage from './ChatLandingPage';
 import chatbg from '../../../assets/chatbg.png'
+
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');

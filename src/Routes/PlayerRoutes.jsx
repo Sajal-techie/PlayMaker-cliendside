@@ -10,6 +10,7 @@ import Following from '../Components/player/friends/following/Following';
 import SearchResults from '../Components/common/SearchResults';
 import ViewPost from '../Components/layouts/profile layouts/Post Section/ViewPost';
 import Chat from '../Components/common/Chat/Chat';
+import Notifications from '../Components/common/Notification/Notifications';
 
 
 const Home = lazy(()=> import ('../Components/player/Home') )
@@ -61,6 +62,7 @@ const PlayerRoutes = () => {
               <Route path='/view_posts/:userId?' element={<ProtectedRoute element={<ViewAllPosts/>} role={"both"} /> }/>
               <Route path='/view_post_details/:postId' element={<ProtectedRoute element={<ViewPost/>} role={"both"} /> }/>
               <Route path='/chat/:threadName?' element={<ProtectedRoute element={<Chat/>} role={"both"} /> }/>
+              <Route path='/notification' element={<ProtectedRoute element={<Notifications/>} role={"both"} /> }/>
               <Route path='*' element={<ErrorPage404/>}/>
         </Routes>
       </Suspense>

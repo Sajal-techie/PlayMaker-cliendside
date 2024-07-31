@@ -11,15 +11,23 @@ import Navbar from '../layouts/navbar/Navbar'
 import BottomNavbar from '../layouts/navbar/BottomNavbar'
 import { useProfile } from '../common/Custom Hooks/useProfile'
 import Skelton_profile from '../../Pages/Skelton_profile'
+import { updateProfilePhoto } from '../../redux/slices/authSlice'
 
 const PlayerProfile = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const {userId} = useParams()
   const {data: userData, isLoading,isError, error:fetchError} = useProfile(userId)
   const {role,profile} = useSelector(state=>state.auth)
-  
-  if (isLoading) return <><Skelton_profile/> </>
-  if (isError) return <><Navigate to={'/home'}/> </>
+
+  useEffect(()=>{
+    if(userData && userData.own_profile &&  userData.profile.profile_photo != profile){
+      dispatch(updateProfilePhoto(userData.profile.profile_photo))
+    }
+  },[userData])
+
+  if (isLoading) return <Skelton_profile/> 
+  if (isError) return <Navigate to={'/home'}/>
 
     console.log(userData,isLoading,isError,userId,profile);
 

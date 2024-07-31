@@ -58,7 +58,10 @@ const Signup = () => {
         const payload = {
           username:response.data.username,
           role:'player',
-          dob:response.data.dob
+          dob:response.data.dob,
+          profile_photo: response.data.profile_photo,
+          notification_count : response.data.notification_count,
+          user_id:response.data.user_id
         }
           dispatch(googleSignin(payload))
           if (!response.data.dob){

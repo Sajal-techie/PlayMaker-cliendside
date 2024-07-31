@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import userApi from '../../api/axiosconfig'
 import { Navigate, useParams } from 'react-router-dom'
 import Navbar from '../layouts/navbar/Navbar'
@@ -10,12 +10,21 @@ import Achievementsection from '../layouts/profile layouts/Achievement Section/A
 import TrialSection from './selection trials/Profile Trial Section/TrialSection'
 import { useProfile } from '../common/Custom Hooks/useProfile'
 import Skelton_profile from '../../Pages/Skelton_profile'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateProfilePhoto } from '../../redux/slices/authSlice'
 
 const ProfileAcademy = () => {
     const {userId} = useParams()
+    const dispatch = useDispatch()
     const {data: academyData, isLoading,isError, error:fetchError} = useProfile(userId)
-    const role = useSelector(state=>state.auth.role)
+    const {role, profile} = useSelector(state=>state.auth)
+
+    useEffect(()=>{
+      if (academyData && academyData.own_profile && academyData.profile.profile_photo != profile){
+        dispatch(updateProfilePhoto(academyData.profile.profile_photo))
+      }
+    },[academyData])
+
       if (isLoading) return <><Skelton_profile/> </>
       if (isError) return <><Navigate to={'/academy/home'}/> </>
 
