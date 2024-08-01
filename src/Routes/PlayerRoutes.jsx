@@ -11,9 +11,10 @@ import SearchResults from '../Components/common/SearchResults';
 import ViewPost from '../Components/layouts/profile layouts/Post Section/ViewPost';
 import Chat from '../Components/common/Chat/Chat';
 import Notifications from '../Components/common/Notification/Notifications';
+import Home from '../Components/player/Home/Home';
 
 
-const Home = lazy(()=> import ('../Components/player/Home') )
+// const Home = lazy(()=> import ('../Components/player/Home/Home') )
 const Login = lazy(()=> import ('../Components/player/Login'))
 const Signup = lazy(()=> import('../Components/player/Signup/Signup'))
 const OTP_verification = lazy(()=> import ('../Components/common/OTP_verification')) 

@@ -54,6 +54,9 @@ const CommentItem = ({ comment, postId, handleReplySubmit, depth }) => {
                                 placeholder="Write a reply..."
                                 className="border border-gray-300 rounded-full px-4 py-2 w-full"
                             />
+                            <button type="submit" className="mt-2 bg-blue-500 text-white px-2 py-1 rounded font-bold" >
+                                Reply 
+                            </button>
                         </form>
                     )}
                 </div>

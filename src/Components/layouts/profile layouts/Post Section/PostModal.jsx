@@ -8,8 +8,10 @@ const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
   const [content, setContent] = useState(post?.content ? post.content : '');
   const [media, setMedia] = useState(null);
   const [mediaType, setMediaType] = useState(null);
+  const [error,setError] = useState(null)
 
   const handleMediaChange = (e, type) => {
+    setError(null)
     const file = e.target.files[0];
     console.log(file,type);
     if (file) {
@@ -24,10 +26,14 @@ const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
   };
 
   const handleSave = async () => {
+    setError(null)
+    if (content.trim()==='' && media === null){
+      setError('Post cannot be Empty (add media or content)')
+      return 
+    }
     const formData = new FormData();
     formData.append('content', content);
     if (media) formData.append(mediaType, media);
-
     try {
       if(post){
         const response = await userApi.patch(`post/${post.id}`,formData)
@@ -59,7 +65,7 @@ const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
           position: 'relative',
           margin: 'auto',
           marginTop:'80px',
-          maxWidth: '900px',
+          maxWidth: '600px',
           width: '50%',
           inset: 'auto',
           overflow: 'auto',
@@ -89,7 +95,7 @@ const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
           placeholder="What's on your mind?"
           rows="4"
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e) => {setContent(e.target.value),setError(null)}}
         />
         
         {/* is the user selected image or video display that  */}
@@ -155,6 +161,9 @@ const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
             
           </button>
         </div>
+          {
+            error && <p className='text-red-500 text-center'>{error}</p>
+          }
       </div>
     </Modal>
   );

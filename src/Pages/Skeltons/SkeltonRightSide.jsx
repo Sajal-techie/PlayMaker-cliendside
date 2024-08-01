@@ -1,7 +1,6 @@
-import React from 'react';
+import React from 'react'
 import { Box, Card, CardContent, Skeleton } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import Skelton_Post from './Skeltons/Skelton_Post';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   marginBottom: theme.spacing(2),
@@ -9,27 +8,10 @@ const StyledCard = styled(Card)(({ theme }) => ({
   boxShadow: '0 4px 12px 0 rgba(0,0,0,0.05)',
 }));
 
-const Test = () => {
-
+const SkeltonRightSide = () => {
   return (
     <>
     <StyledCard>
-    <CardContent>
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-        <Skeleton variant="circular" width={60} height={60} />
-        <Box sx={{ ml: 2 }}>
-          <Skeleton variant="text" width={120} />
-          <Skeleton variant="text" width={80} />
-        </Box>
-      </Box>
-      {[1, 2, 3, 4, 5].map((_, index) => (
-        <Skeleton key={index} variant="text" width="100%" sx={{ my: 1 }} />
-      ))}
-    </CardContent>
-  </StyledCard>
-
-
-  <StyledCard>
       <CardContent>
         <Skeleton variant="text" width={150} sx={{ mb: 2 }} />
         {[1, 2, 3].map((_, index) => (
@@ -43,7 +25,6 @@ const Test = () => {
         ))}
       </CardContent>
     </StyledCard>
-    <Skelton_Post/>
     <StyledCard>
       <CardContent>
         <Skeleton variant="text" width={150} sx={{ mb: 2 }} />
@@ -52,9 +33,8 @@ const Test = () => {
         ))}
       </CardContent>
     </StyledCard>
-
   </>
   )
 }
 
-export default Test
+export default SkeltonRightSide
