@@ -17,7 +17,7 @@ const Navbar = ({ academy }) => {
   const navigate = useNavigate()
   const {profile, notificationCount} = useSelector(state=>state.auth)
 
-  const customColor = academy ? "text-indigo-500 hover:text-black " : "text-gblue-500 hover:text-gblue-500 ";
+  const customColor = academy ? "text-indigo-500 hover:text-black " : "text-gblue-500 hover:text-black ";
   const iconColor = academy ? 'rgb(99 102 241)' : 'rgb(30 136 229)'
 
   const handleLogoutModalOpen = () => {
@@ -45,7 +45,7 @@ const Navbar = ({ academy }) => {
     <>
       <nav className="flex items-center sticky top-0 justify-between bg-white px-6 py-4 w-full font-kanit z-50 shadow-md">
         <div className='flex items-center'>
-          <span className={`animate-text-shimmer bg-clip-text text-transparent bg-[linear-gradient(110deg,#e2e8f0,45%,${iconColor},55%,#e2e8f0)] bg-[length:250%_100%] text-3xl font-bold ${customColor}`}>PlayMaker</span>
+          <span className={`text-3xl font-bold ${customColor}`}>PlayMaker</span>
           <NavSearch academy={academy} />
         </div>
         <NavbarMenu academy={academy} />

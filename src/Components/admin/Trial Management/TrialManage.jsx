@@ -80,7 +80,7 @@ const TrialManage = () => {
                     trialList.results.map((trial,index)=>(
                         <tr className="odd:bg-blue-50" key={index}>
                             <td className="p-4 text-sm">
-                            <div className="flex items-center cursor-pointer w-max" onClick={()=>navigate(`/academy/trial_details/${trial.id}`)}>
+                            <div className="flex items-center w-max">
                                 <img src={trial.image || 'https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg'} 
                                         className="w-9 h-9 rounded-full shrink-0"  alt={trial.name} />
                                 <div className="ml-4">
