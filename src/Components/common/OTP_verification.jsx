@@ -79,13 +79,13 @@ const OTP_verification = () => {
       if (newOtp.length === 6) {
         const response = await userApi.put(`otp_verification`, { email, otp: newOtp });
         if (response.status === 200 && response.data.status === 200) {
-          dispatch(toggleOtpAcess(false));
           setLoading(false);
           await Swal.fire({
             icon: 'success',
             title: "Verification Successful",
             text: forget_pass? ' Now create new password': "Now you can log in"
           });
+          dispatch(toggleOtpAcess(false));
           if (forget_pass){
             console.log('in forget pass',email,is_academy);
             navigate('/reset_password', { state: { email: email, otpVerified: true,is_academy:is_academy } })

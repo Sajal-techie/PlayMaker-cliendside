@@ -100,9 +100,11 @@ const AcademyLogin = () => {
           <div className="flex justify-between">
             <div>
             </div>
-            <span className="text-sm text-cyan-400 hover:underline cursor-pointer">
-              Forgot password?
-            </span>
+            <Link to={'/forget_password'}>
+              <span className="text-sm text-cyan-400 hover:underline cursor-pointer">
+                Forgot password?
+              </span>
+            </Link>
           </div>
           <div className='text-red-500 '>
               {error}

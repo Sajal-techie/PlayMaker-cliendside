@@ -105,6 +105,7 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
     if (!formData.start_year) formErrors.start_year = "Start year is required"
     if (!formData.is_current && !formData.end_month) formErrors.end_month = "End month is required if not currently playing"
     if (!formData.is_current && !formData.end_year) formErrors.end_year = "End year is required if not currently playing"
+    if (formData.start_year > formData.end_year) formErrors.end_year = "end year must be greater than start year"
     setErrors(formErrors)
     return Object.keys(formErrors).length === 0
   }
@@ -196,12 +197,9 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
             maxWidth: '900px',
             width: '90%',
             inset: 'auto',
-            //  borderRadius: '8px',
             overflow: 'auto',
             padding: '20px',
             border: 'none',
-            // top: '50%',
-            // transform: 'translateY(-50%)',
             backgroundColor: '#fff',
           },
           overlay: {

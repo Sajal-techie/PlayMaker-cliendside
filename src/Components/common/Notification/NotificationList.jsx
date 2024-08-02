@@ -60,11 +60,17 @@ const NotificationList = () => {
 
   const markAsRead = async (id) => {
     try {
-      await userApi.post(`mark_as_read/${id}`);
-      setNotifications(notifications.map(notif => 
-        notif.id === id ? { ...notif, seen: true } : notif
-      ));
-      dispatch(updateNotificationCount(-1))
+      const notificationToUpdate = notifications.find(notif => notif.id === id);
+    
+      if (notificationToUpdate && !notificationToUpdate.seen) {
+        await userApi.post(`mark_as_read/${id}`);
+        
+        setNotifications(notifications.map(notif => 
+          notif.id === id ? { ...notif, seen: true } : notif
+        ));
+        
+        dispatch(updateNotificationCount(-1));
+      }
     } catch (error) {
       console.error('Error marking notification as read:', error);
     }

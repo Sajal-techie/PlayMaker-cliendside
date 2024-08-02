@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import userApi from '../../../../api/axiosconfig'
-import FriendRequestItem from './FriendRequestItem'
-import FriendSidebar from '../FriendSidebar'
 import Navbar from '../../../layouts/navbar/Navbar'
 import SideBarLayout from '../SideBarLayout'
 import { baseUrl } from '../../../../api/api'
@@ -67,12 +65,12 @@ const FriendRequest = () => {
                   >
                   Confirm
                 </button>
-                <button
+                {/* <button
                   onClick={() => handleDelete(request.from_user.id)}
                   className="w-full bg-gray-200 text-black py-2 px-5 rounded mt-2 hover:bg-gray-300 border border-gblue-100"
                 >
                   Ignore
-                </button>
+                </button> */}
               </div>
             </div>
           ))}

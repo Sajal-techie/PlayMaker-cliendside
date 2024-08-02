@@ -61,7 +61,7 @@ const AchievementModal = ({isOpen,closeAchievementModal,getAchievements,initialS
       if (!formData.issued_year) formErrors.issued_year = "Issued year is Required"
       const allowedTypes = ['image/jpeg','image/png','image/webp']
       if (formData.image && !allowedTypes.includes(formData.image.type) && !id ){
-        formErrors.image = "Invalid file type select JPEG or PNG image"
+        formErrors.image = "Invalid file type select JPEG , PNG or webp image"
       }
       setErrors(formErrors)
       return Object.keys(formErrors).length === 0

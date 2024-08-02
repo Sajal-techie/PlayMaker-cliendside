@@ -88,7 +88,7 @@ const PostProfile = ({data,ownProfile}) => {
             :
             <div className='text-center pb-5'>
                 <button className="border border-gblue-400 hover:bg-gblue-500 hover:text-white px-2 py-1 rounded-full mt-4" onClick={handleOpenModal}>
-                    create new post 
+                    add post 
                 </button>  
             </div>
           }

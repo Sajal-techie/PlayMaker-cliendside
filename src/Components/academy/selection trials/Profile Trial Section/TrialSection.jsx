@@ -72,7 +72,7 @@ const TrialSection = ({ownProfile,id}) => {
                     <>
                     {
                         ownProfile &&
-                        <p className="mt-2 text-gray-700 text-center ">
+                        <p className="mt-2 text-gray-700 text-center pb-5">
                         <Link to={'/academy/add_trial'} className='border border-indigo-700 px-2 py-1 rounded-full mt-4' > new trial </Link>  
                         </p>
                     }

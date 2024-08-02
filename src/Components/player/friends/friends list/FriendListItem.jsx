@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import userApi from '../../../../api/axiosconfig';
 import { useSelector } from 'react-redux';
 
-const FriendListItem = ({ name, bio, id, profileImage, type, fetchData }) => {
+const FriendListItem = ({ name, bio, id, profileImage, type, fetchData, suggestion }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
@@ -91,7 +91,17 @@ const FriendListItem = ({ name, bio, id, profileImage, type, fetchData }) => {
         <h3 className="text-lg font-semibold">{name}</h3>
         <p className="text-gray-600">{bio}</p>
       </div>
-      <div className="ml-auto flex space-x-2 relative">
+      { 
+        suggestion ? 
+        <><div className="ml-auto flex space-x-2 relative">
+        <button className="px-4 py-2 bg-blue-500 text-white rounded flex items-center" onClick={()=>navigate(`/profile/${id}`)}>
+          <span className=''>View profile</span> &nbsp;
+        </button>
+
+        {/* <button className="px-4 py-2 bg-gray-300 rounded relative" onClick={handleDropdownToggle}>...</button> */}
+      </div></>:
+
+        <div className="ml-auto flex space-x-2 relative">
         <button className="px-4 py-2 bg-blue-500 text-white rounded flex items-center" onClick={()=>handleMessageClick()}>
           <span className='md:block hidden'>Message</span> &nbsp;
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -116,7 +126,7 @@ const FriendListItem = ({ name, bio, id, profileImage, type, fetchData }) => {
             </button>
           </div>
         )}
-      </div>
+      </div>}
     </div>
   );
 };

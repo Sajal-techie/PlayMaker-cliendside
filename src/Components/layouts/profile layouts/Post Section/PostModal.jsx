@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import userApi from '../../../../api/axiosconfig';
-
+import { TailSpin } from 'react-loader-spinner'
 Modal.setAppElement('#root');
 
 const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
@@ -9,11 +9,24 @@ const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
   const [media, setMedia] = useState(null);
   const [mediaType, setMediaType] = useState(null);
   const [error,setError] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const handleMediaChange = (e, type) => {
     setError(null)
     const file = e.target.files[0];
     console.log(file,type);
+    if (type==='image'){
+      let allowedTypes = ['image/jpeg','image/png','image/webp']
+      if (file && !allowedTypes.includes(file.type)){
+          setError("Invalid image type select JPEG , PNG or webp image")
+          return
+      }
+    }else if (type === 'video'){
+      let allowedTypes = ['video/mp4', 'video/webm']
+      if (file && !allowedTypes.includes(file.type))
+        setError('Invalid video format only mp4 and webm are supported')
+        return
+    }
     if (file) {
       setMedia(file);
       setMediaType(type);
@@ -26,19 +39,33 @@ const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
   };
 
   const handleSave = async () => {
+    console.log(mediaType);
     setError(null)
     if (content.trim()==='' && media === null){
       setError('Post cannot be Empty (add media or content)')
       return 
     }
+    if (mediaType==='image'){
+      let allowedTypes = ['image/jpeg','image/png','image/webp']
+      if (media && !allowedTypes.includes(media.type)){
+          setError("Invalid image type select JPEG , PNG or webp image")
+          return
+      }
+    }else if (mediaType === 'video'){
+      let allowedTypes = ['video/mp4', 'video/webm']
+      if (media && !allowedTypes.includes(media.type))
+        setError('Invalid video format only mp4 and webm are supported')
+        return
+    }
     const formData = new FormData();
     formData.append('content', content);
     if (media) formData.append(mediaType, media);
     try {
+      setLoading(true)
       if(post){
         const response = await userApi.patch(`post/${post.id}`,formData)
         console.log(response);
-    }else{
+      }else{
         const response = await userApi.post('post', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
@@ -46,6 +73,8 @@ const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
       }
     } catch (error) {
       console.log(error, 'error in post');
+    }finally{
+      setLoading(false)
     }
     
     fetchPosts()
@@ -151,15 +180,27 @@ const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
           </>
           }
           </div>
-          <button
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200"
-          onClick={handleSave}
-          >
-            {
-              post ? 'Update' : 'Post'
-            }
-            
-          </button>
+          {
+            loading ?
+            <TailSpin 
+              visible={true}
+              height="30"
+              width="30"
+              color="rgb(30 136 229)"
+              ariaLabel="tail-spin-loading"
+              radius="1"
+              />
+              :
+              <button
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200"
+              onClick={handleSave}
+              >
+                {
+                  post ? 'Update' : 'Post'
+                }
+                
+              </button> 
+          }
         </div>
           {
             error && <p className='text-red-500 text-center'>{error}</p>

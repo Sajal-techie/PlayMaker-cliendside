@@ -122,6 +122,9 @@ const authSlice = createSlice({
         updateNotificationCount:(state,action)=>{
             console.log(action, state, 'notification count');
             state.notificationCount = state.notificationCount + action.payload
+            if (state.notificationCount < 0){
+                state.notificationCount = 0
+            }
         }
 
     },
@@ -174,6 +177,11 @@ const authSlice = createSlice({
             state.loading = false
             state.role = null
             state.dob = null
+            state.user_id = null
+            state.profile=null
+            state.error=null
+            state.message=null
+            state.notificationCount=0
         })
         .addCase(logout.rejected, (state,action)=>{
             console.log(action.payload,'logout rejected');

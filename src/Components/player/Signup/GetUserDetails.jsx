@@ -74,7 +74,6 @@ const GetUserDetails = () => {
         e.preventDefault();
         if (!validate()) return
         setLoading(true)
-        // Handle form submission logic here
         console.log(formData,states);
         const submissionData = { ...formData };
         if (submissionData.sport === 'other') {
@@ -113,8 +112,6 @@ const GetUserDetails = () => {
         <div className="my-2 font-light text-slate-500 ">
           <label className="block text-start ml-8" htmlFor="dob">Date of Birth</label>
           <InputField
-            // className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            // id="dob"
             type="date"
             name="dob"
             value={formData.dob}

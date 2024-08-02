@@ -43,6 +43,14 @@ const Academy_signup = () => {
     const handleChange = (e) => {
         const { name, value, files } = e.target
         if (name === 'license') {
+            console.log(files[0]);
+            setError({})
+            if((files[0] &&  !(files[0].type.startsWith('application') || files[0].type.startsWith('image')))){
+                let fileError ={}
+                fileError.license = "License must be document or image"
+                setError(fileError)
+                return
+            }
             setFormData({ ...formData, [name]: files[0] })
         } else {
             setFormData({ ...formData, [name]: value })
@@ -103,6 +111,11 @@ const Academy_signup = () => {
         if (formData.sport.length === 0) errors.sports = "At least one sport is required"
         if (!formData.license) {
             errors.license = "Required license for verification"
+        }else{
+            console.log(formData.license, 'licence in validations');
+            if(!(formData.license.type.startsWith('application') || formData.license.type.startsWith('image'))){
+                errors.license = "License must be document or image"
+            }
         }
 
         setError(errors)
@@ -166,7 +179,7 @@ const Academy_signup = () => {
                             </div>
                             <div>
                                 <label className="text-md font-extralight text-black" htmlFor="dob">Established date</label><br />
-                                <InputField type="date" name="dob" placeholder="Date" onChange={handleChange} value={formData.dob} max={maxDateString} />
+                                <InputField type="date" name="dob" placeholder="Date" onChange={handleChange} value={formData.dob} />
                                 {error.dob && <p className="text-red-500 text-sm md:mr-14">{error.dob}</p>}
                             </div>
                             <div>

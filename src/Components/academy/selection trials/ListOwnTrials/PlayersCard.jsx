@@ -67,7 +67,7 @@ const PlayersCard = () => {
   if (isError) return <Navigate to={'/academy/home'} />;
 
   const filteredPlayers = playerlist?.filter(player =>
-    player.name.toLowerCase().includes(searchQuery.toLowerCase())
+    player.unique_id.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (

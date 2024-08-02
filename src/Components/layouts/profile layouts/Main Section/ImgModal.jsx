@@ -2,15 +2,31 @@ import React, { useState } from 'react'
 import Modal from 'react-modal'
 import { useDeletePhoto, useUpdatePhoto } from '../../../common/Custom Hooks/useProfile';
 
-const ImgModal = ({state,is_pic,id,bgColor,textColor,ownProfile}) => {
+const ImgModal = ({state,id,bgColor,ownProfile}) => {
     const [image,setImage] = useState(null)
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [error, setError] = useState('')
 
     const updateProfilePhoto = useUpdatePhoto()
     const deletePhoto = useDeletePhoto()
 
+    const handleChange = (e)=>{
+        const allowedTypes = ['image/jpeg','image/png','image/webp']
+        if (e.target.files[0] && !allowedTypes.includes(e.target.files[0].type)){
+            setError("Invalid file type select JPEG , PNG or webp image")
+            return
+        }
+        setImage(e.target.files[0])
+    }
+
     // to send profile photo to server
     const updatePhoto = async (id)=>{
+        console.log(image,'image');
+        const allowedTypes = ['image/jpeg','image/png','image/webp']
+        if (image && !allowedTypes.includes(image.type)){
+            setError("Invalid file type select JPEG , PNG or webp image")
+            return
+        }
         const formData = new FormData()
         formData.append('profile_photo',image)
         
@@ -24,6 +40,7 @@ const ImgModal = ({state,is_pic,id,bgColor,textColor,ownProfile}) => {
     const closeModal = ()=>{
         setModalIsOpen(false)
         setImage('')
+        setError('')
     }
     // to open the upload modal
     const uploadProfilePhoto = ()=>{
@@ -89,8 +106,6 @@ const ImgModal = ({state,is_pic,id,bgColor,textColor,ownProfile}) => {
                   maxHeight: '90vh', 
                   textAlign: 'center',
                   overflow:'auto'
-                //   width: 'auto', 
-                //   height: 'auto', 
                 },
                 overlay:{
                     backgroundColor: 'rgba(0, 0, 0, 0.7)'
@@ -112,9 +127,10 @@ const ImgModal = ({state,is_pic,id,bgColor,textColor,ownProfile}) => {
                         <label htmlFor="pic"><div className='m-20 '>  help others recognize  you</div></label>   
                         }
                     </div>
-                    <input hidden id='pic' type="file" onChange={(e) => setImage(e.target.files[0])} />
+                    <input  accept='image/*' hidden id='pic' type="file" onChange={handleChange} />
                     </div>
                     <div className="mt-2 mb-2 ">
+                    {error && <p className="text-red-500 text-sm text-center mb-3">{error}</p> }
                     { image ?  
                         <button className={`${bgColor} w-full py-1 mb-2 text-white`} onClick={() => updatePhoto(id)}>
                             save

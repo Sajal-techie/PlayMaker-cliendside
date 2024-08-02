@@ -65,6 +65,7 @@ const PostItem = ({ post, fetchPost }) => {
         setLiked(!liked);
         try {
             const response = await userApi.post(`like/${post.id}`);
+            console.log(response);
             if (response.data.status === 'liked') {
                 setLikesCount(likesCount + 1);
             } else {
@@ -156,29 +157,29 @@ const PostItem = ({ post, fetchPost }) => {
                         role === 'player' ?
 
                     } */}
-                    {
-                        post.is_own_post &&
-                        <>
                             <button
                             className="block px-4 py-2 text-left text-gray-700 hover:bg-gray-100 w-full border-b"
                             onClick={handleCopyLink}
                             >
                             copy link
                             </button>
-                            <button
-                            className="block px-4 py-2 text-left text-gray-700 hover:bg-gray-100 w-full border-b"
-                            onClick={openEditModal}
-                            >
-                            Edit post
-                            </button>
-                            <button
-                            className="block px-4 py-2 text-left text-gray-700 hover:bg-gray-100 w-full"
-                            onClick={handleDelete}
-                            >
-                            delete post
-                            </button>
-                        </>
-                    }
+                            {
+                                post.is_own_post &&
+                                <>
+                                <button
+                                className="block px-4 py-2 text-left text-gray-700 hover:bg-gray-100 w-full border-b"
+                                onClick={openEditModal}
+                                >
+                                Edit post
+                                </button>
+                                <button
+                                className="block px-4 py-2 text-left text-gray-700 hover:bg-gray-100 w-full"
+                                onClick={handleDelete}
+                                >
+                                delete post
+                                </button>
+                                </>
+                            }
                   </div>
                 }
             </div>

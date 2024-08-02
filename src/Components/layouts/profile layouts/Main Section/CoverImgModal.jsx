@@ -1,8 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import ReactModal from 'react-modal';
 import Cropper from 'react-easy-crop';
-import {toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import getCroppedImg from './cropImage';
 import { useDeletePhoto, useUpdatePhoto } from '../../../common/Custom Hooks/useProfile';
 import { showToastMessage } from '../../../common/functions/showToastMessage';
@@ -50,6 +48,11 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id }) => {
         showToastMessage(400, 'select a valid image')
         return
       } 
+      const allowedTypes = ['image/jpeg','image/png','image/webp']
+        if (e.target.files[0] && !allowedTypes.includes(e.target.files[0].type)){
+            showToastMessage(400, "Invalid file type select JPEG , PNG or webp image")
+            return
+        }
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader(); // FileReader used to read the contents of the blob file async
@@ -97,8 +100,6 @@ const CoverImgModal = ({ isOpen, changeModalStatus, state, id }) => {
             overflow: 'auto',
             padding: '20px',
             border: 'none',
-            // top: '50%',
-            // transform: 'translateY(-50%)',
             backgroundColor: '#fff',
           },
           overlay: {

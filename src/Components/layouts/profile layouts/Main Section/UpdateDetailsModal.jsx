@@ -10,7 +10,7 @@ import all_sports from '../../../../api/json data/sports';
 const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,phone,sport}) => {
     const [districts,setDistricts] = useState([])
     const [selectedSports,setSelectedSports] = useState([])
-    const [error,setError] = useState()
+    const [error,setError] = useState({})
     const [formData,setFormData] = useState({
         'username':username ? username : '', 
         'bio': bio ? bio : '',
@@ -76,12 +76,23 @@ const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,ph
     //  to handle form Submission
     const handleSubmit = async (e)=>{
         e.preventDefault()
+        setError({})
+        let errors = {}
         if (formData.sport.length ==0){
-          setError('Atleast One Sport is required')
-          return
+          errors.sport = 'Atleast One Sport is required'
         }
         else if(formData.sport.length > 3){
-          setError('Select 3 or less sports')
+          errors.sport = 'Select 3 or less sports'
+        }
+        if (formData.phone.length !== 0 && formData.phone.length !== 10){
+          errors.phone = 'Phone number must be 10 digits'
+        }
+        if (formData.username.trim()===''){
+          errors.username = 'Name must not be null'
+        }
+        console.log(errors,error,errors.length);
+        if (Object.keys(errors).length > 0){
+          setError(errors)
           return
         }
         //  update details using custom hook and react query
@@ -102,12 +113,9 @@ const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,ph
             maxWidth: '900px',
             width: '90%',
             inset: 'auto',
-            //  borderRadius: '8px',
             overflow: 'auto',
             padding: '20px',
             border: 'none',
-            // top: '50%',
-            // transform: 'translateY(-50%)',
             backgroundColor: '#fff',
           },
           overlay: {
@@ -131,6 +139,7 @@ const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,ph
               <div className='flex flex-col items-start mb-4'>
                 <label htmlFor="username" className='mb-2'>Username:</label>
                 <input  name='username' id='username' type="text" placeholder='username' value={formData?.username} className='w-full border-2 pl-2 py-1' onChange={handleChange}/>
+                {error.username && <p className="text-red-500 text-sm md:mr-14">{error.username}</p> }
               </div>
               <div className='flex flex-col items-start mb-4'>
                 <label htmlFor="bio" className='mb-2'>Bio:</label>
@@ -139,6 +148,7 @@ const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,ph
               <div className='flex flex-col items-start mb-4'>
                 <label htmlFor="phone" className='mb-2'>Phone Number:</label>
                 <input  name='phone' id='phone' type="text" placeholder='phone' value={formData.phone} className='w-full border-2 pl-2 py-1' onChange={handleChange}/>
+              {error.phone && <p className="text-red-500 text-sm md:mr-14">{error.phone}</p> }
               </div>
               <div className='flex flex-col items-start mb-4'>
                       <label className="" htmlFor="sports">Sports</label>
@@ -151,7 +161,7 @@ const UpdateDetailsModal = ({isOpen,closeModal,id,username,bio,state,district,ph
                           onChange={handleSportsChange}
                           value={selectedSports}
                           />
-                      {error && <p className="text-red-500 text-sm md:mr-14">{error}</p>}
+                      {error.sport && <p className="text-red-500 text-sm md:mr-14">{error.sport}</p>}
               </div>
               <div className='flex flex-col items-start mb-4'>
                 <label htmlFor="startMonth" className='mb-2'>Issued Date:</label>
