@@ -1,43 +1,51 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import userApi from '../../../api/axiosconfig';
 import {useSelector} from 'react-redux'
+import userApi from '../../../api/axiosconfig';
 import { dateDifference } from '../functions/dateDifference';
-import Navbar from '../../layouts/navbar/Navbar';
 import { baseUrl } from '../../../api/api';
-import ChatLayout from './ChatLayout';
-import BottomNavbar from '../../layouts/navbar/BottomNavbar';
 import ChatLandingPage from './ChatLandingPage';
-import chatbg from '../../../assets/chatbg.png'
 
-const Chat = () => {
+const Chat = ({page, handlePageChange}) => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [socket, setSocket] = useState(null)
   const { threadName } = useParams();
-  const [image,setImage] = useState(null)
-  const [username,setUsername] = useState(null)
   const [isConnected, setIsConnected] = useState(false)
   const [chatPartner,setChatPartner] = useState(null)
+  const [hasMore, setHasMore] = useState(true)
 
+  const chatContainerRef = useRef(null);
   const messageEndRef = useRef(null);
+  const prevHeightRef = useRef(0)
+
   const navigate = useNavigate()
 
-  const {user_id, role} = useSelector(state=>state.auth)
+  const {user_id} = useSelector(state=>state.auth)
 
   const fetchMessages = async ()=>{
     try{
         const response = await userApi.get(`chat`,{
             params:{
-                threadName
+                threadName,
+                page
             }
         })
         console.log(response, 'chat fetched');
-        setMessages(response.data)
-        if (response.data.length > 0){
-            const partner = response.data[0].sender.id === user_id ? response.data[0].receiver : response.data[0].sender
+        if (chatContainerRef.current) {
+            prevHeightRef.current = chatContainerRef.current.scrollHeight;
+        }
+
+        setMessages(prevMessages => [...response.data.data, ...prevMessages])
+        setHasMore(response.data.has_previous)
+
+        if (page === 1 && response.data.data.length > 0){
+            const partner = response.data.data[0].sender.id === user_id ? response.data.data[0].receiver : response.data.data[0].sender
             setChatPartner(partner)
         }
+
+        handlePageChange()
+        
     }catch(error){
         console.log(error);
     }
@@ -46,6 +54,9 @@ const Chat = () => {
   useEffect(()=>{
 
       if (threadName){
+        if (page===1){
+            setMessages([])
+        }
         fetchMessages()
 
         const websocket =  new WebSocket(`ws://${import.meta.env.VITE_BACKEND_URL}/ws/chat/${threadName}/`)
@@ -77,7 +88,11 @@ const Chat = () => {
   },[threadName])
 
   useEffect(() => {
-    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messageEndRef.current?.scrollIntoView({ behavior: "instant" });
+    if (chatContainerRef.current && prevHeightRef.current) {
+        const newScrollTop = chatContainerRef.current.scrollHeight - prevHeightRef.current;
+        chatContainerRef.current.scrollTop = newScrollTop;
+      }
   }, [messages]);
 
   const handleSubmit = (e) => {
@@ -94,11 +109,18 @@ const Chat = () => {
         setInputMessage('');
     }
   };
-
+  const handleScroll = () => {
+    const { scrollTop } = chatContainerRef.current;
+    if (scrollTop === 0 && hasMore ) {
+      fetchMessages();
+    }
+  };
+  console.log(page, hasMore);
+  
   return (
     <>
-    <Navbar academy={role==='academy'}/>
-    <ChatLayout>
+    {/* <Navbar academy={role==='academy'}/>
+    <ChatLayout> */}
         {
             (messages.length > 0 && threadName) ?
             <div className="flex flex-col flex-auto h-full mb-16 sm:mb-0">
@@ -119,8 +141,12 @@ const Chat = () => {
                         </div>
                     )
                 }
-                <div className="flex-grow overflow-y-auto p-4  bg-contain bg-slate-400">
-                    <div className="grid grid-cols-12 gap-y-2 ">
+                <div className="flex-grow overflow-y-auto p-4  bg-contain bg-slate-400" ref={chatContainerRef} onScroll={handleScroll}>
+                <div className="grid grid-cols-12 gap-y-2">
+
+                    {/* <div className=" "> */}
+
+
                         {
                             messages.map((message, index)=>(
                                 message.message && 
@@ -142,7 +168,8 @@ const Chat = () => {
                                 </div>
                             ))
                         }
-                    </div>
+                    {/* </div> */}
+                        </div>
                         <div ref={messageEndRef}/>
                 </div>
                 <form onSubmit={handleSubmit} className='p-2'>      
@@ -184,8 +211,8 @@ const Chat = () => {
             </div>
             : <div><ChatLandingPage/></div>
         }    
-    </ChatLayout>
-    <BottomNavbar academy={role==='academy'}/>
+    {/* </ChatLayout>
+    <BottomNavbar academy={role==='academy'}/> */}
     </>
   );
 };

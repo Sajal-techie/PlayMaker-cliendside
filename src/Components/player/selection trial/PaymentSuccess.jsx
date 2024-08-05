@@ -18,6 +18,8 @@ const PaymentSuccess = () => {
             try{
                 const res = await userApi.put(`player_trial/${registration_id}`)
                 console.log(res,' registraton resone');
+                console.log('it is here----------------------------]]]]]]');
+                
                 showToastMessage(200,'payment successfull registraion completed')
                 navigate(`/trial_details/${trialId}`)
             }catch(error){

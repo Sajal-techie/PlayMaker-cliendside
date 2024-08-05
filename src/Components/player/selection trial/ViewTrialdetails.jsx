@@ -18,14 +18,17 @@ import Skelton_profile from '../../../Pages/Skelton_profile';
 import { convertTo12HourFormat } from '../../common/functions/covertTime';
 import userApi from '../../../api/axiosconfig';
 import { stripTime } from '../../common/functions/stripTime';
-import { baseUrl } from '../../../api/api';
 import BottomNavbar from '../../layouts/navbar/BottomNavbar';
+import { showToastMessage } from '../../common/functions/showToastMessage';
+import CancelModal from './CancelModal';
 
 
 const ViewTrialdetails = () => {
   const { id } = useParams()
   const [unique_id,setUnique_id] = useState('')
   const [status,setStatus] = useState('')
+  const [playerId,setPlayerId] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
   const {data:trial, isLoading,isError} = useTrialDetails(id) // fetch trial using custom hook
 
   // to fetch current player details (for uniqueid and status) 
@@ -36,11 +39,26 @@ const ViewTrialdetails = () => {
       if (res.status === 200){
         setStatus(res.data.status)
         setUnique_id(res.data.unique_id) 
+        setPlayerId(res.data.id)
       }
     }catch(error){
       console.log(error,'error fetching');
     }
   } 
+
+  const handleRemoveRegistraiton = async ()=>{
+      setIsOpen(true)
+  }
+  const handleCloseModal = ()=>{
+    setIsOpen(false)
+  }
+  const cancellationSucess = ()=>{
+    setUnique_id('')
+    setPlayerId('')
+    setStatus('')
+    fetchPlayerinTrial()
+  }
+
 
   useEffect(() => {
     fetchPlayerinTrial()
@@ -59,6 +77,7 @@ const ViewTrialdetails = () => {
   //  stript time to get a proper comparisson result
   const strippedDate = stripTime(today)
   const deadlineStripped = stripTime(new Date(trial.deadline))
+  const trialDateStripped = stripTime(new Date(trial.trial_date))
   console.log(today,deadline,today>deadline, new Date(trial.deadline),strippedDate,deadlineStripped);
   return (
     <>
@@ -141,10 +160,16 @@ const ViewTrialdetails = () => {
 
                   {/* if already registered show unique id and status */}
                 {
-                  unique_id ? (
-                    <div className='border-2 p-4 font-bold flex flex-col items-center text-lg'>
-                      <div>ID: <span className='text-blue-500 font-bold text-xl'>{unique_id}</span></div>
-                      <span className={`capitalize ${status === 'selected' ? 'text-green-500' : status ==='rejected' ? 'text-red-500':'text-yellow-500'} `}> {status} </span>
+                  unique_id ?  (
+                    <div className='text-center font-bold'>
+                      <div className='border-2 p-4 flex flex-col items-center  text-lg'>
+                        <div>ID: <span className='text-blue-500 font-bold text-xl'>{unique_id}</span></div>
+                        <span className={`capitalize ${status === 'selected' ? 'text-green-500' : status ==='rejected' ? 'text-red-500':'text-yellow-500'} `}> {status} </span>
+                      </div>
+                      {
+                        strippedDate < trialDateStripped &&
+                        <button className='text-red-500' onClick={handleRemoveRegistraiton}> cancel registraiton </button>
+                      }
                     </div>
                   ) : (
                     <>
@@ -182,6 +207,8 @@ const ViewTrialdetails = () => {
         </Card>
       </Container>
       <BottomNavbar />
+
+      <CancelModal isOpen={isOpen} closeModal={handleCloseModal} playerId={playerId} cancellationSucess={cancellationSucess}/>
       </>
   )
 }

@@ -6,7 +6,7 @@ import { baseUrl } from '../../../api/api';
 import { useSelector } from 'react-redux';
 
 
-const ChatList = () => {
+const ChatList = ({resetPage}) => {
     const [chatList, setChatList] = useState([])
     const user_id = useSelector(state=>state.auth.user_id)
     const {threadName} = useParams()
@@ -37,6 +37,8 @@ const ChatList = () => {
     }catch(error){
       console.log(error, ' errro fetching thread name');
     }
+
+    resetPage()    
   }
   console.log(threadName, 'thread naem in chat list');
   return (

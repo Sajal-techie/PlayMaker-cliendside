@@ -87,7 +87,7 @@ const FriendListItem = ({ name, bio, id, profileImage, type, fetchData, suggesti
         alt={name}
         onClick={() => handleNavigate(id)}
       />
-      <div className="ml-4 cursor-pointer" onClick={() => handleNavigate()}>
+      <div className="ml-4 cursor-pointer" onClick={() => handleNavigate(id)}>
         <h3 className="text-lg font-semibold">{name}</h3>
         <p className="text-gray-600">{bio}</p>
       </div>

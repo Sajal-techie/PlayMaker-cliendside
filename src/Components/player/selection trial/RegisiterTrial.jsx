@@ -125,7 +125,8 @@ const RegisterTrial = () => {
           const {sessionId} = response.data;
           const result = await stripe.redirectToCheckout({sessionId});
           // after successfull payment or cancelled payment server will direct respective pages
-
+          console.log(result, 'it is  in registere [][][][[][][][[][][][]][[[[][[[[]]]]]]]]');
+          
           if (result.error) {
               console.log(result.error.message,'result error');
               setLoading(false)

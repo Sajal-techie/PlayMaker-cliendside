@@ -9,9 +9,9 @@ import SentRequest from '../Components/player/friends/sent requests/SentRequest'
 import Following from '../Components/player/friends/following/Following';
 import SearchResults from '../Components/common/SearchResults';
 import ViewPost from '../Components/layouts/profile layouts/Post Section/ViewPost';
-import Chat from '../Components/common/Chat/Chat';
 import Notifications from '../Components/common/Notification/Notifications';
 import Home from '../Components/player/Home/Home';
+import ChatLayout from '../Components/common/Chat/ChatLayout';
 
 
 // const Home = lazy(()=> import ('../Components/player/Home/Home') )
@@ -62,7 +62,7 @@ const PlayerRoutes = () => {
               <Route path='/search' element={<ProtectedRoute element={<SearchResults/>} role={"both"} /> }/>
               <Route path='/view_posts/:userId?' element={<ProtectedRoute element={<ViewAllPosts/>} role={"both"} /> }/>
               <Route path='/view_post_details/:postId' element={<ProtectedRoute element={<ViewPost/>} role={"both"} /> }/>
-              <Route path='/chat/:threadName?' element={<ProtectedRoute element={<Chat/>} role={"both"} /> }/>
+              <Route path='/chat/:threadName?' element={<ProtectedRoute element={<ChatLayout/>} role={"both"} /> }/>
               <Route path='/notification' element={<ProtectedRoute element={<Notifications/>} role={"both"} /> }/>
               <Route path='*' element={<ErrorPage404/>}/>
         </Routes>
