@@ -4,6 +4,7 @@ import RedirectIfAuthenticated from './protected/RedirectIfAuthenticated'
 import ProtectedRoute from './protected/ProtectedRoute'
 import Skelton1 from '../Pages/Skelton1'
 import ErrorPage404 from '../Components/common/ErrorPage404'
+import Accounts from '../Components/admin/Accounts/Accounts'
 
 const AcademyManage  = lazy(()=> import('../Components/admin/Academy management/AcademyManage'))
 const  Home_Admin = lazy(()=> import('../Components/admin/Home_Admin'))
@@ -20,6 +21,7 @@ const AdminRoutes = () => {
           <Route path="/academyview" element={<ProtectedRoute element={<AcademyManage/>} role={"admin"} />}/>
           <Route path="/playerview" element={<ProtectedRoute element={<PlayerManage/>} role={"admin"} />}/>
           <Route path="/trialview" element={<ProtectedRoute element={<TrialManage/>} role={"admin"} />}/>
+          <Route path="/accounts" element={<ProtectedRoute element={<Accounts/>} role={"admin"} />}/>
           <Route path='*' element={<ErrorPage404/>}/>
       </Routes>
     </Suspense>
