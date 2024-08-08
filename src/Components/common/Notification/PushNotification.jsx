@@ -61,19 +61,6 @@ const PushNotification = ({userId}) => {
         newNotification.message = data.text
         newNotification.action = data.link
         setNotifications(prev => [...prev, newNotification])
-        // switch(data.type){
-        //     case 'new_message':
-        //         console.log("new message from :", data.sender,data ); 
-        //         break
-        //     case 'friend_request':
-        //         console.log("new friend request from :", data.sender);
-        //         break
-        //     case 'friend_request_accepted':
-        //         console.log('Friend request accepted :', data.sender);
-        //         break
-        //     default:
-        //         console.log(" unknown noptification type :", data.type);
-        // }
 
         dispatch(updateNotificationCount(1)) // to increase the notification count in navbar
     }

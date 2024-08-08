@@ -1,10 +1,9 @@
 import axios  from "axios";
-import { useNavigate } from "react-router-dom";
 import { showToastMessage } from "../Components/common/functions/showToastMessage";
 
 // to create an instance of axios with baseurl
 const userApi = axios.create({
-    baseURL: 'http://127.0.0.1:8000/'
+    baseURL: 'https://xsports.muhammeddanish.site/'
 })
 
 
