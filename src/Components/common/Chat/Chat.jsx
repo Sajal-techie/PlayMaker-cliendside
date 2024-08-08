@@ -59,7 +59,7 @@ const Chat = ({page, handlePageChange}) => {
         }
         fetchMessages()
 
-        const websocket =  new WebSocket(`ws://${import.meta.env.VITE_BACKEND_URL}/ws/chat/${threadName}/`)
+        const websocket =  new WebSocket(`wss://${import.meta.env.VITE_BACKEND_URL}/ws/chat/${threadName}/`)
         
         console.log(websocket);
         websocket.onopen = ()=>{

@@ -22,7 +22,7 @@ const PushNotification = ({userId}) => {
 
     const initializeNotificationSocket = (userId) =>{
         if(!notificationSocket || notificationSocket.readyState === WebSocket.CLOSED){
-            notificationSocket = new WebSocket(`ws://${import.meta.env.VITE_BACKEND_URL}/ws/notifications/${userId}/`);
+            notificationSocket = new WebSocket(`wss://${import.meta.env.VITE_BACKEND_URL}/ws/notifications/${userId}/`);
             
             notificationSocket.onopen = () =>{
                 console.log('Notification socket connected');
