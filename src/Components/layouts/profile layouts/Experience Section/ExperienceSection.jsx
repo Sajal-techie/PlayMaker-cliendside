@@ -24,7 +24,7 @@ const ExperienceSection = React.memo(({dob,userAcademies,ownProfile}) => {
   return (
     <>
     {
-      (userAcademies.length > 0 || ownProfile) &&
+      (userAcademies &&  userAcademies.length > 0 || ownProfile) &&
         <div className="flex-1 bg-white rounded-lg shadow-xl mt-4 font-kanit">
             <div className='flex justify-between items-center w-full p-8 pb-0'>
                 <h4 className="text-xl text-gray-900 font-bold">Academies</h4>

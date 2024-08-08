@@ -8,7 +8,7 @@ import Accounts from '../Components/admin/Accounts/Accounts'
 
 const AcademyManage  = lazy(()=> import('../Components/admin/Academy management/AcademyManage'))
 const  Home_Admin = lazy(()=> import('../Components/admin/Home_Admin'))
-const  Admin_login = lazy(()=> import('../Components/admin/Admin_login'))
+const  AdminLogin = lazy(()=> import('../Components/admin/AdminLogin'))
 const  PlayerManage = lazy(()=> import('../Components/admin/PlayerManagement.jsx/PlayerManage'))
 const TrialManage = lazy(()=>import ('../Components/admin/Trial Management/TrialManage'))
 
@@ -16,7 +16,7 @@ const AdminRoutes = () => {
   return (
     <Suspense fallback={<Skelton1/>}>
       <Routes>
-          <Route path="/login" element={<RedirectIfAuthenticated element={<Admin_login/>} redirectTo={'/admin/home'} />}/>
+          <Route path="/login" element={<RedirectIfAuthenticated element={<AdminLogin/>} redirectTo={'/admin/home'} />}/>
           <Route path="/home" element={<ProtectedRoute element={<Home_Admin/>} role={"admin"} />}/>
           <Route path="/academyview" element={<ProtectedRoute element={<AcademyManage/>} role={"admin"} />}/>
           <Route path="/playerview" element={<ProtectedRoute element={<PlayerManage/>} role={"admin"} />}/>
