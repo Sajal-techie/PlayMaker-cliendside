@@ -14,7 +14,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   boxShadow: '0 4px 12px 0 rgba(0,0,0,0.05)',
 }));
 
-const LeftSide = ({userDetails}) => {
+const LeftSide = React.memo(({userDetails}) => {
     const {user, profile} = useSelector(state=>state.auth)
     const navigate = useNavigate()
 
@@ -56,5 +56,5 @@ const LeftSide = ({userDetails}) => {
     </motion.div>
   )
 }
-
+)
 export default LeftSide

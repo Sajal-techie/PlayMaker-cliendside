@@ -1,11 +1,17 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import reactRefresh from '@vitejs/plugin-react-refresh';
+import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-
+  plugins: [react(), reactRefresh()],
+  server: {
+    open: true, // Automatically open the app in the browser
+    hmr: {
+      overlay: false, // Disable error overlay for HMR if needed
+    },
+  },
+  
   build:{
     chunkSizeWarningLimit: 1000, // Adjust the limit to 1000 kB
   }
-})
+});

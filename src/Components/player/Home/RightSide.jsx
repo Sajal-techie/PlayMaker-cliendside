@@ -62,7 +62,7 @@ const SidebarContent = ({ title, icon: Icon, trialDetails, academyDetails, navig
   </StyledPaper>
 );
 
-const RightSide = ({trialDetails, academyDetails}) => {
+const RightSide = React.memo(({trialDetails, academyDetails}) => {
   console.log(trialDetails,academyDetails);
   const navigate = useNavigate()
 
@@ -87,5 +87,6 @@ const RightSide = ({trialDetails, academyDetails}) => {
   </motion.div>
   )
 }
+)
 
 export default RightSide

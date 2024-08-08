@@ -7,7 +7,7 @@ import zIndex from '@mui/material/styles/zIndex';
 
 
 
-const Center = ({posts,fetchPosts}) => {
+const Center = React.memo(({posts,fetchPosts}) => {
    return (
       <Box sx={{ maxWidth: 600, margin: 'auto', padding: 2 }}>
         {/* <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', mb: 3 }}>Feed</Typography> */}
@@ -25,5 +25,5 @@ const Center = ({posts,fetchPosts}) => {
       </Box>
   )
 }
-
+)
 export default Center

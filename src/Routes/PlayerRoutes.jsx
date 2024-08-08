@@ -4,10 +4,12 @@ import RedirectIfAuthenticated from './protected/RedirectIfAuthenticated';
 import ProtectedRoute from './protected/ProtectedRoute';
 import Skelton_profile from '../Pages/Skelton_profile';
 import Home from '../Components/player/Home/Home';
+import Signup from '../Components/player/Signup/Signup';
+import Login from '../Components/player/Login';
 
 
-const Login = lazy(()=> import ('../Components/player/Login'))
-const Signup = lazy(()=> import('../Components/player/Signup/Signup'))
+// const Login = lazy(()=> import ('../Components/player/Login'))
+// const Signup = lazy(()=> import('../Components/player/Signup/Signup'))
 const OTP_verification = lazy(()=> import ('../Components/common/OTP_verification')) 
 const ErrorPage404 = lazy(()=> import('../Components/common/ErrorPage404'))
 const PlayerProfile = lazy(()=> import('../Components/player/PlayerProfile'))
