@@ -12,8 +12,9 @@ const  ProfileAcademy = lazy(()=> import('../Components/academy/ProfileAcademy')
 const AddTrial = lazy(()=> import('../Components/academy/selection trials/AddTrial'))
 const ListOwnTrial = lazy(()=>import('../Components/academy/selection trials/ListOwnTrials/ListOwnTrial'))
 const TrialDetails = lazy(()=>import ('../Components/academy/selection trials/ListOwnTrials/TrialDetails'))
-import ErrorPage404 from '../Components/common/ErrorPage404';
-import AcademyDashboard from '../Components/academy/DashBoard/AcademyDashboard'
+const AcademyDashboard = lazy(()=>import('../Components/academy/DashBoard/AcademyDashboard'))
+const ErrorPage404 = lazy(()=>import('../Components/common/ErrorPage404'))
+
 
 const AcademyRoutes = () => {
 

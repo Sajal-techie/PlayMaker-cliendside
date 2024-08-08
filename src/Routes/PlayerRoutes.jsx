@@ -3,18 +3,9 @@ import { Route, Routes } from 'react-router-dom'
 import RedirectIfAuthenticated from './protected/RedirectIfAuthenticated';
 import ProtectedRoute from './protected/ProtectedRoute';
 import Skelton_profile from '../Pages/Skelton_profile';
-import FriendRequest from '../Components/player/friends/friend request/FriendRequest';
-import FriendList from '../Components/player/friends/friends list/FriendList';
-import SentRequest from '../Components/player/friends/sent requests/SentRequest';
-import Following from '../Components/player/friends/following/Following';
-import SearchResults from '../Components/common/SearchResults';
-import ViewPost from '../Components/layouts/profile layouts/Post Section/ViewPost';
-import Notifications from '../Components/common/Notification/Notifications';
 import Home from '../Components/player/Home/Home';
-import ChatLayout from '../Components/common/Chat/ChatLayout';
 
 
-// const Home = lazy(()=> import ('../Components/player/Home/Home') )
 const Login = lazy(()=> import ('../Components/player/Login'))
 const Signup = lazy(()=> import('../Components/player/Signup/Signup'))
 const OTP_verification = lazy(()=> import ('../Components/common/OTP_verification')) 
@@ -32,6 +23,15 @@ const PaymentSuccess = lazy(()=>import('../Components/player/selection trial/Pay
 const PaymentFailed = lazy(()=>import('../Components/player/selection trial/PaymentFailed'))
 const TrialHistory = lazy(()=>import('../Components/player/selection trial/TrialHistory'))
 const ViewAllPosts = lazy(()=>import('../Components/layouts/profile layouts/Post Section/ViewAllPosts'))
+const FriendRequest = lazy(()=>import('../Components/player/friends/friend request/FriendRequest'))
+const FriendList = lazy(()=>import('../Components/player/friends/friends list/FriendList'))
+const SentRequest  = lazy(()=>import('../Components/player/friends/sent requests/SentRequest'))
+const Following  = lazy(()=>import('../Components/player/friends/following/Following'))
+const SearchResults  = lazy(()=>import('../Components/common/SearchResults'))
+const ViewPost  = lazy(()=>import('../Components/layouts/profile layouts/Post Section/ViewPost'))
+const Notifications  = lazy(()=>import('../Components/common/Notification/Notifications'))
+const ChatLayout  = lazy(()=>import('../Components/common/Chat/ChatLayout'))
+
 
 const PlayerRoutes = () => {
     

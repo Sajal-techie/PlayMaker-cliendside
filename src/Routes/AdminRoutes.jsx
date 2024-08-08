@@ -3,14 +3,14 @@ import { Route, Routes } from 'react-router-dom'
 import RedirectIfAuthenticated from './protected/RedirectIfAuthenticated'
 import ProtectedRoute from './protected/ProtectedRoute'
 import Skelton1 from '../Pages/Skelton1'
-import ErrorPage404 from '../Components/common/ErrorPage404'
-import Accounts from '../Components/admin/Accounts/Accounts'
 
 const AcademyManage  = lazy(()=> import('../Components/admin/Academy management/AcademyManage'))
 const  Home_Admin = lazy(()=> import('../Components/admin/Home_Admin'))
 const  AdminLogin = lazy(()=> import('../Components/admin/AdminLogin'))
 const  PlayerManage = lazy(()=> import('../Components/admin/PlayerManagement.jsx/PlayerManage'))
 const TrialManage = lazy(()=>import ('../Components/admin/Trial Management/TrialManage'))
+const Accounts = lazy(()=>import('../Components/admin/Accounts/Accounts'))
+const ErrorPage404 = lazy(()=>import('../Components/common/ErrorPage404'))
 
 const AdminRoutes = () => {
   return (

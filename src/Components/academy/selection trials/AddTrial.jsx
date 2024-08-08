@@ -58,16 +58,13 @@ const AddTrial = () => {
     //   location: Yup.string().required('Required'),
       state: Yup.string().required('Required'),
       district: Yup.string().required('Required'),
-      trial_date: Yup.string().required('Required'),
       trial_date: Yup.date().required('Required').min(new Date(), 'Trial date must be in the future'),
-      trial_time: Yup.string().required('Required'),
       trial_time: Yup.string()
         .required('Required')
         .test('is-valid-time', 'Time must be between 6 AM and 6 PM', (value) => {
           const [hour] = value.split(':').map(Number);
           return hour >= 6 && hour < 18;
         }),
-      deadline: Yup.string().required('Required'),
       deadline: Yup.date()
         .required('Required')
         .min(new Date(), 'Last date must be in the future')
