@@ -1,1 +1,1 @@
-export const baseUrl = 'https://xsports.muhammeddanish.site/xsports'
+export const baseUrl = 'https://xsports.muhammeddanish.site'
