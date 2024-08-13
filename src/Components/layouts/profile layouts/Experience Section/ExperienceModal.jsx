@@ -105,7 +105,7 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
     if (!formData.start_year) formErrors.start_year = "Start year is required"
     if (!formData.is_current && !formData.end_month) formErrors.end_month = "End month is required if not currently playing"
     if (!formData.is_current && !formData.end_year) formErrors.end_year = "End year is required if not currently playing"
-    if (formData.start_year > formData.end_year) formErrors.end_year = "end year must be greater than start year"
+    if (!formData.is_current && formData.start_year > formData.end_year) formErrors.end_year = "end year must be greater than start year"
     setErrors(formErrors)
     return Object.keys(formErrors).length === 0
   }
@@ -211,7 +211,7 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
           },
         }}
       >
-          <div className="items-center mb-5 w-full font-kanit">
+          <div className="items-center mb-16 w-full font-kanit">
             <button
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 hover:text-lg" title='close'
               onClick={closeUpdateModal}

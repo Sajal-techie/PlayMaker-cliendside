@@ -11,6 +11,7 @@ const ViewDetailsModal = ({ isOpen, closeModal, userData,ownProfile }) => {
         content: {
           position: 'relative',
           margin: 'auto',
+          marginTop:'70px',
           maxWidth: '500px',
           width: '90%',
           inset: 'auto',
@@ -30,7 +31,7 @@ const ViewDetailsModal = ({ isOpen, closeModal, userData,ownProfile }) => {
         },
       }}
     >
-      <div className="font-sans">
+      <div className="font-sans mb-10">
         <div className="bg-gray-50 py-4 px-6 relative border-b">
           <h3 className="font-semibold text-xl text-gray-800 text-center">User Details</h3>
           <button

@@ -56,7 +56,7 @@ const Admin_login = () => {
         <div className=' p-10 border  bg-white'>
           <form onSubmit={handleSubmit}>
             <div className='text-center'> 
-              <span className="text-2xl  text-amber-900   ">Welcome back to PlayMaker</span>
+              <span className="text-2xl  text-amber-900   ">Welcome back to xSports</span>
               <h1 className="text-3xl font-medium text-amber-900">Admin Login</h1>
             </div>
             <div className="my-3 ">

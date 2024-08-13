@@ -124,7 +124,8 @@ const PostItem = ({ post, fetchPost }) => {
             const res = await userApi.delete(`post/${post.id}`)
             console.log(res);
             showToastMessage(200, 'post deleted successfully')
-            navigate(-1)
+            // navigate(-1)
+            fetchPost()
         }catch(error){
             console.log(error, 'error deleting post');
         }

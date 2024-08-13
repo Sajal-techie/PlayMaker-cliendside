@@ -274,7 +274,7 @@ const Signup = () => {
       <div className='lg:w-1/2 hidden lg:flex justify-center items-center h-screen'>
         <div className='w-3/4 h-3/4 bg-gradient-to-r from-indigo-500 to-purple-500 flex flex-col justify-center items-center rounded-lg'>
           <div className='text-center text-white p-5'>
-            <h2 className='text-2xl font-bold'>Join PlayMaker Academy</h2>
+            <h2 className='text-2xl font-bold'>Join xSports Academy</h2>
             <p className='mt-4'>Empowering athletes to achieve greatness. Join us and elevate your academy to the next level!</p>
             <Link to={'/academy/signup'} className='mt-4 text-lg text-white underline hover:text-gray-200'>
               Sign up as Academy
@@ -286,7 +286,7 @@ const Signup = () => {
         <div className='flex justify-center items-center'>
           <div className='p-10 border bg-gray-100'>
             <div className='text-center'>
-              <span className="text-2xl text-gblue-500">Welcome to PlayMaker</span>
+              <span className="text-2xl text-gblue-500">Welcome to xSports</span>
               <h1 className="text-3xl font-medium text-gblue-600">Signup</h1>
             </div>
             {loading ? (

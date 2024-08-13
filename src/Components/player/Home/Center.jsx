@@ -19,7 +19,7 @@ const Center = React.memo(({posts,fetchPosts}) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.1, delay: index * 0.09 }}
             >
-              <PostItem post={post}  />
+              <PostItem post={post} fetchPost={fetchPosts} />
             </motion.div> 
           ))}
       </Box>

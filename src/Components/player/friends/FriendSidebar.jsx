@@ -12,7 +12,7 @@ const FriendSidebar = () => {
   };
 
   return (
-    <div className="fixed flex flex-col top-16 left-0 lg:w-60 md:w-52 sm:w-48 w-16 bg-white h-full border shadow-2xl font-kanit ">
+    <div className="fixed flex flex-col top-16 left-0 lg:w-60 md:w-52 sm:w-48 w-14 bg-white h-full border shadow-2xl font-kanit ">
       <div className="overflow-y-auto overflow-x-hidden flex-grow">
         <ul className="flex flex-col py-4 space-y-1">
           <li>

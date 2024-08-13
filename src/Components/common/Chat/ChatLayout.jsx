@@ -26,8 +26,7 @@ const ChatLayout = () => {
             <ChatList resetPage={resetPage}/>
           </div>
           <div className="flex-grow overflow-hidden">
-            {/* {children} */}
-            <Chat page={page} handlePageChange={handlePageChange} />
+            <Chat page={page} handlePageChange={handlePageChange} resetPage={resetPage} />
           </div>
         </div>
       </div>

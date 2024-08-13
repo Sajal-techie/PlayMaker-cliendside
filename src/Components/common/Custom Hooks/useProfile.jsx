@@ -18,8 +18,10 @@ const fetchProfile = async (id)=>{
             showToastMessage(403,error.data?.detail)
             throw new Error(error.data?.detail)
         }else{
+            console.log(error, 'erorro');
+            
             showToastMessage(400,"server error try again later")
-            throw new Error("Server Error") 
+            throw new Error("Server Error",error) 
         }
     }
 }

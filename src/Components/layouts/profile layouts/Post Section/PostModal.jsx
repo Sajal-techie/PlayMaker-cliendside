@@ -10,7 +10,8 @@ const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
   const [mediaType, setMediaType] = useState(null);
   const [error,setError] = useState(null)
   const [loading, setLoading] = useState(false)
-
+  console.log(media,mediaType,error);
+  
   const handleMediaChange = (e, type) => {
     setError(null)
     const file = e.target.files[0];
@@ -22,11 +23,16 @@ const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
           return
       }
     }else if (type === 'video'){
+      
       let allowedTypes = ['video/mp4', 'video/webm']
-      if (file && !allowedTypes.includes(file.type))
+      if (file && !allowedTypes.includes(file.type)){
         setError('Invalid video format only mp4 and webm are supported')
+        console.log('hai',allowedTypes, !allowedTypes.includes(file.type));
         return
+      }
     }
+    console.log(file, mediaType,error);
+    
     if (file) {
       setMedia(file);
       setMediaType(type);
@@ -53,9 +59,10 @@ const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
       }
     }else if (mediaType === 'video'){
       let allowedTypes = ['video/mp4', 'video/webm']
-      if (media && !allowedTypes.includes(media.type))
+      if (media && !allowedTypes.includes(media.type)){
         setError('Invalid video format only mp4 and webm are supported')
         return
+      }
     }
     const formData = new FormData();
     formData.append('content', content);
@@ -89,13 +96,13 @@ const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
       isOpen={isOpen}
       onRequestClose={onClose}
       ariaHideApp={false}
+      className={'sm:w-1/2'}
       style={{
         content: {
           position: 'relative',
           margin: 'auto',
-          marginTop:'80px',
+          marginTop:'90px',
           maxWidth: '600px',
-          width: '50%',
           inset: 'auto',
           overflow: 'auto',
           border: 'none',
@@ -192,7 +199,7 @@ const PostModal = ({ isOpen, onClose, fetchPosts, post }) => {
               />
               :
               <button
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200"
+              className="ml-3 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200"
               onClick={handleSave}
               >
                 {

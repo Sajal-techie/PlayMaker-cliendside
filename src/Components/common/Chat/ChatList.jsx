@@ -31,16 +31,16 @@ const ChatList = ({resetPage}) => {
           'sender_id': user_id,
           'receiver_id': receiverId
         })
-        console.log(response);
+        console.log(response, 'user clicked');
         const {thread_name} = response.data
         navigate(`/chat/${thread_name}`)
     }catch(error){
       console.log(error, ' errro fetching thread name');
     }
-
-    resetPage()    
+    console.log(resetPage,'resetnpage');
+    
+    resetPage()
   }
-  console.log(threadName, 'thread naem in chat list');
   return (
     <div className="flex flex-col h-full bg-white">
       <div className="p-4">
@@ -54,7 +54,7 @@ const ChatList = ({resetPage}) => {
       <div className="flex-grow overflow-y-auto px-4">
         {chatList.map((user, index) => (
           <button key={index} onClick={()=>handleUserClick(user.id)}
-            className={` flex flex-row items-center hover:bg-gray-100 rounded-xl p-2 w-full ${threadName?.includes(user.id) ?'bg-blue-100 border-l-4 border-blue-500':'' }`}
+            className={` flex flex-row items-center hover:bg-gray-100 rounded-xl p-2 w-full ${(threadName && threadName?.split('_').indexOf(`${user.id}`) !== -1) ?'bg-blue-100 border-l-4 border-blue-500':'' }`}
           >
             <div className="flex items-center justify-center h-10 w-10 bg-indigo-200 rounded-full">
               <img className='rounded-full object-cover h-10 w-10' 
@@ -63,7 +63,7 @@ const ChatList = ({resetPage}) => {
             </div>
             <div className="ml-2 text-sm font-semibold">{user.username}</div>
             {
-              threadName?.includes(user.id) &&
+              (threadName && threadName?.split('_').indexOf(`${user.id}`) !== -1) &&
               <div className="w-2 h-2 bg-blue-500 rounded-full ml-auto"></div>
             }
             {/* {user.last_message && (

@@ -17,6 +17,7 @@ const Navbar = ({ academy }) => {
   const navigate = useNavigate()
   const {profile, notificationCount} = useSelector(state=>state.auth)
 
+  const homeUrl = academy ? '/academy/home' : '/home'
   const customColor = academy ? "text-indigo-500 hover:text-black " : "text-gblue-500 hover:text-black ";
   const iconColor = academy ? 'rgb(99 102 241)' : 'rgb(30 136 229)'
 
@@ -45,7 +46,7 @@ const Navbar = ({ academy }) => {
     <>
       <nav className="flex items-center sticky top-0 justify-between bg-white px-6 py-4 w-full font-kanit z-50 shadow-md">
         <div className='flex items-center'>
-          <span className={`text-3xl font-bold ${customColor}`}>PlayMaker</span>
+          <Link to={homeUrl} className={`text-3xl font-bold ${customColor}`}>xSports</Link>
           <NavSearch academy={academy} />
         </div>
         <NavbarMenu academy={academy} />

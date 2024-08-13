@@ -38,7 +38,7 @@ const PaymentSuccess = () => {
     },[])
   return (
     <div>
-      Processing payment and registraion .....
+        Payment Success... redirecting
     </div>
   )
 }

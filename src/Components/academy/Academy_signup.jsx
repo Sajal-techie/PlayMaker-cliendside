@@ -161,7 +161,7 @@ const Academy_signup = () => {
         <div className="flex justify-center items-center font-kanit bg-slate-300 min-h-screen">
             <div className="w-full max-w-4xl p-5 border bg-white text-center md:text-left">
                 <div className="text-center mb-2">
-                    <span className="text-2xl text-indigo-500">Welcome to PlayMaker</span>
+                    <span className="text-2xl text-indigo-500">Welcome to xSports</span>
                     <h1 className="text-3xl font-medium text-indigo-600">Academy Signup</h1>
                 </div>
                 {step === 1 ? (

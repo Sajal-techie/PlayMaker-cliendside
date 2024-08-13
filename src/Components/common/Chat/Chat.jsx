@@ -6,12 +6,11 @@ import { dateDifference } from '../functions/dateDifference';
 import { baseUrl } from '../../../api/api';
 import ChatLandingPage from './ChatLandingPage';
 
-const Chat = ({page, handlePageChange}) => {
+const Chat = ({page, handlePageChange, resetPage}) => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [socket, setSocket] = useState(null)
   const { threadName } = useParams();
-  const [isConnected, setIsConnected] = useState(false)
   const [chatPartner,setChatPartner] = useState(null)
   const [hasMore, setHasMore] = useState(true)
 
@@ -64,7 +63,6 @@ const Chat = ({page, handlePageChange}) => {
         console.log(websocket);
         websocket.onopen = ()=>{
             console.log('web socket connected');
-            setIsConnected(true)
             setSocket(websocket)
         }
         websocket.onerror = (error)=>{
@@ -72,7 +70,6 @@ const Chat = ({page, handlePageChange}) => {
         }
         websocket.onclose = ()=>{
             console.log('web socket disconnected in Chat');
-            setIsConnected(false)
         }
         websocket.onmessage = (event) => {
             console.log(event);
@@ -115,7 +112,7 @@ const Chat = ({page, handlePageChange}) => {
       fetchMessages();
     }
   };
-  console.log(page, hasMore);
+  console.log(page, hasMore,chatPartner);
   
   return (
     <>
@@ -131,11 +128,12 @@ const Chat = ({page, handlePageChange}) => {
                                 <img 
                                 src={chatPartner.profile_photo ? baseUrl + chatPartner.profile_photo : 'https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg'} 
                                 alt={chatPartner.username} 
-                                className="w-12 h-12 rounded-full mr-4"
+                                className="w-12 h-12 rounded-full mr-4 cursor-pointer hover:border-2"
+                                onClick={()=>chatPartner.is_academy ? navigate(`/academy/profile/${chatPartner.id}`) : navigate(`/profile/${chatPartner.id}`)}
                                 />
-                                <div>
-                                <h2 className="text-lg font-semibold">{chatPartner.username}</h2>
-                                <p className="text-sm text-gray-600">{chatPartner.bio || ''}</p>
+                                <div  onClick={()=>chatPartner.is_academy ? navigate(`/academy/profile/${chatPartner.id}`) : navigate(`/profile/${chatPartner.id}`)}>
+                                <h2 className="text-lg font-semibold cursor-pointer hover:underline hover:text-gblue-500">{chatPartner.username}</h2>
+                                <p className="text-sm text-gray-600">{chatPartner.bio || 'hai'}</p>
                                 </div>
                             </div>
                         </div>
@@ -209,7 +207,7 @@ const Chat = ({page, handlePageChange}) => {
                     </div>
                 </form>
             </div>
-            : <div><ChatLandingPage/></div>
+            : <div><ChatLandingPage  resetPage={resetPage}/></div>
         }    
     {/* </ChatLayout>
     <BottomNavbar academy={role==='academy'}/> */}

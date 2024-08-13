@@ -1,12 +1,12 @@
 import React from 'react'
 import chatimage from '../../../assets/chat.png'
 import ChatList from './ChatList'
-const ChatLandingPage = () => {
+const ChatLandingPage = ({resetPage}) => {
   return (
     <>
     {/* show chat list in mobile  */}
     <div className='sm:hidden'>
-        <ChatList /> 
+        <ChatList  resetPage={resetPage} /> 
     </div>
     {/* show welcome message in larger screens */}
     <div className="sm:flex flex-col items-center justify-center h-full hidden">

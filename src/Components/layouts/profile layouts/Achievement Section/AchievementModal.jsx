@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import months from '../../../../api/json data/months'
 import userApi from '../../../../api/axiosconfig'
 import { useSelector } from 'react-redux';
+import { baseUrl } from '../../../../api/api';
 
 const AchievementModal = ({isOpen,closeAchievementModal,getAchievements,initialState}) => {
     const [id,setId] = useState(initialState?.id ? initialState?.id : null)
@@ -18,19 +19,21 @@ const AchievementModal = ({isOpen,closeAchievementModal,getAchievements,initialS
         'issued_month': initialState?.issued_month ? initialState?.issued_month : '',
         'issued_year': initialState?.issued_year ? initialState?.issued_year : '',
     })
-    const dob = useSelector(state=>state.auth.dob)
+    const {dob, role} = useSelector(state=>state.auth)
+
     useEffect (()=>{
             if (initialState?.image){
                 fetchImageAsBlob(initialState.image)
             }
     },[])
+    
     //  to convert image url to blob 
     const fetchImageAsBlob = async (url)=>{
         try{
             let name = image
-            if (name.includes("http://127.0.0.1:8000/media/images/")){
+            if (name.includes(`${baseUrl}media/images/`)){
                 console.log(' iam insdie');
-                name = name.replace("http://127.0.0.1:8000/media/images/",'')
+                name = name.replace(`${baseUrl}media/images/`,'')
                 console.log(name,'aname');
             }
             const res = await fetch(url)
@@ -143,7 +146,7 @@ const AchievementModal = ({isOpen,closeAchievementModal,getAchievements,initialS
       };
     const birthYear = dob? new Date(dob).getFullYear(): 1990 
     const currentYear = new Date().getFullYear()
-    const years = Array.from({ length: currentYear-birthYear-2 }, (_, i) => new Date().getFullYear() - i);
+    const years = Array.from({ length: role==='academy' ? currentYear-birthYear : currentYear-birthYear-2 }, (_, i) => new Date().getFullYear() - i);
   return (
     <ReactModal
         isOpen={isOpen}

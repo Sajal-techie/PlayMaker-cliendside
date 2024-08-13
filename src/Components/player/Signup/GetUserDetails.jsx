@@ -90,7 +90,7 @@ const GetUserDetails = () => {
             await Swal.fire({
                 icon: 'success',
                 title: 'Updated successful',
-                text: "User Information updated succesfully , \n Welcome to PlayMaker",
+                text: "User Information updated succesfully , \n Welcome to xSports",
               });
             navigate('/home')
         }catch(error){

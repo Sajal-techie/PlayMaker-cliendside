@@ -77,7 +77,7 @@ const AcademyLogin = () => {
       <div className=' p-10 border bg-white'>
         <form onSubmit={handleSubmit}>
           <div className='text-center'> 
-            <span className="text-2xl  text-indigo-500 ">Welcome back to PlayMaker</span>
+            <span className="text-2xl  text-indigo-500 ">Welcome back to xSports</span>
             <h1 className="text-3xl font-medium text-indigo-600">Academy Login</h1>
           </div>
           <div className="my-3">

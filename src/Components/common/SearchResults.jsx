@@ -17,7 +17,6 @@ const SearchResults = () => {
   const queryClient = useQueryClient()
 
   useEffect(() => {
-    
     fetchResults(query);
   }, [query]);
   
@@ -168,7 +167,7 @@ const SearchResults = () => {
   return (
     <>
     <Navbar academy={role==='academy'} />
-    <div className="p-4 px-20 pb-20 font-kanit">
+    <div className="p-4  sm:px-20 pb-20 font-kanit">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Search Results</h1>
         <select value={filter} onChange={handleFilterChange} className="border p-2 rounded">

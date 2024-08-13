@@ -16,35 +16,35 @@ const PostVideo = ({ src }) => {
     };
 
     const observer = new IntersectionObserver(handleIntersect, options);
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
+    if (containerRef?.current) {
+      observer?.observe(containerRef.current);
     }
 
     return () => {
       if (containerRef.current) {
-        observer.unobserve(containerRef.current);
+        observer?.unobserve(containerRef.current);
       }
     };
   }, []);
 
   const handleIntersect = (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        videoRef.current.play();
+    entries?.forEach((entry) => {
+      if (entry?.isIntersecting) {
+        videoRef?.current?.play();
         setIsPlaying(true);
       } else {
-        videoRef.current.pause();
+        videoRef?.current?.pause();
         setIsPlaying(false);
       }
     });
   };
 
   const togglePlay = () => {
-    if (videoRef.current.paused) {
-      videoRef.current.play();
+    if (videoRef?.current?.paused) {
+      videoRef?.current?.play();
       setIsPlaying(true);
     } else {
-      videoRef.current.pause();
+      videoRef?.current?.pause();
       setIsPlaying(false);
     }
   };
@@ -55,7 +55,7 @@ const PostVideo = ({ src }) => {
   };
 
   const handleProgress = () => {
-    const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
+    const progress = (videoRef?.current?.currentTime / videoRef?.current?.duration) * 100;
     setProgress(progress);
   };
 
