@@ -53,10 +53,10 @@ const PlayerManage = () => {
     const fetchPlayers = async () => {
         try {
             const response = await userApi.get('list_players');
-            if (response.data && response.data.status === 200) {
+            if (response.data) {
                 setPlayers(response.data.player);
                 setFilteredPlayers(response.data.player);
-            } else if (response.data && response.data.status === 204) {
+            } else if (response.status === 204) {
                 setPlayers([]);
                 setFilteredPlayers([]);
             }

@@ -26,9 +26,8 @@ const ForgetPassword = () => {
 
     try {
       const response = await userApi.post('forget_pass', { email });
-      setLoading(false);
       console.log(response.data,response.status);
-      if (response.status === 200 && response.data.status === 200) {
+      if (response.status === 200) {
         await Swal.fire({
           icon: 'success',
           title: 'Reset Email Sent',
@@ -37,22 +36,23 @@ const ForgetPassword = () => {
         dispatch(toggleOtpAcess(true))
         navigate('/otp_verification', {state : {email : email,forget_pass: true}})
       }
-      else if (response.status===200 && response.data.status===400){
-        await Swal.fire({
-            icon:'error',
-            title:'Email not registered',
-            text:'You are not registered try signing in'
-        })
-        navigate('/signup')
-      }
+      // else if (response.status===200 && response.data.status===400){
+      //   await Swal.fire({
+      //       icon:'error',
+      //       title:'Email not registered',
+      //       text:'You are not registered try signing in'
+      //   })
+      //   navigate('/signup')
+      // }
     } catch (error) {
         console.log(error);
-      setLoading(false);
-      await Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: error?.response?.data?.message || 'An error occurred. Please try again.',
-      });
+        await Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text:  error ==='"Internal Server Error" '? "Internal Server Error" :  error?.response?.data?.message || 'An error occurred. Please try again.',
+        });
+    }finally{
+      setLoading(false)
     }
   };
 

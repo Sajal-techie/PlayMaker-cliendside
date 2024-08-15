@@ -8,14 +8,14 @@ export const login = createAsyncThunk(
         console.log(!!userApi.defaults.headers.common['Authorization']);
             const response = await userApi.post(`login`, credentials);
             console.log(response.data);
-            if (response.data.status === 400){
-                console.log(response.data.message);
-                return thunkAPI.rejectWithValue(response.data)
-            }
-            if (response.data.status === 403){
-                console.log(response.data);
-                return thunkAPI.rejectWithValue(response.data)
-            }
+            // if (response.data.status === 400 || response.data===400){
+            //     console.log(response.data.message,' in 5400');
+            //     return thunkAPI.rejectWithValue(response.data)
+            // }
+            // if (response.data.status === 403){
+            //     console.log(response.data);
+            //     return thunkAPI.rejectWithValue(response.data)
+            // }
             const responseToken = await userApi.post(`api/token/`,credentials)
             console.log('tojend is' ,responseToken.data);
             if (responseToken?.data?.access){
@@ -28,12 +28,11 @@ export const login = createAsyncThunk(
             const res = {'message':'Authentication error'}
             return res
         } catch (error){
-            console.log(error,'555555555555555' ,thunkAPI.rejectWithValue(error));
+            console.log(error,'555555555555555' );
             if (error?.code==='ERR_NETWORK'){
                 return thunkAPI.rejectWithValue(error)
             }
             return thunkAPI.rejectWithValue(error.data)
-
         }
     } 
 ) 
@@ -48,15 +47,15 @@ export const signup = createAsyncThunk(
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            console.log(response.data,'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n',response.data.status);
-            if (response.data.status === 400 ){
-                console.log(response.data.message);
-                return thunkAPI.rejectWithValue(response.data)
-            }
-            if (response.data.status >= 500){
-                console.log(response.data, ' server error');
-                return thunkAPI.rejectWithValue(response.data)
-            }
+            console.log(response.data,'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n');
+            // if (response.data.status === 400 ){
+            //     console.log(response.data.message);
+            //     return thunkAPI.rejectWithValue(response.data)
+            // }
+            // if (response.data.status >= 500){
+            //     console.log(response.data, ' server error');
+            //     return thunkAPI.rejectWithValue(response.data)
+            // }
             return response.data
         } catch (error){
             console.log(error,'555555555555555');

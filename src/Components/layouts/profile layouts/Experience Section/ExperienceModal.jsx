@@ -37,10 +37,10 @@ const ExperienceModal = ({isOpen, closeUpdateModal,getUserAcademies,initialState
     try{
       const response = await userApi.get('list_academy')
       console.log(response);
-      if (response.data && response.data.status===200){
+      if (response.data){
         setAcademies(response.data.academy)
       }
-      else if (response.data && response.data.status===204){
+      else if (response.status===204){
         setAcademies([])
       }
     }catch(err){

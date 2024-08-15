@@ -48,10 +48,10 @@ const AcademyManage = () => {
     const fetchAcademies = async () => {
         try {
             const response = await userApi.get('list_academy');
-            if (response.data && response.data.status === 200) {
+            if (response.data) {
                 setAcademy(response.data.academy);
                 setFilteredAcademy(response.data.academy);
-            } else if (response.data && response.data.status === 204) {
+            } else if (response.status === 204) {
                 setAcademy([]);
                 setFilteredAcademy([]);
             }

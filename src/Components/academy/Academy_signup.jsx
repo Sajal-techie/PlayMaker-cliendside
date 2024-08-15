@@ -82,6 +82,7 @@ const Academy_signup = () => {
     const validateStep1 = () => {
         const errors = {}
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$%*#?&])[A-Za-z\d@$%*&#?]{6,}$/;
         const today = new Date()
 
         if (!formData.username.trim()) errors.username = "Name is required"
@@ -97,6 +98,9 @@ const Academy_signup = () => {
         }
         if (!formData.password) {
             errors.password = "Password is required"
+        }
+        else if (!passwordRegex.test(formData.password)) {
+            errors.password = "Password must contain at least one symbol,  one number, one uppercase letter, one lowercase letter, and a minimum length of 6 characters";
         }
 
         setError(errors)

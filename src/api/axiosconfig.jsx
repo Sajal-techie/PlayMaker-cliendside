@@ -1,9 +1,10 @@
 import axios  from "axios";
 import { showToastMessage } from "../Components/common/functions/showToastMessage";
+import { baseUrl } from "./api";
 
 // to create an instance of axios with baseurl
 const userApi = axios.create({
-    baseURL: 'https://xsports.muhammeddanish.site/'
+    baseURL: `${baseUrl}/`
 })
 
 

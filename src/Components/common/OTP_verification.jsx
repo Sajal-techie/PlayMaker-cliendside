@@ -78,8 +78,7 @@ const OTP_verification = () => {
     try{
       if (newOtp.length === 6) {
         const response = await userApi.put(`otp_verification`, { email, otp: newOtp });
-        if (response.status === 200 && response.data.status === 200) {
-          setLoading(false);
+        if (response.status === 200 ) {
           await Swal.fire({
             icon: 'success',
             title: "Verification Successful",
@@ -100,20 +99,26 @@ const OTP_verification = () => {
           }
           console.log('all out');
         } else {
-          setLoading(false);
           setError(response.data.message);
         }
       } else {
-        setLoading(false);
+        setError('Server error try again after some time')
         }
     }catch(error){
         console.log(error);
-        setError('Interal server Error, try again after some time')
-        setLoading(false)
+        if (error==="Internal Server Error"){
+          setError('Interal server Error, try again after some time')
+        }else{
+          setError(error.data.message);
+        }
+      }
+      finally{
+      setLoading(false)
     }
     console.log('goin otu of funstion');
   };
   console.log(forget_pass);
+  
   const resendOtp = async () => {
     setTimer(60); // Reset timer
     try {

@@ -15,7 +15,9 @@ const PushNotification = ({userId}) => {
     console.log(userId,'userid ');
 
     useEffect(()=>{
-        initializeNotificationSocket(userId)
+        if (userId){
+            initializeNotificationSocket(userId)
+        }
 
         return ()=> closeNotificationSocket()
     },[userId])

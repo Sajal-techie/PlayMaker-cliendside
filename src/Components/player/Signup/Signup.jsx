@@ -186,9 +186,9 @@ const Signup = () => {
       if (!formData.password) {
         errors.password = "Password is required";
       } 
-      // else if (!passwordRegex.test(formData.password)) {
-      //   errors.password = "Password must contain at least one symbol,  one number, one uppercase letter, one lowercase letter, and a minimum length of 6 characters";
-      // }
+      else if (!passwordRegex.test(formData.password)) {
+        errors.password = "Password must contain at least one symbol,  one number, one uppercase letter, one lowercase letter, and a minimum length of 6 characters";
+      }
       setError(errors)
       if (Object.keys(errors).length > 0) return ; 
     }
